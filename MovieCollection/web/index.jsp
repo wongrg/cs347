@@ -16,7 +16,7 @@
        <a href="index.jsp">
             <img src="images/tempMovieCollection.jpg" id="mcPic">
         </a>
-        <input  type="button" value="Login/Signup" id="button_login" onclick="clickButton(this)">
+        <input  type="button" value="Login/Signup" id="button_login" onclick="location.href = 'login.jsp';">
         
         <h1>Welcome To Movie Box</h1>
         <form method="post" action="search" >
