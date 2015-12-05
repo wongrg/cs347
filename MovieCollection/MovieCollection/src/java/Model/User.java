@@ -19,7 +19,6 @@ public class User extends HttpServlet {
 
     public boolean verifyInfo(String uid, String p1, String p2, String fname, String lname, String email) {
         boolean is_valid = true;
-        String full_name;
         //Check if the userid contains any illegal characters, if it does, 
         //set the boolean to false.
         if (!Pattern.matches("^[a-z][a-z0-9]*$", uid)) {
@@ -36,10 +35,10 @@ public class User extends HttpServlet {
         if (!p1.equals(p2)){
             is_valid = false;
         }
-        
-        if (fname != null && fname.length() > 0){
-            if (lname != null && lname.length() > 0){
-                full_name = fname + " " + lname;
+        //make sure the names are not null and not empty
+        if (!(fname != null && fname.length() > 0)){
+            if (!(lname != null && lname.length() > 0)){
+                is_valid = false;
             }
         }
         

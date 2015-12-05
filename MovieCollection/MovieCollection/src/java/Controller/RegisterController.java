@@ -13,7 +13,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import Model.User;
+import Model.*;
 /**
  *
  * @author joey
@@ -31,10 +31,14 @@ protected void processRequest(HttpServletRequest request, HttpServletResponse re
             String email = request.getParameter("emailAdd");
             String fname = request.getParameter("fName");
             String lname = request.getParameter("lName");
-            
+            String full_name = null;
+            //This object is part of the Model that will validate user information
+            //for logging in. 
             User user_model = new User();
+            DBCommand commander = new DBCommand();
             if(user_model.verifyInfo(uid, password, password2, fname, lname, email)){
-                user_model.add_user();
+                full_name = fname + " " + lname;
+                commander.addUser(uid,full_name , password, email);
             }
             
             
