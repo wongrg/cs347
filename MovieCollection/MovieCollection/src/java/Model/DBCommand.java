@@ -34,15 +34,28 @@ public class DBCommand extends DBAccess {
   
   /**
    * add a user to the users table.
-   * @param uid
-   * @param name
-   * @param password
-   * @param email
-   * @return 
+   * @param uid user identification string LEN MUST BE <= 31
+   * @param name name string LEN MUST BE <= 31
+   * @param password password string LEN MUST BE <= 16
+   * @param email email string LEN MUST BE <= 254 AND FOLLOW EMAIL FORMAT
+   * @return true if successful, false otherwise
    */
   
   public boolean addUser(String uid, String name, String password, String email) {
-      
+      try {
+          Connection connection = getConnection();
+          if (connection == null) {
+              return false;
+          }
+          Statement stmt = connection.createStatement();
+          stmt.executeUpdate("INSERT INTO TABLE users VALUES('"+uid+"', '" +
+                  password + "', '" + name + "', '" + email + "', NULL, NULL, "
+                  + "NULL);");
+          connection.close();
+      } catch (SQLException sqe) {
+          sqe.printStackTrace();
+          return false;
+      }
       
       return true;
   }

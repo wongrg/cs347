@@ -3,10 +3,10 @@ package Model;
 import java.sql.*;
 
 /**
- * This is the parent class for database transactions.
+ * This class allows access to the database for MovieBox.
  * 
- * @author R.Grove
- * @version 2014-10-02
+ * @author Adam Todd
+ * @version 12/5/15
  */
 public abstract class DBAccess {
 
@@ -17,55 +17,19 @@ public abstract class DBAccess {
      */
     protected Connection getConnection() {
         Connection connection = null;
+        String driverName, password, url, userId;
         try {
             Class.forName("org.sqlite.JDBC");
             // create a database connection
-            connection = DriverManager.getConnection("jdbc:sqlite:sample.db");
-            //connection = DriverManager.getConnection("jdbc:sqlite:/Users/student/sample.db");
-            initializeDB(connection);
+            driverName = "com.mysql.jdbc.Driver"; 
+            url = "jdbc:mysql://us-cdbr-azure-southcentral-e.cloudapp.net/MovieBox"; 
+            userId = "ba802cad911a2d"; 
+            password = "8e67d14a";
         } 
-        catch (SQLException sqe) {
-            System.err.println(sqe.getMessage());
-        }
         catch (ClassNotFoundException cnfe) {
         
         }
         return connection;
-    }
-
-    /*
-     * Initialize the database if the required table is not already present.
-     */
-    private void initializeDB(Connection connection) { 
-        Statement statement;
-        ResultSet rs;
-        
-        try {
-            statement = connection.createStatement();
-            statement.setQueryTimeout(30);  // set timeout to 30 sec.
-
-            statement.executeUpdate("create table if not exists class" 
-                    + "(classNr varchar(10) default NULL, name varchar(30) default NULL)");
-
-            rs = statement.executeQuery("select classNr from class");
-            if (!rs.next()) {
-                statement.executeUpdate("insert into class values"
-                        + "('ECON101','Intro to Economics'), "
-                        + "('COSC226','Web Development'), " 
-                        + "('MATH198','Discrete Mathematics')");
-            }
-
-            // display the table contents
-            rs = statement.executeQuery("select * from class");
-            while (rs.next()) {
-                System.out.print("classNr: " + rs.getString("classNr")
-                        + "  name: " + rs.getString("name"));
-            }
-
-            statement.close();
-        } catch (SQLException sqe) {
-            System.err.println(sqe.getMessage());
-        }
     }
 
 } // end class
