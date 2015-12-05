@@ -1,0 +1,36 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Nov 28, 2015, 10:04:23 AM
+    Author     : joey
+*/
+h1,h2,h3,h4{
+    text-align: center;
+}
+p {
+    text-align: center;
+}
+table{
+    width: 100%;
+}
+#loginButt{
+    float:top;
+    float:right;
+}
+#mcPic{
+    float: left;
+    width:50px;
+    height: 50px;
+}
+form{
+    text-align: center;
+}
+#searchbox{
+    color: graytext;   
+    width:20em;
+}
+
+
