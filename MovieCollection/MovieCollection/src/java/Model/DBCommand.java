@@ -63,12 +63,16 @@ public class DBCommand extends DBAccess {
   public boolean verifyPass(String uid, String password) {
       try {
           Connection connection = getConnection();
+          ResultSet set;
           if (connection == null) {
               return false;
           }
           Statement stmt = connection.createStatement();
           stmt.execute("SELECT uid FROM users WHERE uid='" + uid + "' AND "
                   + "password='" + password + "';");
+          set = stmt.getResultSet();
+          set.first();
+          if(set.equals("0")) return false;
           connection.close();
       } catch (SQLException sqe) {
           sqe.printStackTrace();
