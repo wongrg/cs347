@@ -48,9 +48,9 @@ public class DBCommand extends DBAccess {
               return false;
           }
           Statement stmt = connection.createStatement();
-          stmt.executeUpdate("INSERT INTO TABLE users VALUES('"+uid+"', '" +
-                  password + "', '" + name + "', '" + email + "', NULL, NULL, "
-                  + "NULL);");
+          stmt.executeUpdate("INSERT INTO TABLE users (uid, password, name, "
+                  + "email) VALUES('"+uid+"', '" + password + "', '" + name + 
+                  "', '" + email + "');");
           connection.close();
       } catch (SQLException sqe) {
           sqe.printStackTrace();
@@ -60,4 +60,23 @@ public class DBCommand extends DBAccess {
       return true;
   }
   
-} // end class
+  public boolean verifyPass(String uid, String password) {
+      try {
+          Connection connection = getConnection();
+          if (connection == null) {
+              return false;
+          }
+          Statement stmt = connection.createStatement();
+          stmt.execute("SELECT uid FROM users WHERE uid='" + uid + "' AND "
+                  + "password='" + password + "';");
+          if(stmt.getFetchSize() == 0) return false;
+          connection.close();
+      } catch (SQLException sqe) {
+          sqe.printStackTrace();
+          return false;
+      }
+      
+      return true;
+  }
+  
+}
