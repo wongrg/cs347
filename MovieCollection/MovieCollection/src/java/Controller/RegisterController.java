@@ -13,7 +13,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
+import Model.User;
 /**
  *
  * @author joey
@@ -25,6 +25,17 @@ public class RegisterController extends HttpServlet {
 protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
             PrintWriter out = response.getWriter();
+            String uid = request.getParameter("userid");
+            String password = request.getParameter("pass");
+            String password2 = request.getParameter("pass2");
+            String email = request.getParameter("emailAdd");
+            String fname = request.getParameter("fName");
+            String lname = request.getParameter("lName");
+            
+            User user_model = new User();
+            if(user_model.verifyInfo(uid, password, password2, fname, lname, email)){
+                user_model.add_user();
+            }
             
             
 }

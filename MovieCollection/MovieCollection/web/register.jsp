@@ -20,13 +20,13 @@
         <br>
         <br>
         <div>
-            <form method="post" action="register" id="registerForm" onsubmit="return validateRegisterForm()"
+            <form method="post" action="register" id="registerForm" onsubmit="return validateRegisterForm()">
                  <p>
                     <input type="text" name="userid" id="userid" value="Username" onfocus="changeText(this)">  
                     <span id="useriderr" class="errmsg"> </span>
                 </p>
                 <p>
-                    <input type="password" name="passwd" id="passwd" value="Password" onfocus="changeText(this)"> 
+                    <input type="password" name="pass" id="passwd" value="Password" onfocus="changeText(this)"> 
                     <span id="passerr" class="errmsg"> </span>
                 </p>
                 <p>
