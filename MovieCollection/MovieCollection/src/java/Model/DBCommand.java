@@ -3,10 +3,10 @@ package Model;
 import java.sql.*;
 
 /**
- * This class executes SQL commands.
+ * This class executes specified SQL commands.
  * 
- * @author R.Grove
- * @version 2014-10-02
+ * @author Adam Todd
+ * @version 12/5/15
  */
 public class DBCommand extends DBAccess {
 
@@ -69,7 +69,6 @@ public class DBCommand extends DBAccess {
           Statement stmt = connection.createStatement();
           stmt.execute("SELECT uid FROM users WHERE uid='" + uid + "' AND "
                   + "password='" + password + "';");
-          if(stmt.getFetchSize() == 0) return false;
           connection.close();
       } catch (SQLException sqe) {
           sqe.printStackTrace();
