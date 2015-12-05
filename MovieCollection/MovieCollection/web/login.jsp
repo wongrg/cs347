@@ -18,12 +18,12 @@
             <img src="images/tempMovieCollection.jpg" id="mcPic">
         </a>
         <div>
-            <form method="post" id="loginForm" action="login"
+            <form method="post" id="loginForm" action="login">
                 <p>
-                    <input type="text" id="userId" value="Username" onfocus="changeText(this)">   
+                    <input type="text" id="userId" value="Username" name="uid" onfocus="changeText(this)">   
                 </p>
                 <p>
-                    <input type="password" id="passwd" value="Password" onfocus="changeText(this)">
+                    <input type="password" id="passwd" value="Password" name="pwd" onfocus="changeText(this)">
                 </p>
                 <p>
                     <input type="submit" id="login" value="Login">
