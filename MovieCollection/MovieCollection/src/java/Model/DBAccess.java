@@ -19,15 +19,22 @@ public abstract class DBAccess {
         Connection connection = null;
         String driverName, password, url, userId;
         try {
-            Class.forName("org.sqlite.JDBC");
-            // create a database connection
+            // register driver
             driverName = "com.mysql.jdbc.Driver"; 
+            Class.forName(driverName);
+            
+            //get a connection
             url = "jdbc:mysql://us-cdbr-azure-southcentral-e.cloudapp.net/MovieBox"; 
             userId = "ba802cad911a2d"; 
             password = "8e67d14a";
-        } 
+            connection = DriverManager.getConnection(url, userId, password);
+        } catch (SQLException sqe) {
+            sqe.printStackTrace();
+            return null;
+        }
         catch (ClassNotFoundException cnfe) {
-        
+            cnfe.printStackTrace();
+            return null;
         }
         return connection;
     }
