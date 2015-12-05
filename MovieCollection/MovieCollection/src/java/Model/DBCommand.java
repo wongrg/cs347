@@ -1,4 +1,4 @@
-package all;
+package Model;
 
 import java.sql.*;
 
@@ -30,6 +30,21 @@ public class DBCommand extends DBAccess {
       return false;
     }
     return true;
+  }
+  
+  /**
+   * add a user to the users table.
+   * @param uid
+   * @param name
+   * @param password
+   * @param email
+   * @return 
+   */
+  
+  public boolean addUser(String uid, String name, String password, String email) {
+      
+      
+      return true;
   }
   
 } // end class
