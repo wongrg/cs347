@@ -24,7 +24,6 @@ public class RegisterController extends HttpServlet {
    
 protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-            PrintWriter out = response.getWriter();
             String uid = request.getParameter("userid");
             String password = request.getParameter("pass");
             String password2 = request.getParameter("pass2");
@@ -38,7 +37,22 @@ protected void processRequest(HttpServletRequest request, HttpServletResponse re
             DBCommand commander = new DBCommand();
             if(user_model.verifyInfo(uid, password, password2, fname, lname, email)){
                 full_name = fname + " " + lname;
-                commander.addUser(uid,full_name , password, email);
+                if(commander.addUser(uid,full_name , password, email)){
+                    try (PrintWriter out = response.getWriter()) {
+                    /* TODO output your page here. You may use following sample code. */
+                    out.println("<!DOCTYPE html>");
+                    out.println("<html>");
+                    out.println("<head>");
+                    out.println("<title>Servlet SearchServlet</title>");            
+                    out.println("</head>");
+                    out.println("<body>");
+                    out.println("<h1> Wow congrats "+ uid + " " + password+ " and adam, this worked by some act of pintos</h1>");
+
+                    out.println("</body>");
+                    out.println("</html>");
+                    }
+                     
+                }
             }
             
             

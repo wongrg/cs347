@@ -71,27 +71,28 @@ public class DBCommand extends DBAccess {
    */
   
   public boolean verifyPass(String uid, String password) {
+      boolean is_valid = false;
       try {
           if ( uid.length() > 31 || password.length() > 31 )
               return false;
           Connection connection = getConnection();
           ResultSet set;
           if (connection == null) {
-              return false;
+              is_valid = false;
           }
           Statement stmt = connection.createStatement();
-          stmt.execute("SELECT count(*) FROM users WHERE uid='" + uid + "' AND "
+          stmt.execute("SELECT uid FROM users WHERE uid='" + uid + "' AND "
                   + "password='" + password + "';");
           set = stmt.getResultSet();
           set.first();
-          if(set.equals("0")) return false;
+          if(set.getString("uid").equals(uid)) is_valid = true;
           connection.close();
       } catch (SQLException sqe) {
           sqe.printStackTrace();
-          return false;
+          is_valid = false;
       }
       
-      return true;
+      return is_valid;
   }
   
 }
