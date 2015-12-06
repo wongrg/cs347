@@ -8,10 +8,10 @@
 <!DOCTYPE html>
 <%
     //Mandate client use HTTPS
-    if(! request.isSecure()){
-        String secureURL = request.getRequestURL().toString().toLowerCase().replace("http","https");        
-        response.sendRedirect(secureURL.replace("8084", "8443"));
-    }    
+   // if(! request.isSecure()){
+    //    String secureURL = request.getRequestURL().toString().toLowerCase().replace("http","https");        
+    //    response.sendRedirect(secureURL.replace("8084", "8443"));
+    //}    
     %>
 <html>
     <head>

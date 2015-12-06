@@ -44,6 +44,7 @@ public class LoginController extends HttpServlet {
             
             if(commander.verifyPass(uid,password)){
                 session.setAttribute("loggedIn",true);  //successful login set attribute to true
+                session.setAttribute("username", uid);
                 rd.forward(request,response);
             }
             else{
