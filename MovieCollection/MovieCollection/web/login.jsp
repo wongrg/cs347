@@ -21,10 +21,14 @@
         <title>Login</title>
     </head>
     <body>
-        <a href="index.jsp">
-            <img src="images/tempMovieCollection.jpg" id="mcPic">
-        </a>
-        <div>
+        <div class="header">
+            <a href="index.jsp">
+                <img src="images/tempMovieCollection.jpg" id="mcPic">
+            </a>
+            <button id="button_login" onclick="location.href = 'index.jsp';">Home</button>
+        </div>
+        <hr>
+        <div class="loginForm">
             <form method="post" id="loginForm" action="login">
                 <p>
                     <input type="text" id="userId" value="Username" name="uid" onfocus="changeText(this)">   
