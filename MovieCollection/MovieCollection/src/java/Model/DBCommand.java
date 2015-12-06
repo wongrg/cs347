@@ -52,7 +52,7 @@ public class DBCommand extends DBAccess {
               return successful;
           }
           Statement stmt = connection.createStatement();
-          stmt.executeUpdate("INSERT INTO TABLE users (uid, password, name, "
+          stmt.executeUpdate("INSERT INTO users (uid, password, name, "
                   + "email) VALUES('"+uid+"', '" + password + "', '" + name + 
                   "', '" + email + "');");
           connection.close();
