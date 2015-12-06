@@ -21,37 +21,40 @@
         <title>Sign Up Page</title>
     </head>
     <body>
+        <div class="header">
         <a href="index.jsp">
             <img src="images/tempMovieCollection.jpg" id="mcPic" alt="Movie Box">
         </a>
-        <br>
-        <br>
-        <div>
+            <button id="button_login" onclick="location.href = 'login.jsp';">Home</button>
+        </div>
+        <hr/>
+        
+        <div class="register">
             <form method="post" action="register" id="registerForm" onsubmit="return validateRegisterForm()">
                  <p>
-                    <input type="text" name="userid" id="userid" value="Username" onfocus="changeText(this)">  
+                    <input class="field" type="text" name="userid" id="userid" value="Username" onfocus="changeText(this)">  
                     <span id="useriderr" class="errmsg"> </span>
                 </p>
                 <p>
-                    <input type="password" name="pass" id="passwd" value="Password" onfocus="changeText(this)"> 
+                    <input class="field" type="password" name="pass" id="passwd" value="Password" onfocus="changeText(this)"> 
                     <span id="passerr" class="errmsg"> </span>
                 </p>
                 <p>
-                    <input type ="password" name="pass2" id="pass2" value="Re-enter Password" 
+                    <input class="field" type ="password" name="pass2" id="pass2" value="Re-enter Password" 
                            onfocus="changeText(this)">    
                         <span id="passerr" class="errmsg"> </span>
                 </p>
                 <p>
-                   <input type="text" name="fName" id="fName" value="Firstname" onfocus="changeText(this)">
+                   <input class="field" type="text" name="fName" id="fName" value="Firstname" onfocus="changeText(this)">
                         <span id="fnameerr" class="errmsg"> </span>
                 </p>
                 <p>
-                    <input type="text" name="lName" id="lName" value="Lastname" onfocus="changeText(this)">
+                    <input class="field" type="text" name="lName" id="lName" value="Lastname" onfocus="changeText(this)">
                             <span id="lnameerr" class="errmsg"> </span>
 
                 </p>
                 <p>
-                    <input type="text" name="emailAdd" id="emailAdd" value="Email Address" onfocus="changeText(this)">
+                    <input class="field" type="text" name="emailAdd" id="emailAdd" value="Email Address" onfocus="changeText(this)">
                             <span id="emailerr" class="errmsg"> </span>
 
                 </p>
