@@ -80,7 +80,7 @@ public class DBCommand extends DBAccess {
               return false;
           }
           Statement stmt = connection.createStatement();
-          stmt.execute("SELECT uid FROM users WHERE uid='" + uid + "' AND "
+          stmt.execute("SELECT count(*) FROM users WHERE uid='" + uid + "' AND "
                   + "password='" + password + "';");
           set = stmt.getResultSet();
           set.first();
