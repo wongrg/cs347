@@ -6,6 +6,12 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
+<%
+    //If the user is not logged in they cannot add a review- redirect to login.jsp
+    if (session.getAttribute("loggedIn") == null || session.getAttribute("loggedIn").equals(false)) {
+        response.sendRedirect("/login.jsp");
+    }
+%>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
