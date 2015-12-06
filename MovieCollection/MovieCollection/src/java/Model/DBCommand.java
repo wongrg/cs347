@@ -9,7 +9,40 @@ import java.sql.*;
  * @version 12/5/15
  */
 public class DBCommand extends DBAccess {
-
+  
+  /**
+   * add a user to the users table.
+   * @param uid user identification string LEN MUST BE <= 31
+   * @param name name string LEN MUST BE <= 31
+   * @param password password string LEN MUST BE <= 16
+   * @param email email string LEN MUST BE <= 254 AND FOLLOW EMAIL FORMAT
+   * @return true if successful, false otherwise
+   */
+  
+  public boolean addUser(String uid, String name, String password, String email) {
+      boolean successful = false;
+      try {
+          if ( uid.length() > 31 || name.length() > 31 || password.length() > 16
+                  || email.length() > 254 )
+              return successful;
+          Connection connection = getConnection();
+          if (connection == null) {
+              return successful;
+          }
+          Statement stmt = connection.createStatement();
+          stmt.executeUpdate("INSERT INTO users (uid, password, name, "
+                  + "email) VALUES('"+uid+"', '" + password + "', '" + name + 
+                  "', '" + email + "');");
+          connection.close();
+          successful = true;
+      } catch (SQLException sqe) {
+          sqe.printStackTrace();
+          return false;
+      }
+      
+      return successful;
+  }
+  
   /**
    * Execute an SQL command.
    * 
@@ -33,35 +66,27 @@ public class DBCommand extends DBAccess {
   }
   
   /**
-   * add a user to the users table.
-   * @param uid user identification string LEN MUST BE <= 31
-   * @param name name string LEN MUST BE <= 31
-   * @param password password string LEN MUST BE <= 16
-   * @param email email string LEN MUST BE <= 254 AND FOLLOW EMAIL FORMAT
-   * @return true if successful, false otherwise
+   * removes a uid from the users table.
+   * @param uid the uid of a user to be removed
+   * @return true if the user was removed, false otherwise.
    */
   
-  public boolean addUser(String uid, String name, String password, String email) {
+  public boolean removeUser(String uid) {
       boolean successful = false;
       try {
-          if ( uid.length() < 31 || name.length() > 31 || password.length() > 16
-                  || email.length() > 254 )
+          if ( uid.length() > 31 )
               return successful;
           Connection connection = getConnection();
-          if (connection == null) {
+          if (connection == null)
               return successful;
-          }
           Statement stmt = connection.createStatement();
-          stmt.executeUpdate("INSERT INTO users (uid, password, name, "
-                  + "email) VALUES('"+uid+"', '" + password + "', '" + name + 
-                  "', '" + email + "');");
+          stmt.executeUpdate("DELETE FROM users WHERE uid='" + uid + "' LIMIT 1;");
           connection.close();
           successful = true;
       } catch (SQLException sqe) {
           sqe.printStackTrace();
-          return false;
+          return successful;
       }
-      
       return successful;
   }
   
