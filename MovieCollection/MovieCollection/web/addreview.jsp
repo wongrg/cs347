@@ -32,7 +32,7 @@
         
         <h3>Enter your review and click submit when finished</h3>
         <form method="post" action="/addreview" id="reviewform">
-            <textarea maxlength="240" id="reviewarea" form="reviewform">
+            <textarea maxlength="255" id="reviewarea" form="reviewform">
                 
             </textarea><br/>
             <input type="submit" id="submitReview" value="Submit">
