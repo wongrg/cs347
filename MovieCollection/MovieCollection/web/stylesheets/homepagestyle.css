@@ -8,14 +8,33 @@ and open the template in the editor.
     Author     : joey
 */
 
+#mcPic{
+    float: left;
+    height: 60px;
+    width: 60px;
+}
 #button_login{
     float: right;
+    margin-top: 1em;
 }
 h1 {
     text-align: center;
 }
 p {
-    text-align: center;
+    text-align: center;    
+}
+hr{
+    color: blue;    
+    height: 2px;
+}
+div.header{
+    display: table;
+    width: 100%;
+}
+div.searcharea{
+    display: table;
+    width: 100%;
+    margin-top: 5em;
 }
 #searchBox {
     color: graytext;
