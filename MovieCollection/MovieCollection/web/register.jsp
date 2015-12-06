@@ -6,6 +6,12 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
+<%
+    if(! request.isSecure()){
+        String secureURL = request.getRequestURL().toString().toLowerCase().replace("http","https");        
+        response.sendRedirect(secureURL.replace("8084", "8443"));
+    }    
+    %>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
