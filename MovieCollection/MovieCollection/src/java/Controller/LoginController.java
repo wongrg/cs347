@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import Model.*;
+import javax.servlet.http.HttpSession;
 /**
  *
  * @author joey
@@ -36,8 +37,10 @@ public class LoginController extends HttpServlet {
             
             String password = request.getParameter("pwd");
             String uid = request.getParameter("uid");
+            HttpSession session = request.getSession(true); //get the httpsession
             DBCommand commander = new DBCommand();
             if(commander.verifyPass(uid,password)){
+                session.setAttribute("loggedIn",true);  //successful login set attribute to true
                 try (PrintWriter out = response.getWriter()) {
                 /* TODO output your page here. You may use following sample code. */
                 out.println("<!DOCTYPE html>");
@@ -53,6 +56,7 @@ public class LoginController extends HttpServlet {
                 }
             }
             else{
+                session.setAttribute("loggedIn", false);    //login failed
                 try (PrintWriter out = response.getWriter()) {
                 /* TODO output your page here. You may use following sample code. */
                 out.println("<!DOCTYPE html>");
