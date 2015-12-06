@@ -25,8 +25,35 @@
        <a href="index.jsp">
             <img src="images/tempMovieCollection.jpg" id="mcPic">
         </a>
-        <button id="button_login" onclick="location.href = 'login.jsp';"><%=buttonState%></button>
-        
+        <%! String urlButton;%>
+        <% 
+            if(buttonState.equals("Home"))
+            {
+                urlButton = "index.jsp";
+            }
+            else
+                urlButton = "login.jsp";
+        %>
+        <table class="headertable">
+            <tbody>
+                <tr>
+                    <td>
+                    <button id="button_login" onclick="location.href = '<%=urlButton%>';">
+                        <%=buttonState%></button>
+                    </td>
+        <%
+            if(session.getAttribute("loggedIn") != null && session.getAttribute("loggedIn").equals(true))
+            {  
+                out.println("<td>");
+                out.println("<button id='view_profile' onclick=location.href='viewprofile.jsp';>"
+                +"View Profile</button></td>"); 
+                out.println("<td><form method=post action=logout>");
+                out.println("<input type=submit value=Logout id='logout_butt'/></form></td>");
+            }            
+        %>
+                </tr>
+            </tbody>
+        </table>
     </div>
         <hr/>
         <div class="searcharea">
