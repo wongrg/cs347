@@ -101,11 +101,11 @@ public class DBCommand extends DBAccess {
       boolean is_valid = false;
       try {
           if ( uid.length() > 31 || password.length() > 31 )
-              is_valid = false;
+              return false;
           Connection connection = getConnection();
           ResultSet set;
           if (connection == null) {
-              is_valid = false;
+              return false;
           }
           Statement stmt = connection.createStatement();
           stmt.execute("SELECT uid FROM users WHERE uid='" + uid + "' AND "
