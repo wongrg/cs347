@@ -11,6 +11,14 @@ and open the template in the editor.
 table{
     width:100%;
 }
+div.header{
+    display: table;
+    width: 100%;
+}
+hr{
+    color:blue;
+    height: 2px;
+}
 #movieName{
     text-align: center;
     font-size: 40px;
@@ -46,15 +54,14 @@ h3,h4{
     color: graytext;
     width: 10em;
 }
-#loginButt{
-    float:top;
+#loginButt{  
     float:right;
-   
+    margin-top: 1em;
 }
 #mcPic{
     float: left;
-    width:50px;
-    height: 50px;
+    width:60px;
+    height: 60px;
 }
 
 p {
