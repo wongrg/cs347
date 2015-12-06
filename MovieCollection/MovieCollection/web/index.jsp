@@ -10,6 +10,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" type="text/css" href="stylesheets/homepagestyle.css">
+        <script src="scripts/processText.js"></script>
         <title>Movie Box Home</title>
     </head>
     <body>
@@ -19,18 +20,23 @@
         }
             else
                buttonState="Home";
-                                    %>
+        %>
+    <div class="header">                         
        <a href="index.jsp">
             <img src="images/tempMovieCollection.jpg" id="mcPic">
         </a>
-        <input  type="button" value="<%=buttonState%>"
-                id="button_login" onclick="location.href = 'login.jsp';">
+        <button id="button_login" onclick="location.href = 'login.jsp';"><%=buttonState%></button>
+        
+    </div>
+        <hr/>
+        <div class="searcharea">
         
         <h1>Welcome To Movie Box</h1>
         <form method="post" action="search" >
-            <p><input type="text" value="search for a movie" id="searchBox" >
+            <p><input type="text" value="search for a movie" id="searchBox" onfocus="changeText(this)" >
                 <input type="submit" value="Search">
             </p>
         </form>
+        </div>
     </body>
 </html>
