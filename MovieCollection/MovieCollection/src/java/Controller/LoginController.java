@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import Model.*;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpSession;
 /**
  *
@@ -39,21 +40,11 @@ public class LoginController extends HttpServlet {
             String uid = request.getParameter("uid");
             HttpSession session = request.getSession(true); //get the httpsession
             DBCommand commander = new DBCommand();
+            RequestDispatcher rd = getServletContext().getRequestDispatcher("/index.jsp");
+            
             if(commander.verifyPass(uid,password)){
                 session.setAttribute("loggedIn",true);  //successful login set attribute to true
-                try (PrintWriter out = response.getWriter()) {
-                /* TODO output your page here. You may use following sample code. */
-                out.println("<!DOCTYPE html>");
-                out.println("<html>");
-                out.println("<head>");
-                out.println("<title>Servlet SearchServlet</title>");            
-                out.println("</head>");
-                out.println("<body>");
-                out.println("<h1> Wow congrats "+ uid + " " + password+ " and adam, this worked by some act of pintos</h1>");
-            
-                out.println("</body>");
-                out.println("</html>");
-                }
+                rd.forward(request,response);
             }
             else{
                 session.setAttribute("loggedIn", false);    //login failed
@@ -62,10 +53,13 @@ public class LoginController extends HttpServlet {
                 out.println("<!DOCTYPE html>");
                 out.println("<html>");
                 out.println("<head>");
-                out.println("<title>Servlet SearchServlet</title>");            
+                out.println("<title>Error Logging In</title>");            
                 out.println("</head>");
                 out.println("<body>");
-                out.println("<h1> Wow YOU DONE GOOFED "+ uid + " " + password+ " </h1>");
+                out.println("<h1> <p>Credentials Not Valid </p></h1>");
+                out.println("<p> We were unable to process the login credentials"
+                        + " provided</p>");
+                out.println("<p> Click <a href='/login.jsp'> here</a> to return to the login page</p>");
                 out.println("</body>");
                 out.println("</html>"); 
                 }
