@@ -6,11 +6,14 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
+<%!String buttonStatus;%>
 <%
     //If the user is not logged in they cannot add a review- redirect to login.jsp
     if (session.getAttribute("loggedIn") == null || session.getAttribute("loggedIn").equals(false)) {
         response.sendRedirect("/login.jsp");
     }
+    else
+       buttonStatus = "Home";
 %>
 <html>
     <head>
@@ -19,26 +22,18 @@
         <title>Add A Movie Review</title>
     </head>
     <body>
-         <div>
-            <table>
-                <tr>
-                    <th>
+         <div class="header">
+           
                            <a href="index.jsp">
                        <img src="images/tempMovieCollection.jpg" id="mcPic"></a>
-                    </th>
-                    
-                    <th>
-                        <button id="loginButt" onclick="location.href='login.jsp'">Login</button>
-                    </th>
-                </tr>
-            </table>
-                      
+                   
+                        <button id="loginButt" onclick="location.href='index.jsp'"><%=buttonStatus%></button>
         </div>
         <hr>
         
         <h3>Enter your review and click submit when finished</h3>
         <form method="post" action="/addreview" id="reviewform">
-            <textarea maxlength="255" id="reviewarea" form="reviewform">
+            <textarea maxlength="255" name="reviewtext" id="reviewarea" form="reviewform">
                 
             </textarea><br/>
             <input type="submit" id="submitReview" value="Submit">
