@@ -17,6 +17,11 @@ and open the template in the editor.
     float: right;
     margin-top: 1em;
 }
+.headertable{
+    display: table;
+    float:right;
+}
+
 h1 {
     text-align: center;
 }
@@ -40,3 +45,14 @@ div.searcharea{
     color: graytext;
     width: 400px;
 }
+#view_profile{
+    float: right;
+    margin-left: 1em;
+    margin-top: 1em;
+}
+#logout_butt{
+    float: right;
+    margin-left: 1em;
+    margin-top: 1em;
+}
+
