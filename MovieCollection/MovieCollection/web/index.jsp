@@ -13,17 +13,17 @@
         <title>Movie Box Home</title>
     </head>
     <body>
-        <%--! String buttonState="";%>
-        <% if(session.getAttribute("loggedIn").equals(true)){
-            buttonState = "Home";
+        <%! String buttonState;%>
+        <% if(session.getAttribute("loggedIn") == null || session.getAttribute("loggedIn").equals(false)){
+            buttonState = "Login";
         }
             else
-               buttonState="Login";
-                                    --%>
+               buttonState="Home";
+                                    %>
        <a href="index.jsp">
             <img src="images/tempMovieCollection.jpg" id="mcPic">
         </a>
-        <input  type="button" value="Login"
+        <input  type="button" value="<%=buttonState%>"
                 id="button_login" onclick="location.href = 'login.jsp';">
         
         <h1>Welcome To Movie Box</h1>
