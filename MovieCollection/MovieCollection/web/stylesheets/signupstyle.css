@@ -10,26 +10,39 @@ and open the template in the editor.
 
 #mcPic{
     float: left;
-    height: 100px;
-    width: 100px;
+    height: 60px;
+    width: 60px;
+}
+#button_login{
+    float: right;
+    margin-top: 1em;
 }
 p {
     text-align: center;
   }
-  div{
+div.header{
       display: table;
       width: 100%;
   }
-  #registerForm{
+div.register{
+      display: table;
+      width: 100%;
+      margin-top:1em;
+  }
+#registerForm{
     display: table-cell;
     text-align: center;
     vertical-align:middle;
 }
-input{
+input.field{
     width:200px;
     color: graytext;
 }
 
+hr{
+    color:blue;
+    height:2px;
+}
 label{   
     width: auto;    
 }
