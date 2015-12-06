@@ -42,25 +42,27 @@ public class DBCommand extends DBAccess {
    */
   
   public boolean addUser(String uid, String name, String password, String email) {
+      boolean successful = false;
       try {
           if ( uid.length() < 31 || name.length() > 31 || password.length() > 16
                   || email.length() > 254 )
-              return false;
+              return successful;
           Connection connection = getConnection();
           if (connection == null) {
-              return false;
+              return successful;
           }
           Statement stmt = connection.createStatement();
           stmt.executeUpdate("INSERT INTO TABLE users (uid, password, name, "
                   + "email) VALUES('"+uid+"', '" + password + "', '" + name + 
                   "', '" + email + "');");
           connection.close();
+          successful = true;
       } catch (SQLException sqe) {
           sqe.printStackTrace();
           return false;
       }
       
-      return true;
+      return successful;
   }
   
   /**
@@ -74,7 +76,7 @@ public class DBCommand extends DBAccess {
       boolean is_valid = false;
       try {
           if ( uid.length() > 31 || password.length() > 31 )
-              return false;
+              is_valid = false;
           Connection connection = getConnection();
           ResultSet set;
           if (connection == null) {
