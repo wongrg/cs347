@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import Model.*;
+import java.io.Console;
 /**
  *
  * @author joey
@@ -37,26 +38,21 @@ protected void processRequest(HttpServletRequest request, HttpServletResponse re
             DBCommand commander = new DBCommand();
             if(user_model.verifyInfo(uid, password, password2, fname, lname, email)){
                 full_name = fname + " " + lname;
+                System.out.println("HI");
+                
                 if(commander.addUser(uid,full_name , password, email)){
-                    try (PrintWriter out = response.getWriter()) {
-                    /* TODO output your page here. You may use following sample code. */
-                    out.println("<!DOCTYPE html>");
-                    out.println("<html>");
-                    out.println("<head>");
-                    out.println("<title>Servlet SearchServlet</title>");            
-                    out.println("</head>");
-                    out.println("<body>");
-                    out.println("<h1> Wow congrats "+ uid + " " + password+ " and adam, this worked by some act of pintos</h1>");
-
-                    out.println("</body>");
-                    out.println("</html>");
-                    }
+                    request.getRequestDispatcher("/success_registration.html").forward(request, response);
                      
                 }
+                else{
+                    request.getRequestDispatcher("/failure_registration.html").forward(request, response);
+                    }
+                }
+                
             }
-            
-            
-}
+
+
+
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -69,7 +65,8 @@ protected void processRequest(HttpServletRequest request, HttpServletResponse re
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+               processRequest(request, response);
+
     }
 
     /**
@@ -83,26 +80,7 @@ protected void processRequest(HttpServletRequest request, HttpServletResponse re
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-       String username = request.getParameter("userid");
-       String pass1 = request.getParameter("passwd");
-       String fName = request.getParameter("fName");
-       String lName = request.getParameter("lName");
-       String emailAdd= request.getParameter("emailAdd");
-       
-       //Construct object of the model class that will handle adding users to database see lab7
-       //here Class varname= new Class();
-       
-       if(username != null && pass1 != null && fName!=null && lName !=null && emailAdd !=null){
-           //varname.addUsername(username);
-           //varname.addPassword(pass1);
-           //varname.addFirstName(fName);
-           //varname.addLastName(lName);
-           //varname.addEmail(emailAdd);
-           response.sendRedirect("login.jsp");
-       }
-       else{
-          response.sendRedirect("errorpage.html");
-       }
+       processRequest(request, response);
       
            
     }
