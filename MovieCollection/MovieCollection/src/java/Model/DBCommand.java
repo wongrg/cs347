@@ -82,6 +82,13 @@ public class DBCommand extends DBAccess {
       return true;
   }
   
+  /**
+   * detailUser pulls user details from the database, this includes the following:
+   *    uid, name, email, age and birthdate.
+   * @param uid The uid of the user to be found in the database.
+   * @return an array containing the details as following, uid, name, email, age,
+   *    and birthdate. If the query was unsuccessful, then null will be returned.
+   */
   
     public String[] detailUser(String uid) {
       String[] details = new String[5];
@@ -109,6 +116,7 @@ public class DBCommand extends DBAccess {
 
       return details;
     }
+    
   /**
    * Execute an SQL command.
    * 
