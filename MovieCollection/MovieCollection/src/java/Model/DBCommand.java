@@ -130,6 +130,61 @@ public class DBCommand extends DBAccess {
   }
   
   /**
+   * search for a movie from the database.
+   * @param title the title of the movie that is like the one being searched 
+   *    for. Must be less than 256 characters long, otherwise returns null.
+   * @param year the year of the movie being searched for. If year is not of
+   *    interest, just make it less than 1900.
+   * @return a two-dimensional String array of titles and years. First index (0)
+   *    is the title and the second index (1) is year. Use the second array index
+   *    to determine between title and year. First is the row.
+   */
+  
+  public String[][] movieSearch(String title, int year) {
+      String[][] results = null;
+      
+      //validate parameter
+      if (title == null || title.length() > 255)
+          return results;
+      
+      try ( Connection conn = getConnection()) {
+          //validate connection
+          if (conn == null)
+              return null;
+          
+          //create statement
+          Statement stmt = conn.createStatement();
+          
+          //build query
+          String query = "SELECT title, year FROM movies WHERE title LIKE '"+title+"'";
+          if( year < 1900 )
+              query+=" AND year="+((Integer)year).toString();
+          query+=";";
+          
+          //execute query
+          ResultSet rs = stmt.executeQuery(query);
+          
+          //build results array to send back
+          results = new String[rs.getFetchSize()][2];
+          int i = 0;
+          while(rs.next()) {
+              results[i][0] = rs.getString("title");
+              results[i][1] = rs.getString("year");
+              i++;
+          }
+          
+          //close connection
+          conn.close();
+          
+      } catch (SQLException sqe) {
+          return null;
+      }
+      
+      
+      return results;
+  }
+  
+  /**
    * removes a uid from the users table.
    * @param uid the uid of a user to be removed
    * @return true if the user was removed, false otherwise.
