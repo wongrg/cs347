@@ -21,11 +21,10 @@ public class DBCommand extends DBAccess {
   
   public boolean addUser(String uid, String name, String password, String email) {
       boolean successful = false;
-      try {
-          if ( uid.length() > 31 || name.length() > 31 || password.length() > 16
+      if ( uid.length() > 31 || name.length() > 31 || password.length() > 16
                   || email.length() > 254 )
               return successful;
-          Connection connection = getConnection();
+      try (Connection connection = getConnection()) {
           if (connection == null) {
               return successful;
           }
@@ -36,7 +35,6 @@ public class DBCommand extends DBAccess {
           connection.close();
           successful = true;
       } catch (SQLException sqe) {
-          sqe.printStackTrace();
           return false;
       }
       
@@ -46,29 +44,26 @@ public class DBCommand extends DBAccess {
   
     public String[] detailUser(String uid) {
       String[] details = new String[5];
-      try {
-          
-          Connection connection = getConnection();
+      try (Connection connection = getConnection()){
           if (connection == null) {
-
+              return null;
           }
           Statement stmt = connection.createStatement();
           
           ResultSet rs = stmt.executeQuery("SELECT uid, name, email, age, birthdate FROM users WHERE uid= '" +uid+"';");
           rs.first();
           
-              details[0] = rs.getString(1);
-              details[1] = rs.getString(2);
-              // TODOdetails[2] = rs.getDate(5).toString();
-              details[3] = ((Integer)rs.getInt(4)).toString();
-              details[4] = rs.getString(3);
+          details[0] = rs.getString(1);
+          details[1] = rs.getString(2);
+          // TODOdetails[2] = rs.getDate(5).toString();
+          details[3] = ((Integer)rs.getInt(4)).toString();
+          details[4] = rs.getString(3);
               
           
           connection.close();
           
       } catch (SQLException sqe) {
-          sqe.printStackTrace();
-
+          return null;
       }
       
       return details;
@@ -80,8 +75,7 @@ public class DBCommand extends DBAccess {
    * @return true if the command is executed, false if any exception is thrown
    */
   public boolean executeCommand(String command) {
-    try {
-      Connection connection = getConnection();
+    try (Connection connection = getConnection()) {
       if (connection == null) {
         return false;
       }
@@ -89,7 +83,6 @@ public class DBCommand extends DBAccess {
       stmt.executeUpdate(command);
       connection.close();
     } catch (SQLException sqe) {
-      sqe.printStackTrace();
       return false;
     }
     return true;
@@ -103,10 +96,9 @@ public class DBCommand extends DBAccess {
   
   public boolean removeUser(String uid) {
       boolean successful = false;
-      try {
-          if ( uid.length() > 31 )
+      if ( uid.length() > 31 )
               return successful;
-          Connection connection = getConnection();
+      try (Connection connection = getConnection()){
           if (connection == null)
               return successful;
           Statement stmt = connection.createStatement();
@@ -114,10 +106,66 @@ public class DBCommand extends DBAccess {
           connection.close();
           successful = true;
       } catch (SQLException sqe) {
-          sqe.printStackTrace();
           return successful;
       }
       return successful;
+  }
+  
+  /**
+   * This method updates the user entry in the users table, use null where you 
+   * don't want to change and be sure to include the uid so it can update that 
+   * certain record.
+   * 
+   * @param uid the uid, it must not be null and be correct length
+   * @param password the password for user, can be null, leave null if no change
+   *    is needed.
+   * @param name the name of a user, can be null, leave null if no change is 
+   *    needed.
+   * @param email the email of a user, can be null, leave null if no change is 
+   *    needed.
+   * @param age the age of a user, make it less than or equal to zero if no 
+   *    change is needed.
+   * @param birthdate the birthdate of a user, can be null, leave null if no 
+   *    change is needed.
+   * @return true if the query was successful, false otherwise.
+   */
+  
+  public boolean updateUser(String uid, String password, String name, 
+          String email, int age, Date birthdate) {
+    String query = "";
+    if (uid == null || uid.length() > 31)
+        return false;
+    
+    try (Connection conn = getConnection()) {
+        //valid connection check
+        if (conn == null)
+            return false;
+        
+        //begin generation of statement
+        Statement stmt = conn.createStatement();
+        
+        //generate what to update
+        if(password!=null && password.length()<=16)
+            query+="password='"+password+"' ";
+        if(name!=null&&name.length()<=31)
+            query+="name='"+name+"' ";
+        if(email!=null&&email.length()<=254)
+            query+="email='"+email+"' ";
+        if(age>0)
+            query+="age="+((Integer)age).toString()+" ";
+        if(birthdate!=null)
+            query+="birthdate='"+birthdate.toString()+"' ";
+        
+        //execute update query
+        stmt.executeUpdate("UPDATE users SET "+query+"WHERE uid="+uid+";");
+        
+        //close connection
+        conn.close();
+    } catch (SQLException sqe) {
+        return false;
+    }
+    
+    return true;
   }
   
   /**
@@ -129,10 +177,10 @@ public class DBCommand extends DBAccess {
   
   public boolean verifyPass(String uid, String password) {
       boolean is_valid = false;
-      try {
-          if ( uid.length() > 31 || password.length() > 31 )
-              return false;
-          Connection connection = getConnection();
+      if ( uid.length() > 31 || password.length() > 16 )
+          return false;
+      try (Connection connection = getConnection()){
+          
           ResultSet set;
           if (connection == null) {
               return false;
@@ -145,7 +193,6 @@ public class DBCommand extends DBAccess {
           if(set.getString("uid").equals(uid)) is_valid = true;
           connection.close();
       } catch (SQLException sqe) {
-          sqe.printStackTrace();
           is_valid = false;
       }
       
