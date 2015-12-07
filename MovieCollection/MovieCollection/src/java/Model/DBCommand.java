@@ -43,6 +43,36 @@ public class DBCommand extends DBAccess {
       return successful;
   }
   
+  
+    public String[] detailUser(String uid) {
+      String[] details = new String[5];
+      try {
+          
+          Connection connection = getConnection();
+          if (connection == null) {
+
+          }
+          Statement stmt = connection.createStatement();
+          
+          ResultSet rs = stmt.executeQuery("SELECT uid, name, email, age, birthdate FROM users WHERE uid= '" +uid+"';");
+          rs.first();
+          
+              details[0] = rs.getString(1);
+              details[1] = rs.getString(2);
+              // TODOdetails[2] = rs.getDate(5).toString();
+              details[3] = ((Integer)rs.getInt(4)).toString();
+              details[4] = rs.getString(3);
+              
+          
+          connection.close();
+          
+      } catch (SQLException sqe) {
+          sqe.printStackTrace();
+
+      }
+      
+      return details;
+  }
   /**
    * Execute an SQL command.
    * 

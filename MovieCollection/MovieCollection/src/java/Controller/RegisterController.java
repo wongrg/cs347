@@ -38,7 +38,7 @@ protected void processRequest(HttpServletRequest request, HttpServletResponse re
             DBCommand commander = new DBCommand();
             if(user_model.verifyInfo(uid, password, password2, fname, lname, email)){
                 full_name = fname + " " + lname;
-                System.out.println("HI");
+                
                 
                 if(commander.addUser(uid,full_name , password, email)){
                     request.getRequestDispatcher("/success_registration.html").forward(request, response);
