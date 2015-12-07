@@ -14,6 +14,8 @@
         <title>Movie Box Home</title>
     </head>
     <body>
+  
+        
         <%! String buttonState;%>
         <% if(session.getAttribute("loggedIn") == null || session.getAttribute("loggedIn").equals(false)){
             buttonState = "Login";
@@ -23,7 +25,7 @@
         %>
     <div class="header">                         
        <a href="index.jsp">
-            <img src="images/tempMovieCollection.jpg" id="mcPic">
+            <img src="images/MovieBox.png" id="mcPic">
         </a>
         <%! String urlButton;%>
         <% 
@@ -59,11 +61,11 @@
         <div class="searcharea">
         
         <h1>Welcome To Movie Box</h1>
-        <form method="post" action="search" >
-            <p><input type="text" value="search for a movie" id="searchBox" onfocus="changeText(this)" >
-                <input type="submit" value="Search">
-            </p>
-        </form>
+       
+        <form action="/search.html" class="search-wrapper cf">
+        <input type="text" placeholder="Search Movie Box" required="">
+        <button type="submit">Search</button>
+</form>
         </div>
-    </body>
+       </body>
 </html>
