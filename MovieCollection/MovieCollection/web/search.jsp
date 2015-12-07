@@ -10,7 +10,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" type="text/css" href="stylesheets/searchstylesheet.css">
-        <script type="text/javascript" src="scripts/clearTextValue.js"></script>
+        <script type="text/javascript" src="scripts/processText.js"></script>
         <title>Search Page</title>
     </head>
     <body>
