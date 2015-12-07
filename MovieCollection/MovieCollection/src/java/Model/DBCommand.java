@@ -41,6 +41,47 @@ public class DBCommand extends DBAccess {
       return successful;
   }
   
+  /**
+   * add an appropriate movie id to a library with user id
+   * @param uid user id to be associated with movieid
+   * @param title title to be associated with movieid
+   * @return true if the update is successful, false otherwise
+   */
+  public boolean addToLibrary(String uid, String title) {
+      //validate parameters
+      if( uid == null || title == null || uid.length() > 31 || title.length() > 255 )
+          return false;
+      
+      try (Connection conn = getConnection()) {
+          //validate connection
+          if ( conn == null )
+              return false;
+          
+          //generate statement
+          Statement stmt = conn.createStatement();
+          
+          //prepare set-up for getting mid from movies table
+          String mid = "0";
+          String query = "SELECT mid FROM movies WHERE title='"+title+"';";
+          
+          //get mid from movies table with title
+          ResultSet rs = stmt.executeQuery(query);
+          rs.first();
+          mid = rs.getString("mid");
+          
+          //insert the appropriate mid with uid into library table
+          query = "INSERT INTO library VALUES ('"+uid+"', "+mid+");";
+          stmt.executeUpdate(query);
+          
+          //close connection
+          conn.close();
+      } catch ( SQLException sqe ) {
+          return false;
+      }
+      
+      return true;
+  }
+  
   
     public String[] detailUser(String uid) {
       String[] details = new String[5];
@@ -49,25 +90,25 @@ public class DBCommand extends DBAccess {
               return null;
           }
           Statement stmt = connection.createStatement();
-          
+
           ResultSet rs = stmt.executeQuery("SELECT uid, name, email, age, birthdate FROM users WHERE uid= '" +uid+"';");
           rs.first();
-          
+
           details[0] = rs.getString(1);
           details[1] = rs.getString(2);
           // TODOdetails[2] = rs.getDate(5).toString();
           details[3] = ((Integer)rs.getInt(4)).toString();
           details[4] = rs.getString(3);
-              
-          
+
+
           connection.close();
-          
+
       } catch (SQLException sqe) {
           return null;
       }
-      
+
       return details;
-  }
+    }
   /**
    * Execute an SQL command.
    * 
