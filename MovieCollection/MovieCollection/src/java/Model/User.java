@@ -21,7 +21,7 @@ public class User extends HttpServlet {
         boolean is_valid = true;
         //Check if the userid contains any illegal characters, if it does, 
         //set the boolean to false.
-        if (!Pattern.matches("^[a-z][a-z0-9]*$", uid)) {
+        if (!Pattern.matches("[a-z][a-z0-9]*$", uid)) {
             is_valid = false;
         }
         

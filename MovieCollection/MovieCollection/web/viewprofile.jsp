@@ -26,9 +26,14 @@
                 out.println("<p>Full name: " + details[1] + "</p>");
                 out.println("<p>Birthday " + details[2] + "</p>");
                 out.println("<p>Email: " + details[4] + "</p>");
+                out.println("<p>Email: " + details[4] + "</p>");
+                out.println("<button id='updateProfile' onclick=location.href='updateProfile.jsp';>"
+                +"Update your profile</button></td>"); 
+                        
+
 
         %>
         <!-- build page -->
-    </div>
+    
     </body>
 </html>

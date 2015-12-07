@@ -34,6 +34,9 @@ protected void processRequest(HttpServletRequest request, HttpServletResponse re
             String full_name = null;
             //This object is part of the Model that will validate user information
             //for logging in. 
+            
+            
+            //TODO all lowercase username, 
             User user_model = new User();
             DBCommand commander = new DBCommand();
             if(user_model.verifyInfo(uid, password, password2, fname, lname, email)){
