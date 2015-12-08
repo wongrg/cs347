@@ -5,6 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="bean.Movie"%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -58,14 +59,17 @@
     <hr/>
     <div>
         <form method="post" action="addmovie"
-            <p name="movie_title">Movie Title: 
-                <% //String movieTitle = getMovieTitle();
-                //out.println(movieTitle);%></p>
+            <p>Movie Title: 
+                <% String title=Movie.getTitle();%>  
+            <%=title%>
+            </p>
             
-            <p name="movie_year">Movie Year: <%
-                //int movieYear= 
-                //out.println(movieYear);
-            %></p>
+            <p>Movie Year: <%  String year = Movie.getYear();
+                                
+            %>
+            <%=year%>
+            
+            </p>
             <%
                 if(session.getAttribute("loggedIn") != null && session.getAttribute("loggedIn").equals(true))
                 {
