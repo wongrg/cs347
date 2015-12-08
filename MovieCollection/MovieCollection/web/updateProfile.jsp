@@ -12,7 +12,17 @@
         <title>Update Profile</title>
     </head>
     <body>
-        <h1>Hello <%= session.getAttribute("username")%></h1>
-        
+        <h1><%= session.getAttribute("username")%></h1>
+        <form method="post" action="updateprofile">
+            <%String[] details = Controller.UpdateProfileController.getDetails((String)session.getAttribute("username"));%>
+            <p><label>User ID:</label><input type="text" name="uid" value='<%=details[0]%>'></p>
+            <p><label>Full Name:</label><input type="text" name="fullname" value='<%=details[1]%>'></p>
+            <p><label>Birthday:</label><input type ="text" name="bday" value='<%=details[2]%>'></p>
+            <p><label>Email:</label><input type="text" name="email" value='<%=details[4]%>'></p>
+            
+            <input type="submit" value="Update">
+            
+            
+        </form>
     </body>
 </html>
