@@ -64,7 +64,7 @@
         <h1>Welcome To Movie Box</h1>
        
         <form method="post" action="search" class="search-wrapper cf">
-            <input type="text" placeholder="Search Movie Box" required="">
+            <input type="text" name = "search_term" placeholder="Search Movie Box" required="">
             <button type="submit">Search</button>
         </form>
         </div>
