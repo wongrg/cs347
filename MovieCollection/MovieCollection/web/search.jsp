@@ -5,9 +5,11 @@
 --%>
 
 <%@page import="bean.SearchResults"%>
+<%@page import="bean.Movie"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <!DOCTYPE html>
+
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -44,30 +46,37 @@
             <br/>
             <hr/>
             <%
-                if(session.getAttribute("results") != null)
+                if(session.getAttribute("enteredQuery") != null && session.getAttribute("enteredQuery").equals(true))
                 {
-                   
+                    String[][] results = SearchResults.getSearchResults();
+                    if(results!=null && results.length > 0)
+                    {   
+
                         out.println("<h3>Results</h3>");
-                        String[][] results = SearchResults.getSearchResults();
-                        if(results != null)
-                        {  
-                            for(int i = 0;i < results.length -1 ;i++){                            
-                                out.println("<p>"+results[i][0].toString()+"</p>");
-                                out.println("<p>"+ results[i][1].toString()+"</p>");
-                                out.println("<button id=detailsButt type=submit>More Details</button>");
-                                
-                            }
-                        }
-                       
-                        else
-                            out.println("<p>No results for that movie</p>");
-                        
-                }                
-                session.setAttribute("results", null);
+                        for(int i = 0;i < results.length -1 ;i++){ 
+                            String title = results[i][0];
+                            String year = results[i][1];
+
+                            out.println("<form method='post' action='moviedetails'");
+
+                            out.println("<p><input type='hidden' name=title value='"+title+"'>"+
+                                    title+"</p>");
+
+                            out.println("<p><input type=hidden name=year value='"+year+"'>"+ 
+                                    year+"</p>");
+                            out.println("<input type='submit' value='More Details'>");
+                            out.println("</form>");
+                      }
+                    }
+                    else
+                        out.println("<p>No results for that movie</p>");
+                }            
+                session.setAttribute("enteredQuery", null);
                 
                 %>
             </text>
+           
         </div>
-        
+       
     </body>
 </html>
