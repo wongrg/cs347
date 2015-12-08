@@ -165,7 +165,7 @@ public class DBCommand extends DBAccess {
           
           //build query
           String query = "SELECT title, year FROM movies WHERE title LIKE '"+title+"'";
-          if( year < 1900 )
+          if( year >= 1900 )
               query+=" AND year="+((Integer)year).toString();
           query+=" ORDER BY title;";
           
