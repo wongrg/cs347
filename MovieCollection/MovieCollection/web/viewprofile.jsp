@@ -30,7 +30,12 @@
                 out.println("<button id='updateProfile' onclick=location.href='updateProfile.jsp';>"
                 +"Update your profile</button></td>"); 
                         
-
+                out.println("<h3>Your Movie Collection</h3>");
+                out.println("<ul>");
+                
+                
+                
+                out.println("</ul>");
 
         %>
         <!-- build page -->
