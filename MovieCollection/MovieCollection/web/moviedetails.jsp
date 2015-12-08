@@ -60,28 +60,31 @@
     <div>
         <form method="post" action="addmovie"
             <p>Movie Title: 
-                <% String title=Movie.getTitle();%>  
+                <% String title=Movie.getTitle();
+                    out.println("<input type='hidden' name='movie_title' value='"+title+"' >");
+                
+                %>  
             <%=title%>
             </p>
             
-            <p>Movie Year: <%  String year = Movie.getYear();
-                                
-            %>
+            <p>Movie Year: <%  String year = Movie.getYear();%>
             <%=year%>
             
             </p>
             <%
                 if(session.getAttribute("loggedIn") != null && session.getAttribute("loggedIn").equals(true))
                 {
-                    out.println("<form method=post action=addmovie");
-                    out.println("<input type=submit value=Add Movie/>");
+                    //out.println("<form method=post action=addmovie");
+                    out.println("<input type='submit' value='Add Movie' >");
                     out.println("</form>");
                 }
                 else
                     out.println("");
                 %>            
         </form>
+        
     </div>
+       
             
     <h4>Movie Reviews</h4>
     <displayarea>
