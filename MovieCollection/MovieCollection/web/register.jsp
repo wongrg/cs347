@@ -32,29 +32,28 @@
         <div class="register">
             <form method="post" action="register" id="registerForm" onsubmit="return validateRegisterForm()">
                  <p>
-                    <input class="field" type="text" name="userid" id="userid" value="Username" onfocus="changeText(this)">  
+                    <input class="field" type="text" name="userid" id="userid" placeholder="Username" required="">  
                     <span id="useriderr" class="errmsg"> </span>
                 </p>
                 <p>
-                    <input class="field" type="password" name="pass" id="passwd" value="Password" onfocus="changeText(this)"> 
+                    <input class="field" type="password" name="pass" id="passwd" placeholder="Password" required=""> 
                     <span id="passerr" class="errmsg"> </span>
                 </p>
                 <p>
-                    <input class="field" type ="password" name="pass2" id="pass2" value="Re-enter Password" 
-                           onfocus="changeText(this)">    
+                    <input class="field" type ="password" name="pass2" id="pass2" placeholder="Re-enter Password" required="">    
                         <span id="passerr" class="errmsg"> </span>
                 </p>
                 <p>
-                   <input class="field" type="text" name="fName" id="fName" value="Firstname" onfocus="changeText(this)">
+                   <input class="field" type="text" name="fName" id="fName" placeholder="First Name" required="">
                         <span id="fnameerr" class="errmsg"> </span>
                 </p>
                 <p>
-                    <input class="field" type="text" name="lName" id="lName" value="Lastname" onfocus="changeText(this)">
+                    <input class="field" type="text" name="lName" id="lName" placeholder="Last Name" required="">
                             <span id="lnameerr" class="errmsg"> </span>
 
                 </p>
                 <p>
-                    <input class="field" type="text" name="emailAdd" id="emailAdd" value="Email Address" onfocus="changeText(this)">
+                    <input class="field" type="text" name="emailAdd" id="emailAdd" placeholder="Email" required="">
                             <span id="emailerr" class="errmsg"> </span>
 
                 </p>
