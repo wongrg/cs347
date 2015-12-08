@@ -35,7 +35,7 @@
         <h2>Search for a Movie Title</h2>
         <div>
             <form method="post" action="search" id="searchform">
-                <input type="text" name = search_term id="searchbox" value="Movie Title, Actors, Producers" onfocus="changeText(this)">
+                <input type="text" name="search_term" id="searchbox" value="Movie Title, Actors, Producers" onfocus="changeText(this)">
                 <input type="submit" id="searchButton" value="Search" />
             </form>
         </div>

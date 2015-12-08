@@ -7,6 +7,7 @@ package Controller;
 import bean.SearchResults;
 import Model.DBCommand;
 import java.io.IOException;
+import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -40,7 +41,15 @@ public class SearchController extends HttpServlet {
         HttpSession session = request.getSession(true);
         session.setAttribute("results", results);
         
-        response.sendRedirect("search.jsp");
+        
+        PrintWriter out = response.getWriter();
+        out.println("Movie Results");
+        for(int i = 0; i<movieResults.length - 1; i++)
+        {
+            out.println("    Movie Title " + movieResults[i][0]);
+            out.println("    Movie Year " + movieResults[i][1]);        //response.sendRedirect("search.jsp");
+            out.println("\n");;
+        }
     }
     
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

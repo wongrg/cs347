@@ -149,11 +149,10 @@ public class DBCommand extends DBAccess {
    */
   
   public String[][] movieSearch(String title, int year) {
-      String[][] results = null;
-      
+      String[][] results;
       //validate parameter
       if (title == null || title.length() > 255)
-          return results;
+          return null;
       
       try ( Connection conn = getConnection()) {
           //validate connection
@@ -164,17 +163,22 @@ public class DBCommand extends DBAccess {
           Statement stmt = conn.createStatement();
           
           //build query
-          String query = "SELECT title, year FROM movies WHERE title LIKE '"+title+"'";
-          if( year >= 1900 )
-              query+=" AND year="+((Integer)year).toString();
-          query+=" ORDER BY title;";
+          String query = "SELECT title, year FROM movies WHERE title LIKE '%"+title+"%';";
+          //if( year >= 1900 )
+          //    query+=" AND year="+((Integer)year).toString();
+          //query+=" ORDER BY title;";
           
           //execute query
           ResultSet rs = stmt.executeQuery(query);
           
           //build results array to send back
-          results = new String[rs.getFetchSize()][2];
           int i = 0;
+          int row_count = 0;
+          if(rs.last()){
+              row_count = rs.getRow();
+              rs.first();
+          }
+          results = new String[row_count][5];
           while(rs.next()) {
               results[i][0] = rs.getString("title");
               results[i][1] = rs.getString("year");
