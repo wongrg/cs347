@@ -31,10 +31,10 @@
         <div class="loginForm">
             <form method="post" id="loginForm" action="login">
                 <p>
-                    <input type="text" id="userId" value="Username" name="uid" onfocus="changeText(this)">   
+                    <input type="text" id="userId" name="uid" placeholder="Username" required="">   
                 </p>
                 <p>
-                    <input type="password" id="passwd" value="Password" name="pwd" onfocus="changeText(this)">
+                    <input type="password" id="passwd" name="pwd" placeholder="Password" required="">
                 </p>
                 <p>
                     <input type="submit" id="login" value="Login">
