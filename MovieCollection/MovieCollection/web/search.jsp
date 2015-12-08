@@ -49,7 +49,7 @@
                 if(session.getAttribute("enteredQuery") != null && session.getAttribute("enteredQuery").equals(true))
                 {
                     String[][] results = SearchResults.getSearchResults();
-                    if(results!=null && results.length > 0)
+                    if(results != null && results.length > 0)
                     {   
 
                         out.println("<h3>Results</h3>");
