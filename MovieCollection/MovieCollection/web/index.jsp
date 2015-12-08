@@ -40,8 +40,9 @@
             <tbody>
                 <tr>
                     <td>
-                    <button id="button_login" onclick="location.href = '<%=urlButton%>';">
-                        <%=buttonState%></button>
+                        <a href=<%=urlButton%>>
+                    <button id="button_login">
+                        <%=buttonState%></button></a>
                     </td>
         <%
             if(session.getAttribute("loggedIn") != null && session.getAttribute("loggedIn").equals(true))
@@ -62,10 +63,10 @@
         
         <h1>Welcome To Movie Box</h1>
        
-        <form action="/search.html" class="search-wrapper cf">
-        <input type="text" placeholder="Search Movie Box" required="">
-        <button type="submit">Search</button>
-</form>
+        <form method="post" action="search" class="search-wrapper cf">
+            <input type="text" placeholder="Search Movie Box" required="">
+            <button type="submit">Search</button>
+        </form>
         </div>
        </body>
 </html>
