@@ -10,6 +10,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" type="text/css" href="stylesheets/movieDetailsStyle.css">
+        <script type="text/javascript" src="scripts/processText.js"></script>
         <title>Movie Details</title>
     </head>
     <body>
@@ -54,7 +55,37 @@
             </tbody>
         </table>
     </div>
-                <hr/>
+    <hr/>
+    <div>
+        <form method="post" action="addmovie"
+            <p name="movie_title">Movie Title: 
+                <% //String movieTitle = getMovieTitle();
+                //out.println(movieTitle);%></p>
+            
+            <p name="movie_year">Movie Year: <%
+                //int movieYear= 
+                //out.println(movieYear);
+            %></p>
+            <%
+                if(session.getAttribute("loggedIn") != null && session.getAttribute("loggedIn").equals(true))
+                {
+                    out.println("<form method=post action=addmovie");
+                    out.println("<input type=submit value=Add Movie/>");
+                    out.println("</form>");
+                }
+                else
+                    out.println("");
+                %>            
+        </form>
+    </div>
+            
+    <h4>Movie Reviews</h4>
+    <displayarea>
+        <%
+            
+        %>
+        
+    </displayarea>
         
     </body>
 </html>
