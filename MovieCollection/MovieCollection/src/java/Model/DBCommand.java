@@ -10,6 +10,36 @@ import java.sql.*;
  */
 public class DBCommand extends DBAccess {
   
+    /**
+     * adds a review to the reviews table with parameters
+     * @param uid the uid to be added to the table
+     * @param mid the mid to be added to the table
+     * @param review the review to be added to the table
+     * @return true if successful, false otherwise
+     */
+    
+    public boolean addReview ( String uid, int mid, String review ) {
+        if ( mid < 1 || uid == null || review == null ) 
+            return false;
+        try (Connection conn = getConnection() ) {
+            if (conn == null)
+                return false;
+            Statement stmt = conn.createStatement();
+            
+            String query = "INSERT INTO reviews VALUES ('" + uid + "', "+ 
+                    mid + ", '" + review + "');";
+            
+            int u = stmt.executeUpdate(query);
+            if(u==2) //no updates actually happened
+                return false;
+            conn.close();
+        } catch (SQLException sqe) {
+            return false;
+        }
+        
+        return true;
+    }
+    
   /**
    * add a user to the users table.
    * @param uid user identification string LEN MUST BE <= 31
