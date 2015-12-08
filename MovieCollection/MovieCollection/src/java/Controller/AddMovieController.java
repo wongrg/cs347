@@ -36,7 +36,7 @@ public class AddMovieController extends HttpServlet {
         String uid = (String)session.getAttribute("username");        
         DBCommand commander = new DBCommand();
         commander.addToLibrary(uid,movieTitle);
-        
+        response.sendRedirect("viewprofile.jsp");
         
 //        response.setContentType("text/html;charset=UTF-8");
 //        try (PrintWriter out = response.getWriter()) {
