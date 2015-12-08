@@ -39,7 +39,7 @@ public class SearchController extends HttpServlet {
         String[][] movieResults = commander.movieSearch(searchTerm,0);
         SearchResults results = new SearchResults(movieResults); //Create SearchResults bean for results        
         HttpSession session = request.getSession(true);
-        session.setAttribute("results", results);       //Not sure if this needs to be an attribute
+        session.setAttribute("enteredQuery", true);       //Not sure if this needs to be an attribute
         response.sendRedirect("search.jsp"); //redirect back to the search page to display results
         
 //        PrintWriter out = response.getWriter();
