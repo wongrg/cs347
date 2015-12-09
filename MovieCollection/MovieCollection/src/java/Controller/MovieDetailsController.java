@@ -4,9 +4,10 @@
  * and open the template in the editor.
  */
 package Controller;
+import Model.DBCommand;
 import Model.Movie;
 import java.io.IOException;
-import java.io.PrintWriter;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -32,9 +33,14 @@ public class MovieDetailsController extends HttpServlet {
             throws ServletException, IOException {
         String title = request.getParameter("title");
         String year = request.getParameter("year");
-        Movie movie = new Movie(title,year);
         
-        response.sendRedirect("moviedetails.jsp");
+        DBCommand commander = new DBCommand();
+        String[][] reviews = commander.retrieveReviews(title);
+        Movie movie = new Movie(title,year,reviews);
+        
+        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/moviedetails.jsp");
+        dispatcher.forward(request, response);
+       // response.sendRedirect("moviedetails.jsp");
         
         
         }
