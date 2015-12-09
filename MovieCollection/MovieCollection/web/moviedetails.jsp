@@ -88,11 +88,14 @@
             
     <h4>Movie Reviews</h4>
     <displayarea>
-        <%
-            
-        %>
+       
         
     </displayarea>
+     <%
+           if(session.getAttribute("loggedIn") !=null && (boolean)session.getAttribute("loggedIn")==true){
+               out.println("<button name='addreview' onclick=location.href='addreview.jsp' >Add Review</button>");
+           } 
+     %>
         
     </body>
 </html>
