@@ -391,7 +391,7 @@ public class DBCommand extends DBAccess {
     /**
      * retrieves the reviews of a movie
      *
-     * @param mid the id of a movie
+     * @param title the title of a movie
      * @return a two-dimensional array containing the movie reviewers and reviews
      *  of a particular movie.
      */
