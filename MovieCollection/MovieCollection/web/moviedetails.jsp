@@ -58,11 +58,10 @@
     </div>
     <hr/>
     <div>
-        <form method="post" action="addmovie"
+        
             <p>Movie Title: 
-                <% String title=Movie.getTitle();
-                    out.println("<input type='hidden' name='movie_title' value='"+title+"' >");
-                
+                <% String title=Movie.getTitle();   
+                    session.setAttribute("title", title);
                 %>  
             <%=title%>
             </p>
@@ -74,14 +73,14 @@
             <%
                 if(session.getAttribute("loggedIn") != null && session.getAttribute("loggedIn").equals(true))
                 {
-                    out.println("<form method='post' action='addmovie'");
+                    out.println("<form method='post' action='addmovie'>");
                     out.println("<input type='submit' value='Add Movie' >");
                     out.println("</form>");
                 }
                 else
                     out.println("");
                 %>            
-        </form>
+        
         
     </div>
        

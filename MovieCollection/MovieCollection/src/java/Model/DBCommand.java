@@ -134,6 +134,7 @@ public class DBCommand extends DBAccess {
     public boolean addToLibrary(String uid, String title) {
         //validate parameters
         if (uid == null || title == null || uid.length() > 31 || title.length() > 255) {
+            
             return false;
         }
 
