@@ -250,6 +250,37 @@ public class DBCommand extends DBAccess {
   }
   
   /**
+   * retrieves the library of a user
+   * @param uid the user id of a user
+   * @return the ResultSet containing the movie titles and years of a user's 
+   *    library.
+   */
+  
+  public ResultSet retrieveLibrary(String uid) {
+      if (uid == null || uid.length() > 31 )
+          return null;
+      ResultSet rs;
+      
+      try (Connection conn = getConnection()) {
+          if (conn == null)
+              return null;
+          Statement stmt = conn.createStatement();
+          
+          //use join on library and movies to get the movies
+          String query = "SELECT b.title, b.year FROM library a, movies b "
+                  + "WHERE a.uid='"+uid+"' AND b.mid=a.mid;";
+          
+          rs = stmt.executeQuery(query);
+          
+          conn.close();
+      } catch (SQLException sqe) {
+          return null;
+      }
+      
+      return rs;
+  }
+  
+  /**
    * This method updates the user entry in the users table, use null where you 
    * don't want to change and be sure to include the uid so it can update that 
    * certain record.
