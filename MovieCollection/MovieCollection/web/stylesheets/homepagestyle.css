@@ -44,6 +44,7 @@ body {
 }
 
 h1 {
+  
   float: top;
   margin: 25px;
   color: white;
@@ -54,11 +55,33 @@ h1 {
   text-align: center;
 }
 p {
+    color:white;
+    font-weight:bold;
+    font-size:1em;
     text-align: center;    
 }
+.results{
+    color:white;
+    font-weight:bold;
+    font-size:1em;
+    
+}
+#searchform{
+    text-align: center;
+}
+#searchbox{
+    color: graytext;   
+    width:20em;
+}
+h2,h3{
+    color:white;
+    font-weight:bold;
+    font-size:2em;
+    text-align: center;
+}
 hr{
-    color: blue;    
-    height: 2px;
+    color: gold;    
+    height:2px;
 }
 div.header{
     display: table;
