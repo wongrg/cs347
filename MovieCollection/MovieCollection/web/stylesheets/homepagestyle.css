@@ -60,6 +60,12 @@ p {
     font-size:1em;
     text-align: center;    
 }
+p.results{
+    color:white;
+    font-weight:bold;
+    font-size:1em;
+    text-align: left;
+}
 .results{
     color:white;
     font-weight:bold;
