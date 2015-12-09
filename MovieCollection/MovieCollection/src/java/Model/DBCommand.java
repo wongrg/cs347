@@ -221,23 +221,37 @@ public class DBCommand extends DBAccess {
      * @param uid id of a user to be searched by
      * @return results of the query for friends
      */
-    public ResultSet getFriends(String uid) {
+    public String[] getFriends(String uid) {
         if (uid == null || uid.length() > 31) {
             return null;
         }
-        ResultSet rs = null;
+        String results[];
         try (Connection conn = getConnection()) {
             if (conn == null) {
-                return rs;
+                return null;
             }
             Statement stmt = conn.createStatement();
 
             String query = "SELECT friend FROM friends WHERE uid='" + uid + "';";
-            rs = stmt.executeQuery(query);
+            ResultSet rs = stmt.executeQuery(query);
+            
+            int i = 0;
+            int row_count = 0;
+            if (rs.last()) {
+                row_count = rs.getRow();
+                rs.first();
+            }
+            results = new String[row_count];
+            while (rs.next()) {
+                results[i] = rs.getString("friend");
+                i++;
+            }
+            
+            conn.close();
         } catch (SQLException sqe) {
             return null;
         }
-        return rs;
+        return results;
     }
 
     /**
