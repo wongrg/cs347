@@ -7,6 +7,7 @@ package Controller;
 
 import Model.DBCommand;
 import java.io.IOException;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -33,12 +34,27 @@ public class UpdateProfileController extends HttpServlet {
             throws ServletException, IOException {
             HttpSession session = request.getSession();           
             String uid = (String)session.getAttribute("username");
+            
+            String full_name = request.getParameter("fullname");
+            
             String bday = request.getParameter("bday");
             String email = request.getParameter("email");
+            String password = request.getParameter("pass");
             DBCommand commander = new DBCommand();
             String[] details = commander.detailUser(uid);
-            
-        }
+            RequestDispatcher dispatcher;
+            if(commander.verifyPass(uid, password)){
+                commander.updateUser(uid, password, full_name, email, 0, null);
+                dispatcher = getServletContext().getRequestDispatcher("/viewprofile.jsp");
+                session.setAttribute("success_update", true);
+                dispatcher.forward(request, response);
+            }
+            else{
+                dispatcher = getServletContext().getRequestDispatcher("/updateProfile.jsp");
+                session.setAttribute("success_update", false);
+                dispatcher.forward(request, response);
+            }
+    }
     
     public static String[] getDetails(String uid){
         DBCommand commander = new DBCommand();
