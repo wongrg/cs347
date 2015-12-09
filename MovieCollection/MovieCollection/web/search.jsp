@@ -9,30 +9,58 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <!DOCTYPE html>
-
+<%! String buttonState;%>
+        <% if(session.getAttribute("loggedIn") == null || session.getAttribute("loggedIn").equals(false)){
+            buttonState = "Login";
+        }
+            else
+               buttonState="Home";
+        %>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <link rel="stylesheet" type="text/css" href="stylesheets/searchstylesheet.css">
+        <!--<link rel="stylesheet" type="text/css" href="stylesheets/searchstylesheet.css">-->
+        <link rel="stylesheet" type="text/css" href="stylesheets/homepagestyle.css">
         <script type="text/javascript" src="scripts/processText.js"></script>
         <title>Search Page</title>
     </head>
     <body>
-        <div>
-            <table>
+      <div class="header">                         
+       <a href="index.jsp">
+            <img src="images/MovieBox.png" id="mcPic">
+        </a>
+        <%! String urlButton;%>
+        <% 
+            if(buttonState.equals("Home"))
+            {
+                urlButton = "index.jsp";
+            }
+            else
+                urlButton = "login.jsp";
+        %>
+        <table class="headertable">
+            <tbody>
                 <tr>
-                    <th>
-                           <a href="index.jsp">
-                       <img src="images/tempMovieCollection.jpg" id="mcPic"></a>
-                    </th>
-                    
-                    <th>
-                        <button id="loginButt" onclick="location.href='login.jsp'">Login</button>
-                    </th>
+                    <td>
+                        <a href=<%=urlButton%>>
+                    <button id="button_login">
+                        <%=buttonState%></button></a>
+                    </td>
+        <%
+            if(session.getAttribute("loggedIn") != null && session.getAttribute("loggedIn").equals(true))
+            {  
+                out.println("<td>");
+                out.println("<button id='view_profile' onclick=location.href='viewprofile.jsp';>"
+                +"View Profile</button></td>"); 
+                out.println("<td><form method=post action=logout>");
+                out.println("<input type=submit value=Logout id='logout_butt'/></form></td>");
+            }            
+        %>
                 </tr>
-            </table>
-                      
-        </div>
+            </tbody>
+        </table>
+    </div>
+        
         <hr>
         <h2>Search for a Movie Title</h2>
         <div class="searchformdiv">
@@ -57,15 +85,18 @@
                             String title = results[i][0];
                             String year = results[i][1];
 
-                            out.println("<form method='post' action='moviedetails'");
+                            out.println("<form class='results' method='post' action='moviedetails'");
 
-                            out.println("<p><input type='hidden' name=title value='"+title+"'>"+
+                            out.println("<p class='results'><input type='hidden' name='title' value='"+title+"'>"+
                                     title+"</p>");
 
-                            out.println("<p><input type=hidden name=year value='"+year+"'>"+ 
+                            out.println("<p class='results'><input type='hidden' name='year' value='"+year+"'>"+ 
                                     year+"</p>");
                             out.println("<input type='submit' value='More Details'>");
                             out.println("</form>");
+                            out.println("<br/>");
+                            out.println("<br/>");
+                            
                       }
                     }
                     else
