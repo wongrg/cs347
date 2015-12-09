@@ -74,7 +74,7 @@
             <%
                 if(session.getAttribute("loggedIn") != null && session.getAttribute("loggedIn").equals(true))
                 {
-                    //out.println("<form method=post action=addmovie");
+                    out.println("<form method='post' action='addmovie'");
                     out.println("<input type='submit' value='Add Movie' >");
                     out.println("</form>");
                 }
@@ -88,12 +88,20 @@
             
     <h4>Movie Reviews</h4>
     <displayarea>
+       <%
+           String[][] movieReviews = Movie.getMovieReviews();
+           for(int i=0;i< movieReviews.length-1;i++){
+              out.println("<p>"+movieReviews[i][0]+"</p>");
+              out.println("<p>"+movieReviews[i][1]+"</p>");
+           }
        
+       %>
         
     </displayarea>
      <%
            if(session.getAttribute("loggedIn") !=null && (boolean)session.getAttribute("loggedIn")==true){
                out.println("<button name='addreview' onclick=location.href='addreview.jsp' >Add Review</button>");
+               session.setAttribute("currentMovieTitle", Movie.getTitle());
            } 
      %>
         
