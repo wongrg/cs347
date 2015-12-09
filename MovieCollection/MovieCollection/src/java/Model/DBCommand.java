@@ -14,12 +14,12 @@ public class DBCommand extends DBAccess {
      * adds a review to the reviews table with parameters
      *
      * @param uid the uid to be added to the table
-     * @param mid the mid to be added to the table
+     * @param title the title of movie to be added to the table
      * @param review the review to be added to the table
      * @return true if successful, false otherwise
      */
-    public boolean addReview(String uid, int mid, String review) {
-        if (mid < 1 || uid == null || review == null) {
+    public boolean addReview(String uid, String title, String review) {
+        if (title == null || title.length() > 255 || uid == null || review == null) {
             return false;
         }
         try (Connection conn = getConnection()) {
@@ -27,8 +27,16 @@ public class DBCommand extends DBAccess {
                 return false;
             }
             Statement stmt = conn.createStatement();
-
-            String query = "INSERT INTO reviews VALUES ('" + uid + "', "
+            
+            
+            String query = "SELECT mid FROM movies WHERE title='"+title+"';";
+            ResultSet rs = stmt.executeQuery(query);
+            
+            if(!rs.first())
+                return false;
+            
+            String mid = rs.getString("mid");
+            query = "INSERT INTO reviews VALUES ('" + uid + "', "
                     + mid + ", '" + review + "');";
 
             int u = stmt.executeUpdate(query);
