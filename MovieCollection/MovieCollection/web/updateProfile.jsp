@@ -18,6 +18,8 @@
                 if(session.getAttribute("success_update")!= null){
                     if((boolean)session.getAttribute("success_update") == false){
                       out.println("<script type=\"text/javascript\">alert('Update Unsucessful! Invalid Credentials')</script>");
+                      session.setAttribute("success_update", null);
+
                     }
                 }
             %>

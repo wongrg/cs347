@@ -406,49 +406,61 @@ public class DBCommand extends DBAccess {
      * change is needed.
      * @return true if the query was successful, false otherwise.
      */
-    public boolean updateUser(String uid, String password, String name,
+    public String updateUser(String uid, String password, String name,
             String email, int age, Date birthdate) {
         String query = "";
         if (uid == null || uid.length() > 31) {
-            return false;
+            return "1";
         }
 
         try (Connection conn = getConnection()) {
             //valid connection check
             if (conn == null) {
-                return false;
+                return "2";
             }
 
             //begin generation of statement
             Statement stmt = conn.createStatement();
-
+            boolean p = false;
             //generate what to update
             if (password != null && password.length() <= 16) {
-                query += "password='" + password + "' ";
+                query += "password='" + password + "'";
+                p = true;
             }
             if (name != null && name.length() <= 31) {
-                query += "name='" + name + "' ";
+                if(p) query+=",";
+                query += "name='" + name + "'";
+                p=true;
             }
             if (email != null && email.length() <= 254) {
-                query += "email='" + email + "' ";
+                if(p) query+=",";
+                query += "email='" + email + "'";
+                p=true;
             }
             if (age > 0) {
-                query += "age=" + ((Integer) age).toString() + " ";
+                if(p) query+=",";
+                query += "age=" + ((Integer) age).toString() + "";
+                p=true;
             }
             if (birthdate != null) {
-                query += "birthdate='" + birthdate.toString() + "' ";
+                if(p) query+=",";
+                query += "birthdate='" + birthdate.toString() + "'";
+                p=true;
             }
 
+            
+        
             //execute update query
-            stmt.executeUpdate("UPDATE users SET " + query + "WHERE uid=" + uid + ";");
-
+            
+            int s = stmt.executeUpdate("UPDATE users SET " + query + " WHERE uid='" + uid + "';");
+            if (s == 2) return "3";
             //close connection
             conn.close();
         } catch (SQLException sqe) {
-            return false;
+            return "UPDATE users SET " + query + "\b\b WHERE uid=" + uid + ";";
         }
 
-        return true;
+        return "UPDATE users SET " + query + "\b\b WHERE uid=" + uid + ";";
     }
 
     /**

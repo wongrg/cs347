@@ -44,7 +44,14 @@ public class UpdateProfileController extends HttpServlet {
             String[] details = commander.detailUser(uid);
             RequestDispatcher dispatcher;
             if(commander.verifyPass(uid, password)){
-                commander.updateUser(uid, password, full_name, email, 0, null);
+                
+               session.setAttribute("check", commander.updateUser(uid, password, full_name, email, 0, null));
+//                    dispatcher = getServletContext().getRequestDispatcher("/register.jsp");
+//                    dispatcher.forward(request, response);
+//                    return;
+//                    
+
+                
                 dispatcher = getServletContext().getRequestDispatcher("/viewprofile.jsp");
                 session.setAttribute("success_update", true);
                 dispatcher.forward(request, response);

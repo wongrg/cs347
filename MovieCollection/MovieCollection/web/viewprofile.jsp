@@ -14,7 +14,16 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         
         <%
-                
+                            
+                if(session.getAttribute("success_update")!= null){
+                    if((boolean)session.getAttribute("success_update") == true){
+                      
+                      out.println("<script type=\"text/javascript\">alert('Update Successful!')</script>");
+                      out.println("" + session.getAttribute("check"));
+                      session.setAttribute("success_update", null);
+                    }
+                }
+            
                 String uid = (String)session.getAttribute("username");
                 String[] details = Controller.ProfileController.getDetails(uid);
                 out.println("<title>" + uid +"'s Profile</title>");            
@@ -25,7 +34,6 @@
                 //out.println("<p> Length: "+details.length+"</p>");
                 out.println("<p>Full name: " + details[1] + "</p>");
                 out.println("<p>Birthday " + details[2] + "</p>");
-                out.println("<p>Email: " + details[4] + "</p>");
                 out.println("<p>Email: " + details[4] + "</p>");
                 out.println("<button id='updateProfile' onclick=location.href='updateProfile.jsp';>"
                 +"Update your profile</button></td>"); 
