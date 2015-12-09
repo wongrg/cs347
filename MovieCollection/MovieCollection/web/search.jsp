@@ -88,11 +88,11 @@
                             out.println("<form class='results' method='post' action='moviedetails'");
 
                             out.println("<p class='results'><input type='hidden' name='title' value='"+title+"'>"+
-                                    title+"</p>");
+                                    "Title: "+title+"</p>");
 
                             out.println("<p class='results'><input type='hidden' name='year' value='"+year+"'>"+ 
-                                    year+"</p>");
-                            out.println("<input type='submit' value='More Details'>");
+                                    "Year: "+year+"</p>");
+                            out.println("<p class='results'><input type='submit' value='More Details'></p>");
                             out.println("</form>");
                             out.println("<br/>");
                             out.println("<br/>");
