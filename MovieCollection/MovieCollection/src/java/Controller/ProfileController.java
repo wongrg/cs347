@@ -99,4 +99,9 @@ public class ProfileController extends HttpServlet {
         DBCommand commander = new DBCommand();
         return commander.detailUser(uid);
     }
+    public static String[][] getLibrary(String uid){
+        DBCommand commander = new DBCommand();
+        
+        return commander.retrieveLibrary(uid);
+    }
 }
