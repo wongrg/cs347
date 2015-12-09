@@ -8,6 +8,7 @@ import bean.SearchResults;
 import Model.DBCommand;
 import java.io.IOException;
 import java.io.PrintWriter;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -40,18 +41,16 @@ public class SearchController extends HttpServlet {
         SearchResults results = new SearchResults(movieResults); //Create SearchResults bean for results        
         HttpSession session = request.getSession(true);
         session.setAttribute("enteredQuery", true);       //Not sure if this needs to be an attribute
-        response.sendRedirect("search.jsp"); //redirect back to the search page to display results
-        
-//        PrintWriter out = response.getWriter();
-//        out.println("Movie Results");
-//        for(int i = 0; i<movieResults.length - 1; i++)
-//        {
-//            out.println("    Movie Title " + movieResults[i][0]);
-//            out.println("    Movie Year " + movieResults[i][1]);        //response.sendRedirect("search.jsp");
-//            out.println("\n");;
-//        }
+        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/search.jsp");
+        dispatcher.forward(request, response);
+    //  response.sendRedirect("search.jsp"); //redirect back to the search page to display results
+
     }
+
+            
+
     
+
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
