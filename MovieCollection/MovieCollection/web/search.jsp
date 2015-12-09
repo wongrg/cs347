@@ -4,8 +4,8 @@
     Author     : joey
 --%>
 
-<%@page import="bean.SearchResults"%>
-<%@page import="bean.Movie"%>
+<%@page import="Model.SearchResults"%>
+<%@page import="Model.Movie"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <!DOCTYPE html>

@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 package Controller;
-import bean.SearchResults;
+import Model.SearchResults;
 import Model.DBCommand;
 import java.io.IOException;
 import java.io.PrintWriter;

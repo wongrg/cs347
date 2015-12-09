@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 package Controller;
-import bean.Movie;
+import Model.Movie;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;

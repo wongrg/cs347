@@ -25,9 +25,9 @@ function changeText(id){
         get('lnameerr').innerHTML='';
         get('emailerr').innerHTML = '';
         get('passerr').innerHTML = '';
-        if (! /^[\-a-zA-Z0-9]*$/.test(userid)) {
+        if (! /^[\-a-z0-9]*$/.test(userid)) {
           valid = false;
-          get('useriderr').innerHTML = 'Userid can contain only a-z, A-Z, 0-9, and hyphen';
+          get('useriderr').innerHTML = 'Userid can contain only a-z, 0-9, and hyphen';
         }
         else if (! /^[\-a-zA-Z0-9]*$/.test(fname)) {
           valid = false;

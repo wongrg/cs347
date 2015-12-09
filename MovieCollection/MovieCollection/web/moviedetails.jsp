@@ -5,7 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@page import="bean.Movie"%>
+<%@page import="Model.Movie"%>
 <!DOCTYPE html>
 <html>
     <head>
