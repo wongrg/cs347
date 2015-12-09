@@ -387,6 +387,55 @@ public class DBCommand extends DBAccess {
         
         return results;
     }
+    
+    /**
+     * retrieves the reviews of a movie
+     *
+     * @param mid the id of a movie
+     * @return a two-dimensional array containing the movie reviewers and reviews
+     *  of a particular movie.
+     */
+    public String[][] retrieveReviews(String title) {
+        if (title == null || title.length() > 255) {
+            return null;
+        }
+        ResultSet rs;
+        String results[][];
+
+
+        try (Connection conn = getConnection()) {
+            if (conn == null) {
+                return null;
+            }
+            Statement stmt = conn.createStatement();
+
+            //use join on library and movies to get the movies
+            String query = "SELECT b.uid, b.review FROM movies a, reviews b "
+                    + "WHERE a.mid=b.mid AND a.title='"+title+"';";
+
+            rs = stmt.executeQuery(query);
+            
+            int i = 0;
+            int row_count = 0;
+            if (rs.last()) {
+                row_count = rs.getRow();
+                rs.first();
+            }
+            results = new String[row_count][5];
+            while (rs.next()) {
+                results[i][0] = rs.getString("uid");
+                results[i][1] = rs.getString("review");
+                i++;
+            }
+
+            conn.close();
+        } catch (SQLException sqe) {
+            return null;
+        }
+
+        
+        return results;
+    }
 
     /**
      * This method updates the user entry in the users table, use null where you
