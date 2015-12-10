@@ -4,6 +4,7 @@
     Author     : joey
 --%>
 
+<%@page import="Model.DBCommand"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="Model.Movie"%>
 <!DOCTYPE html>
@@ -86,23 +87,26 @@
        
             
     <h4>Movie Reviews</h4>
-    <displayarea>
-       <%
-           String[][] movieReviews = Movie.getMovieReviews();
-           for(int i=0;i< movieReviews.length-1;i++){
+    
+    <p>   
+    <%
+           DBCommand commander = new DBCommand();
+           String[][] movieReviews = commander.retrieveReviews(Movie.getTitle());//(String)request.getAttribute("currentMovieTitle"));
+
+           for(int i=0;i< movieReviews.length;i++){
               out.println("<p>"+movieReviews[i][0]+"</p>");
               out.println("<p>"+movieReviews[i][1]+"</p>");
            }
        
        %>
-        
-    </displayarea>
-     <%
+             <%
            if(session.getAttribute("loggedIn") !=null && (boolean)session.getAttribute("loggedIn")==true){
                out.println("<button name='addreview' onclick=location.href='addreview.jsp' >Add Review</button>");
                session.setAttribute("currentMovieTitle", Movie.getTitle());
            } 
      %>
+    </p>
+
         
     </body>
 </html>

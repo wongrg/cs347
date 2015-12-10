@@ -81,7 +81,7 @@
                     {   
 
                         out.println("<h3>Results</h3>");
-                        for(int i = 0;i < results.length -1 ;i++){ 
+                        for(int i = 0;i < results.length;i++){ 
                             String title = results[i][0];
                             String year = results[i][1];
 

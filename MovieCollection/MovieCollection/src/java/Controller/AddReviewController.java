@@ -57,9 +57,9 @@ public class AddReviewController extends HttpServlet {
         
         DBCommand commander = new DBCommand();
         commander.addReview(uid,movieTitle,review);
-        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/moviedetails.jsp");
-        dispatcher.forward(request, response);
-        
+        //RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/moviedetails.jsp");
+        //dispatcher.(request, response);
+        response.sendRedirect("moviedetails.jsp");
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
