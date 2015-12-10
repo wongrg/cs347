@@ -25,7 +25,7 @@
          <div class="header">
            
             <a href="index.jsp">
-                <img src="images/tempMovieCollection.jpg" id="mcPic"></a>                  
+                <img src="images/MovieBox.jpg" id="mcPic"></a>                  
                 <button id="loginButt" onclick="location.href='index.jsp'"><%=buttonStatus%></button>
         </div>
         <hr>
