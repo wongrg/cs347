@@ -16,7 +16,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <link rel="stylesheet" type="text/css" href="stylesheets/loginstyle.css">
+        <link rel="stylesheet" type="text/css" href="stylesheets/general.css">
         <script src="scripts/processText.js"></script>
         <title>Login</title>
     </head>

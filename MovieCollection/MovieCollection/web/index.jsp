@@ -41,17 +41,19 @@
                 <tr>
                     <td>
                         <a href=<%=urlButton%>>
-                    <button id="button_login">
+                    <button id="button_login" class="headerButtons">
                         <%=buttonState%></button></a>
                     </td>
         <%
             if(session.getAttribute("loggedIn") != null && session.getAttribute("loggedIn").equals(true))
             {  
                 out.println("<td>");
-                out.println("<button id='view_profile' onclick=location.href='viewprofile.jsp';>"
-                +"View Profile</button></td>"); 
+                out.println("<button id='view_profile' class=\"headerButtons\""
+                        + " onclick=location.href='viewprofile.jsp';>View Profile"
+                        + "</button></td>"); 
                 out.println("<td><form method=post action=logout>");
-                out.println("<input type=submit value=Logout id='logout_butt'/></form></td>");
+                out.println("<input type=submit class=\"headerButtons\""
+                        + " value=Logout id='logout_butt'/></form></td>");
             }            
         %>
                 </tr>

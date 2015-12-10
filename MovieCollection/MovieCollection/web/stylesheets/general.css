@@ -13,3 +13,24 @@ html {
   color: rgb(203,182,119);
   font-family: Arial, Trebuchet, Verdana, Consolas;
 }
+a:link, a:visited, a:hover {
+  color: rgb(203,182,119);
+}
+#mcPic{
+    float: left;
+    height: 60px;
+    width: 60px;
+}
+
+#loginForm, form {
+    display: inline-block;
+    text-align: center;
+    margin: auto;
+    width: 100%;
+}
+hr {
+    position: 50px;
+}
+.header {
+    height: 60px;
+}

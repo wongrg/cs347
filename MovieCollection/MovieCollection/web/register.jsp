@@ -16,7 +16,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <link rel="stylesheet" type="text/css" href="stylesheets/signupstyle.css">
+        <link rel="stylesheet" type="text/css" href="stylesheets/general.css">
         <script type="text/javascript" src="scripts/processText.js"></script>
         <title>Sign Up Page</title>
     </head>
