@@ -36,8 +36,11 @@
                 out.println("<p>Birthday " + details[2] + "</p>");
                 out.println("<p>Email: " + details[4] + "</p>");
                 out.println("<button id='updateProfile' onclick=location.href='updateProfile.jsp';>"
-                +"Update your profile</button></td>"); 
-                        
+                +"Update your profile</button>"); 
+                out.println("<form method='post' action='deleteuser'>");
+                out.println("<input type='submit' value='Delete Account'>");
+                out.println("</form>");
+                out.println("<hr/>");
                 out.println("<h3>Your Movie Collection</h3>");
                 out.println("<ul>");
                 String[][] movieCollection = Controller.ProfileController.getLibrary(uid);
