@@ -94,12 +94,12 @@
                 out.println("<h3>Your Movie Collection</h3>");
                 out.println("<ul>");
                 String[][] movieCollection = Controller.ProfileController.getLibrary(uid);
-                if(movieCollection != null && movieCollection.length >0){
-                    for(int i =0;i < movieCollection.length-1;i++){                    
+                //if(movieCollection != null && movieCollection.length >0){
+                    for(int i =0;i < movieCollection.length;i++){                    
                         out.println("<li>Movie Title: "+movieCollection[i][0]+"</li>");
                         out.println("<p>Year: "+movieCollection[i][1]+"</p>");
                     }
-                }
+               // }
                 
                 out.println("</ul>");
 

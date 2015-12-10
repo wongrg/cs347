@@ -382,6 +382,7 @@ public class DBCommand extends DBAccess {
                 rs.first();
             }
             results = new String[row_count][5];
+            rs.beforeFirst();
             while (rs.next()) {
                 results[i][0] = rs.getString("title");
                 results[i][1] = rs.getString("year");
