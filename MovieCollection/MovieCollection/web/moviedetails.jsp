@@ -24,7 +24,7 @@
         %>
     <div class="header">                         
        <a href="index.jsp">
-            <img src="images/tempMovieCollection.jpg" id="mcPic">
+            <img src="images/MovieBox.jpg" id="mcPic">
         </a>
         <%! String urlButton;%>
         <% 
