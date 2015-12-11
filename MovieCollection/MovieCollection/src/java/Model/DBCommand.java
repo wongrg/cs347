@@ -179,7 +179,11 @@ public class DBCommand extends DBAccess {
             String query = "SELECT mid FROM movies WHERE title='"+title+"';";
             
             rs = stmt.executeQuery(query);
-            
+            if(!rs.first()) {
+                conn.close();
+                return false;
+            }
+                
             query = "DELETE FROM library WHERE mid="+rs.getString("mid")+";";
             
             int succ = stmt.executeUpdate(query);
