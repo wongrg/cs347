@@ -13,10 +13,10 @@ public abstract class DBAccess {
     /**
      * Get a connection to the database.
      * 
-     * @return The Connection object
+     * @return The Connection object associated with the db connection
      */
     protected Connection getConnection() {
-        Connection connection = null;
+        Connection connection;
         String driverName, password, url, userId;
         try {
             // register driver
@@ -28,12 +28,7 @@ public abstract class DBAccess {
             userId = "ba802cad911a2d"; 
             password = "8e67d14a";
             connection = DriverManager.getConnection(url, userId, password);
-        } catch (SQLException sqe) {
-            sqe.printStackTrace();
-            return null;
-        }
-        catch (ClassNotFoundException cnfe) {
-            cnfe.printStackTrace();
+        } catch (SQLException | ClassNotFoundException sqe) {
             return null;
         }
         return connection;

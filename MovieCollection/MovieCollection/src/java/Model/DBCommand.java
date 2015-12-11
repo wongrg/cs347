@@ -11,6 +11,42 @@ import java.sql.*;
 public class DBCommand extends DBAccess {
 
     /**
+     * create a friend relationship between two different uids using the friends
+     * table.
+     *
+     * @param uid the first user to be a friend
+     * @param friend the other user to be a friend
+     * @return true if the action was successful, false otherwise
+     */
+    public boolean addFriend(String uid, String friend) {
+        if (uid == null || friend == null || uid.length() > 31 || friend.length() > 31) {
+            return false;
+        }
+        try (Connection conn = getConnection()) {
+            if (conn == null) {
+                return false;
+            }
+            Statement stmt = conn.createStatement();
+
+            String query = "INSERT INTO friends VALUES ('" + uid + "', '" + friend + "');";
+            int hasChange = stmt.executeUpdate(query);
+            if (hasChange == 2) {
+                return false;
+            }
+            query = "INSERT INTO friends VALUES ('" + friend + "', '" + uid + "');";
+            hasChange = stmt.executeUpdate(query);
+            if (hasChange == 2) {
+                return false;
+            }
+            conn.close();
+        } catch (SQLException sqe) {
+            return false;
+        }
+
+        return true;
+    }
+    
+    /**
      * adds a review to the reviews table with parameters
      *
      * @param uid the uid to be added to the table
@@ -42,42 +78,6 @@ public class DBCommand extends DBAccess {
             int u = stmt.executeUpdate(query);
             if (u == 2) //no updates actually happened
             {
-                return false;
-            }
-            conn.close();
-        } catch (SQLException sqe) {
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
-     * create a friend relationship between two different uids using the friends
-     * table.
-     *
-     * @param uid the first user to be a friend
-     * @param friend the other user to be a friend
-     * @return true if the action was successful, false otherwise
-     */
-    public boolean addFriend(String uid, String friend) {
-        if (uid == null || friend == null || uid.length() > 31 || friend.length() > 31) {
-            return false;
-        }
-        try (Connection conn = getConnection()) {
-            if (conn == null) {
-                return false;
-            }
-            Statement stmt = conn.createStatement();
-
-            String query = "INSERT INTO friends VALUES ('" + uid + "', '" + friend + "');";
-            int hasChange = stmt.executeUpdate(query);
-            if (hasChange == 2) {
-                return false;
-            }
-            query = "INSERT INTO friends VALUES ('" + friend + "', '" + uid + "');";
-            hasChange = stmt.executeUpdate(query);
-            if (hasChange == 2) {
                 return false;
             }
             conn.close();
@@ -166,6 +166,51 @@ public class DBCommand extends DBAccess {
         return successful;
     }
     
+    /**
+     * deletes a friend for a uid from the friends table.
+     * @param uid the uid who wants to remove friendship
+     * @param friend the friend who's friendship is being revoked.
+     * @return true if the friendship is gone, false otherwise
+     */
+    
+    public boolean deleteFriend(String uid, String friend) {
+        if(uid == null || uid.length() > 31 || friend == null || friend.length() > 31 )
+            return false;
+        
+        try ( Connection conn = getConnection() ) {
+            if(conn == null) return false;
+            Statement stmt = conn.createStatement();
+            
+            String query = "DELETE FROM friends WHERE uid='"+uid+"' AND friend='"+friend+"';";
+            
+            int succ = stmt.executeUpdate(query);
+            if ( succ == 2 ) {
+                conn.close();
+                return false;
+            }
+            
+            query = "DELETE FROM friends WHERE uid='"+friend+"' AND friend='"+uid+"';";
+            
+            succ = stmt.executeUpdate(query);
+            if (succ == 2) {
+                conn.close();
+                return false;
+            }
+            
+            conn.close();
+        } catch (SQLException sqe) {
+            return false;
+        }
+        return true;
+    }
+    
+    /**
+     * deletes a movie from the library of a uid.
+     * @param title the title of the movie being removed.
+     * @param uid the uid who wants to remove a movie.
+     * @return true if the movie is removed, false otherwise.
+     */
+    
     public boolean deleteFromLibrary(String title, String uid) {
         if(title == null || title.length() > 255)
             return false;
@@ -201,37 +246,6 @@ public class DBCommand extends DBAccess {
         return true;
     }
     
-    public boolean deleteFriend(String uid, String friend) {
-        if(uid == null || uid.length() > 31 || friend == null || friend.length() > 31 )
-            return false;
-        
-        try ( Connection conn = getConnection() ) {
-            if(conn == null) return false;
-            Statement stmt = conn.createStatement();
-            
-            String query = "DELETE FROM friends WHERE uid='"+uid+"' AND friend='"+friend+"';";
-            
-            int succ = stmt.executeUpdate(query);
-            if ( succ == 2 ) {
-                conn.close();
-                return false;
-            }
-            
-            query = "DELETE FROM friends WHERE uid='"+friend+"' AND friend='"+uid+"';";
-            
-            succ = stmt.executeUpdate(query);
-            if (succ == 2) {
-                conn.close();
-                return false;
-            }
-            
-            conn.close();
-        } catch (SQLException sqe) {
-            return false;
-        }
-        return true;
-    }
-
     /**
      * detailUser pulls user details from the database, this includes the
      * following: uid, name, email, age and birthdate.
@@ -266,31 +280,6 @@ public class DBCommand extends DBAccess {
 
         return details;
     }
-
-     /**
-     * Execute an SQL command.
-     *
-     * @param command The command to be executed
-     * @return true if the command is executed, false if any exception is thrown
-     */
-    public boolean resetPassword(String uid, String email, String pass) {
-        try (Connection connection = getConnection()) {
-            if (connection == null) {
-                return false;
-            }
-            String command = ("UPDATE users SET password='"+pass+"' WHERE uid='" + uid + "' AND email='" + email + "';");
-            Statement stmt = connection.createStatement();
-            int succ = stmt.executeUpdate(command);
-            if(succ == 0) {
-                connection.close();
-                return false;
-            }
-            connection.close();
-        } catch (SQLException sqe) {
-            return false;
-        }
-        return true;
-    }
     
     /**
      * Execute an SQL command.
@@ -311,7 +300,7 @@ public class DBCommand extends DBAccess {
         }
         return true;
     }
-
+    
     /**
      * gets the friends of a user by their uid.
      *
@@ -351,6 +340,8 @@ public class DBCommand extends DBAccess {
         return results;
     }
 
+     
+
     /**
      * search for a movie from the database.
      *
@@ -380,9 +371,6 @@ public class DBCommand extends DBAccess {
 
             //build query
             String query = "SELECT title, year FROM movies WHERE LOWER(title) LIKE LOWER('%" + title + "%');";
-          //if( year >= 1900 )
-            //    query+=" AND year="+((Integer)year).toString();
-            //query+=" ORDER BY title;";
 
             //execute query
             ResultSet rs = stmt.executeQuery(query);
@@ -434,6 +422,33 @@ public class DBCommand extends DBAccess {
             return successful;
         }
         return successful;
+    }
+    
+    /**
+     * reset a password for a user.
+     *
+     * @param uid the uid of a user having a password reset
+     * @param email the email to be compared with the uid for a user
+     * @param pass the new password assigned to the user on success.
+     * @return true if there's been a successful password reset, false otherwise
+     */
+    public boolean resetPassword(String uid, String email, String pass) {
+        try (Connection connection = getConnection()) {
+            if (connection == null) {
+                return false;
+            }
+            String command = ("UPDATE users SET password='"+pass+"' WHERE uid='" + uid + "' AND email='" + email + "';");
+            Statement stmt = connection.createStatement();
+            int succ = stmt.executeUpdate(command);
+            if(succ == 0) {
+                connection.close();
+                return false;
+            }
+            connection.close();
+        } catch (SQLException sqe) {
+            return false;
+        }
+        return true;
     }
 
     /**
@@ -658,14 +673,18 @@ public class DBCommand extends DBAccess {
         return "UPDATE users SET " + query + "\b\b WHERE uid=" + uid + ";";
     }
     
+    /**
+     * tells the user if the user they searched for exists on MovieBox.
+     * @param parameter The user being searched for
+     * @return true if the user exists, false otherwise
+     */
+    
     public boolean userSearch(String parameter) {
         if ( parameter == null || parameter.length() > 31 )
             return false;
         boolean is_valid = false;
         ResultSet rs;
-        //String[] firstQueryResults;
-        //String[] finalQueryResults;
-       // 
+
         try (Connection conn = getConnection() ) {
             if ( conn == null )
                 return false;
@@ -684,24 +703,6 @@ public class DBCommand extends DBAccess {
             if(row_count > 0){
                 is_valid = true;
             }
-//            firstQueryResults = new String[row_count];
-//            while (rs.next()) {
-//                firstQueryResults[i] = rs.getString("uid");
-//                i++;
-//            }
-//            query = "SELECT uid FROM users WHERE LOWER(name) LIKE LOWER('%" + parameter + "%');";
-//            
-//            rs = stmt.executeQuery(query);
-//            row_count = 0;
-//            if (rs.last()) {
-//                row_count = rs.getRow();
-//                rs.beforeFirst();
-//            }
-//            finalQueryResults = new String[row_count+firstQueryResults.length];
-//            while (rs.next()) {
-//                firstQueryResults[i] = rs.getString("uid");
-//                i++;
-//            }
             
             conn.close();
         } catch (SQLException sqe) {
@@ -710,6 +711,13 @@ public class DBCommand extends DBAccess {
         
         return is_valid;
     }
+    
+    /**
+     * verifies the identity of the uid using a comparison with password.
+     * @param uid the uid being compared
+     * @param password the password of the uid being compared
+     * @return true if identity is verified, false otherwise.
+     */
     
     public boolean verifyIdentity(String uid, String password){
         if ( uid == null || password == null || uid.length() > 31 || password.length() > 16)
