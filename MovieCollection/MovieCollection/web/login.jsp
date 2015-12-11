@@ -7,10 +7,11 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <%
-//    if(! request.isSecure()){
-//        String secureURL = request.getRequestURL().toString().toLowerCase().replace("http","https");
-//        response.sendRedirect(secureURL.replace("8084", "8443"));
-//    } 
+       if(!request.isSecure()){
+        String url = "https://" + request.getServerName() + request.getContextPath() + "/login.jsp";
+        response.sendRedirect(url);
+        return;
+       }
     %>
 <html>
     <head>
