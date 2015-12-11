@@ -63,7 +63,6 @@
                     if((boolean)session.getAttribute("success_update") == true){
                       
                       out.println("<script type=\"text/javascript\">alert('Update Successful!')</script>");
-                      out.println("" + session.getAttribute("check"));
                       session.setAttribute("success_update", null);
                     }
                 }
@@ -105,7 +104,7 @@
                             out.println("<p>Year: "+movieCollection[i][1]+"</p>");
                             out.println("<form method='post' action='deletemoviefromlib'>");
                             out.println("<input type='hidden' name='title' value='"+movieCollection[i][0]+"'>");
-                            out.println("<p><input class='movieRemove' type='submit' name='delete' value='Remove this movie from your collection'></p>");
+                            out.println("<p><input class='movieRemove' type='submit' name='delete' value='Remove this movie'></p>");
                             out.println("</form>");
 
                         }
