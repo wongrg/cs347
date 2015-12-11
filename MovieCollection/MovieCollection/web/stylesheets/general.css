@@ -10,7 +10,7 @@ and open the template in the editor.
 
 html {
   background-color: rgb(69,0,132);
-  color: rgb(203,182,119);
+  color: #ffffff;
   font-family: Arial, Trebuchet, Verdana, Consolas;
 }
 a:link, a:visited, a:hover {
@@ -79,8 +79,18 @@ tr {
     font-size: 12pt;
     width: 150px;
     height: 50px;
+    background-color: #ffbb00;
 }
 #userSearchSubmit {
     width: 150px;
     height: 50px;
+}
+
+#addButton {
+    float: left;
+}
+
+.movieDetails {
+    font-size: 20pt;
+    float: center;
 }
