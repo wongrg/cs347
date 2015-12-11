@@ -27,14 +27,14 @@ public class DBCommand extends DBAccess {
                 return false;
             }
             Statement stmt = conn.createStatement();
-            
-            
-            String query = "SELECT mid FROM movies WHERE title='"+title+"';";
+
+            String query = "SELECT mid FROM movies WHERE title='" + title + "';";
             ResultSet rs = stmt.executeQuery(query);
-            
-            if(!rs.first())
+
+            if (!rs.first()) {
                 return false;
-            
+            }
+
             String mid = rs.getString("mid");
             query = "INSERT INTO reviews VALUES ('" + uid + "', "
                     + mid + ", '" + review + "');";
@@ -91,15 +91,12 @@ public class DBCommand extends DBAccess {
     /**
      * add a user to the users table.
      *
-     * @param uid user identification string LEN MUST BE <= 31
-   * @
-     * param name name string LEN MUST BE <= 31
-   * @
-     * param password password string LEN MUST BE <= 16
-   * @
+     * @param uid user identification string LEN MUST BE <= 31 @
+     * param name name string LEN MUST BE <= 31 @
+     * param password password string LEN MUST BE <= 16 @
      * param email email string LEN MUST BE <= 254 AND FOLLOW EMAIL FORMAT
-     * @return true if successf
-     * ul, false otherwise
+     * @return true if succes
+     * sf ul, false otherwise
      */
     public boolean addUser(String uid, String name, String password, String email) {
         boolean successful = false;
@@ -134,7 +131,7 @@ public class DBCommand extends DBAccess {
     public boolean addToLibrary(String uid, String title) {
         //validate parameters
         if (uid == null || title == null || uid.length() > 31 || title.length() > 255) {
-            
+
             return false;
         }
 
@@ -148,7 +145,7 @@ public class DBCommand extends DBAccess {
             Statement stmt = conn.createStatement();
 
             //prepare set-up for getting mid from movies table
-            String mid = "0";
+            String mid;
             String query = "SELECT mid FROM movies WHERE title='" + title + "';";
 
             //get mid from movies table with title
@@ -243,7 +240,7 @@ public class DBCommand extends DBAccess {
 
             String query = "SELECT friend FROM friends WHERE uid='" + uid + "';";
             ResultSet rs = stmt.executeQuery(query);
-            
+
             int i = 0;
             int row_count = 0;
             if (rs.last()) {
@@ -255,7 +252,7 @@ public class DBCommand extends DBAccess {
                 results[i] = rs.getString("friend");
                 i++;
             }
-            
+
             conn.close();
         } catch (SQLException sqe) {
             return null;
@@ -291,7 +288,7 @@ public class DBCommand extends DBAccess {
             Statement stmt = conn.createStatement();
 
             //build query
-            String query = "SELECT title, year FROM movies WHERE title LIKE '%" + title + "%';";
+            String query = "SELECT title, year FROM movies WHERE LOWER(title) LIKE LOWER('%" + title + "%');";
           //if( year >= 1900 )
             //    query+=" AND year="+((Integer)year).toString();
             //query+=" ORDER BY title;";
@@ -349,11 +346,55 @@ public class DBCommand extends DBAccess {
     }
 
     /**
+     * retrieve the friends bruh
+     *
+     * @param uid user who has (no) friends
+     * @return the (supposed) friends
+     */
+    public String[] retrieveFriends(String uid) {
+        if (uid == null || uid.length() > 31) {
+            return null;
+        }
+
+        ResultSet rs;
+        String results[];
+
+        try (Connection conn = getConnection()) {
+            if (conn == null) {
+                return null;
+            }
+            Statement stmt = conn.createStatement();
+
+            String query = "SELECT friend FROM friends WHERE uid='" + uid + "';";
+            rs = stmt.executeQuery(uid);
+
+            int i = 0;
+            int row_count = 0;
+            if (rs.last()) {
+                row_count = rs.getRow();
+                rs.beforeFirst();
+            }
+            results = new String[row_count];
+
+            while (rs.next()) {
+                results[i] = rs.getString("friend");
+                i++;
+            }
+
+            conn.close();
+        } catch (SQLException sqe) {
+            return null;
+        }
+
+        return results;
+    }
+
+    /**
      * retrieves the library of a user
      *
      * @param uid the user id of a user
-     * @return a two-dimensional array containing the movie titles and years of 
-     *  a user's library.
+     * @return a two-dimensional array containing the movie titles and years of
+     * a user's library.
      */
     public String[][] retrieveLibrary(String uid) {
         if (uid == null || uid.length() > 31) {
@@ -361,7 +402,6 @@ public class DBCommand extends DBAccess {
         }
         ResultSet rs;
         String results[][];
-
 
         try (Connection conn = getConnection()) {
             if (conn == null) {
@@ -374,7 +414,7 @@ public class DBCommand extends DBAccess {
                     + "WHERE a.uid='" + uid + "' AND b.mid=a.mid;";
 
             rs = stmt.executeQuery(query);
-            
+
             int i = 0;
             int row_count = 0;
             if (rs.last()) {
@@ -382,7 +422,7 @@ public class DBCommand extends DBAccess {
                 rs.beforeFirst();
             }
             results = new String[row_count][5];
-            
+
             while (rs.next()) {
                 results[i][0] = rs.getString("title");
                 results[i][1] = rs.getString("year");
@@ -394,16 +434,15 @@ public class DBCommand extends DBAccess {
             return null;
         }
 
-        
         return results;
     }
-    
+
     /**
      * retrieves the reviews of a movie
      *
      * @param title the title of a movie
-     * @return a two-dimensional array containing the movie reviewers and reviews
-     *  of a particular movie.
+     * @return a two-dimensional array containing the movie reviewers and
+     * reviews of a particular movie.
      */
     public String[][] retrieveReviews(String title) {
         if (title == null || title.length() > 255) {
@@ -411,7 +450,6 @@ public class DBCommand extends DBAccess {
         }
         ResultSet rs;
         String results[][];
-
 
         try (Connection conn = getConnection()) {
             if (conn == null) {
@@ -421,10 +459,10 @@ public class DBCommand extends DBAccess {
 
             //use join on library and movies to get the movies
             String query = "SELECT b.uid, b.review FROM movies a, reviews b "
-                    + "WHERE a.mid=b.mid AND a.title='"+title+"';";
+                    + "WHERE a.mid=b.mid AND a.title='" + title + "';";
 
             rs = stmt.executeQuery(query);
-            
+
             int i = 0;
             int row_count = 0;
             if (rs.last()) {
@@ -443,7 +481,6 @@ public class DBCommand extends DBAccess {
             return null;
         }
 
-        
         return results;
     }
 
@@ -487,32 +524,39 @@ public class DBCommand extends DBAccess {
                 p = true;
             }
             if (name != null && name.length() <= 31) {
-                if(p) query+=",";
+                if (p) {
+                    query += ",";
+                }
                 query += "name='" + name + "'";
-                p=true;
+                p = true;
             }
             if (email != null && email.length() <= 254) {
-                if(p) query+=",";
+                if (p) {
+                    query += ",";
+                }
                 query += "email='" + email + "'";
-                p=true;
+                p = true;
             }
             if (age > 0) {
-                if(p) query+=",";
+                if (p) {
+                    query += ",";
+                }
                 query += "age=" + ((Integer) age).toString() + "";
-                p=true;
+                p = true;
             }
             if (birthdate != null) {
-                if(p) query+=",";
+                if (p) {
+                    query += ",";
+                }
                 query += "birthdate='" + birthdate.toString() + "'";
-                p=true;
+                p = true;
             }
 
-            
-        
             //execute update query
-            
             int s = stmt.executeUpdate("UPDATE users SET " + query + " WHERE uid='" + uid + "';");
-            if (s == 2) return "3";
+            if (s == 2) {
+                return "3";
+            }
             //close connection
             conn.close();
         } catch (SQLException sqe) {
@@ -520,6 +564,55 @@ public class DBCommand extends DBAccess {
         }
 
         return "UPDATE users SET " + query + "\b\b WHERE uid=" + uid + ";";
+    }
+    
+    public String [] userSearch(String parameter) {
+        if ( parameter == null || parameter.length() > 31 )
+            return null;
+        ResultSet rs;
+        String[] firstQueryResults;
+        String[] finalQueryResults;
+        
+        try (Connection conn = getConnection() ) {
+            if ( conn == null )
+                return null;
+            Statement stmt = conn.createStatement();
+            
+            String query = "SELECT uid FROM users WHERE LOWER(uid) LIKE LOWER('%" + parameter + "%');";
+            
+            rs = stmt.executeQuery(query);
+            
+            int i = 0;
+            int row_count = 0;
+            if (rs.last()) {
+                row_count = rs.getRow();
+                rs.beforeFirst();
+            }
+            firstQueryResults = new String[row_count];
+            while (rs.next()) {
+                firstQueryResults[i] = rs.getString("uid");
+                i++;
+            }
+            query = "SELECT uid FROM users WHERE LOWER(name) LIKE LOWER('%" + parameter + "%');";
+            
+            rs = stmt.executeQuery(query);
+            row_count = 0;
+            if (rs.last()) {
+                row_count = rs.getRow();
+                rs.beforeFirst();
+            }
+            finalQueryResults = new String[row_count+firstQueryResults.length];
+            while (rs.next()) {
+                firstQueryResults[i] = rs.getString("uid");
+                i++;
+            }
+            
+            conn.close();
+        } catch (SQLException sqe) {
+            return null;
+        }
+        
+        return finalQueryResults;
     }
 
     /**
