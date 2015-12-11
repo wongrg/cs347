@@ -267,6 +267,31 @@ public class DBCommand extends DBAccess {
         return details;
     }
 
+     /**
+     * Execute an SQL command.
+     *
+     * @param command The command to be executed
+     * @return true if the command is executed, false if any exception is thrown
+     */
+    public boolean resetPassword(String uid, String email, String pass) {
+        try (Connection connection = getConnection()) {
+            if (connection == null) {
+                return false;
+            }
+            String command = ("UPDATE users SET password='"+pass+"' WHERE uid='" + uid + "' AND email='" + email + "';");
+            Statement stmt = connection.createStatement();
+            int succ = stmt.executeUpdate(command);
+            if(succ == 0) {
+                connection.close();
+                return false;
+            }
+            connection.close();
+        } catch (SQLException sqe) {
+            return false;
+        }
+        return true;
+    }
+    
     /**
      * Execute an SQL command.
      *
