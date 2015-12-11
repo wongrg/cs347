@@ -46,6 +46,8 @@
                 out.println("<td>");
                 out.println("<button class='headerButtons' onclick=location.href='viewprofile.jsp';>"
                 +"View Profile</button></td>"); 
+                out.println("<td><button class='headerButtons' onclick=location.href='updateProfile.jsp';>"
+                +"Update your profile</button></td>"); 
                 out.println("<td><form method=post action=logout>");
             }            
         %>
@@ -61,7 +63,6 @@
                     if((boolean)session.getAttribute("success_update") == true){
                       
                       out.println("<script type=\"text/javascript\">alert('Update Successful!')</script>");
-                      out.println("" + session.getAttribute("check"));
                       session.setAttribute("success_update", null);
                     }
                 }
@@ -70,8 +71,7 @@
                 DBCommand commander = new DBCommand();
                 String[] details = commander.detailUser(uid);
                 if(details != null){
-                    out.println("<td><button class='headerButtons' onclick=location.href='updateProfile.jsp';>"
-                    +"Update your profile</button></td>"); 
+
                     out.println("<td><form method='post' action='deleteuser'>");
                     out.println("<input class='headerButtons' type='submit' id='deleteacct'value='Delete Account'>");
                     out.println("<input class='headerButtons' type=submit value=Logout id='logout_butt'/></form></td>");
