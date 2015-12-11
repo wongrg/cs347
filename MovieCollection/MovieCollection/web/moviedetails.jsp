@@ -24,9 +24,6 @@
                buttonState="Home";
         %>
     <div class="header">                         
-       <a href="index.jsp">
-            <img src="images/MovieBox.jpg" id="mcPic">
-        </a>
         <%! String urlButton;%>
         <% 
             if(buttonState.equals("Home"))
@@ -40,17 +37,17 @@
             <tbody>
                 <tr>
                     <td>
-                    <button id="button_login" onclick="location.href = '<%=urlButton%>';">
+                    <button class="headerButtons" onclick="location.href = '<%=urlButton%>';">
                         <%=buttonState%></button>
                     </td>
         <%
             if(session.getAttribute("loggedIn") != null && session.getAttribute("loggedIn").equals(true))
             {  
                 out.println("<td>");
-                out.println("<button id='view_profile' onclick=location.href='viewprofile.jsp';>"
+                out.println("<button id='vP' class='headerButtons' onclick=location.href='viewprofile.jsp';>"
                 +"View Profile</button></td>"); 
                 out.println("<td><form method=post action=logout>");
-                out.println("<input type=submit value=Logout id='logout_butt'/></form></td>");
+                out.println("<input class='headerButtons' type=submit value=Logout id='logout_butt'/></form></td>");
             }            
         %>
                 </tr>

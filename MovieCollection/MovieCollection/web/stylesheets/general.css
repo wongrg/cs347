@@ -95,3 +95,15 @@ tr {
 .movieRemove {
     float: left;
 }
+
+#emailField {
+    margin-right: 9%;
+}
+
+#userField {
+    margin-right: 2.7%;
+}
+
+#bannerForgot {
+    margin-left: 30%;
+}

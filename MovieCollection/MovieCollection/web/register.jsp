@@ -8,12 +8,12 @@
 <!DOCTYPE html>
 <%
    // Mandate client use HTTPS
-    
-    if(!request.isSecure()){
-        String url = "https://" + request.getServerName() + request.getContextPath() + "/register.jsp";
-        response.sendRedirect(url);
-        return;
-    }    
+//    
+//    if(!request.isSecure()){
+//        String url = "https://" + request.getServerName() + request.getContextPath() + "/register.jsp";
+//        response.sendRedirect(url);
+//        return;
+//    }    
     %>
 <html>
     <head>
