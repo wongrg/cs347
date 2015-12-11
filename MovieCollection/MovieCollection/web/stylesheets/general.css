@@ -107,3 +107,23 @@ tr {
 #bannerForgot {
     margin-left: 30%;
 }
+
+.rmMov {
+    margin-right: 95%;
+    font-size: 12pt;
+    width: 152px;
+    height: 30px;
+    background-color: #ffbb00;
+}
+
+#reviewArea {
+    margin-top: 5%;
+    height: 70px;
+    width: 512px;
+}
+
+#rS {
+    position:fixed;
+    margin-top: 5.1%;
+    height: 70px;
+}

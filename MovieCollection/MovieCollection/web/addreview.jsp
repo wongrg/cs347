@@ -22,20 +22,17 @@
         <title>Add A Movie Review</title>
     </head>
     <body>
-         <div class="header">
-           
-            <a href="index.jsp">
-                <img src="images/MovieBox.jpg" id="mcPic"></a>                  
-                <button id="loginButt" onclick="location.href='index.jsp'"><%=buttonStatus%></button>
+         <div class="header">              
+            <button class='headerButtons' id="loginButt" onclick="location.href='index.jsp'"><%=buttonStatus%></button>
         </div>
         <hr>
         
         <h3>Enter your review and click submit when finished</h3>
         <form method="post" action="addreview" id="reviewform">
-            <textarea maxlength="255" name="reviewtext" id="reviewarea" form="reviewform">
+            <textarea maxlength="255" name="reviewtext" id="reviewArea" form="reviewform">
                 
-            </textarea><br/>
-            <input type="submit" id="submitReview" value="Submit">
+            </textarea>
+            <input id='rS'class='submitButtons' type="submit" id="submitReview" value="Submit">
         </form>
     </body>
 </html>

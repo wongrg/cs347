@@ -70,7 +70,7 @@
                 if(session.getAttribute("loggedIn") != null && session.getAttribute("loggedIn").equals(true))
                 {
                     out.println("<form method='post' action='addmovie'>");
-                    out.println("<input type='submit' value='Add Movie' >");
+                    out.println("<input class='headerButtons' type='submit' value='Add Movie' >");
                     out.println("</form>");
                 }
                 else
@@ -97,7 +97,7 @@
        %>
              <%
            if(session.getAttribute("loggedIn") !=null && (boolean)session.getAttribute("loggedIn")==true){
-               out.println("<button name='addreview' onclick=location.href='addreview.jsp' >Add Review</button>");
+               out.println("<button class='headerButtons' name='addreview' onclick=location.href='addreview.jsp' >Add Review</button>");
                session.setAttribute("currentMovieTitle", Movie.getTitle());
            } 
      %>

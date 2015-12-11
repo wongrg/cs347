@@ -24,7 +24,7 @@
     </head>
     <body>
         <div class="header">
-            <button id="button_login" onclick="location.href = 'login.jsp';">Home</button>
+            <button class='headerButtons' id="button_login" onclick="location.href = 'login.jsp';">Home</button>
         </div>
         <hr/>
         
@@ -57,7 +57,7 @@
 
                 </p>
                 <p>
-                    <input type="submit" id="register" value="Register">
+                    <input class='submitButtons' type="submit" id="register" value="Register">
                 </p>
             </form>
         </div>

@@ -104,7 +104,7 @@
                             out.println("<p>Year: "+movieCollection[i][1]+"</p>");
                             out.println("<form method='post' action='deletemoviefromlib'>");
                             out.println("<input type='hidden' name='title' value='"+movieCollection[i][0]+"'>");
-                            out.println("<p><input class='movieRemove' type='submit' name='delete' value='Remove this movie from your collection'></p>");
+                            out.println("<p><input class='rmMov' type='submit' name='delete' value='Remove this movie from your collection'></p>");
                             out.println("</form>");
 
                         }
