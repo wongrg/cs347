@@ -613,7 +613,11 @@ public class DBCommand extends DBAccess {
         
         return finalQueryResults;
     }
-
+    
+    public boolean verifyIdentity(String uid, String password){
+        boolean is_valid;
+        //returns true if the user id matches the account assosciated email.
+    }
     /**
      * verify password and username for a user request.
      *
