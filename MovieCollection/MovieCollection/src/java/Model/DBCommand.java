@@ -89,39 +89,6 @@ public class DBCommand extends DBAccess {
     }
 
     /**
-     * add a user to the users table.
-     *
-     * @param uid user identification string LEN MUST BE <= 31 @
-     * param name name string LEN MUST BE <= 31 @
-     * param password password string LEN MUST BE <= 16 @
-     * param email email string LEN MUST BE <= 254 AND FOLLOW EMAIL FORMAT
-     * @return true if succes
-     * sf ul, false otherwise
-     */
-    public boolean addUser(String uid, String name, String password, String email) {
-        boolean successful = false;
-        if (uid.length() > 31 || name.length() > 31 || password.length() > 16
-                || email.length() > 254) {
-            return successful;
-        }
-        try (Connection connection = getConnection()) {
-            if (connection == null) {
-                return successful;
-            }
-            Statement stmt = connection.createStatement();
-            stmt.executeUpdate("INSERT INTO users (uid, password, name, "
-                    + "email) VALUES('" + uid + "', '" + password + "', '" + name
-                    + "', '" + email + "');");
-            connection.close();
-            successful = true;
-        } catch (SQLException sqe) {
-            return false;
-        }
-
-        return successful;
-    }
-
-    /**
      * add an appropriate movie id to a library with user id
      *
      * @param uid user id to be associated with movieid
@@ -163,6 +130,70 @@ public class DBCommand extends DBAccess {
             return false;
         }
 
+        return true;
+    }
+    
+    /**
+     * add a user to the users table.
+     *
+     * @param uid user identification string LEN MUST BE <= 31 @
+     * @param name name string LEN MUST BE <= 31 @
+     * @param password password string LEN MUST BE <= 16 @
+     * @param email email string LEN MUST BE <= 254 AND FOLLOW EMAIL FORMAT
+     * @return true if succes
+     * sf ul, false otherwise
+     */
+    public boolean addUser(String uid, String name, String password, String email) {
+        boolean successful = false;
+        if (uid.length() > 31 || name.length() > 31 || password.length() > 16
+                || email.length() > 254) {
+            return successful;
+        }
+        try (Connection connection = getConnection()) {
+            if (connection == null) {
+                return successful;
+            }
+            Statement stmt = connection.createStatement();
+            stmt.executeUpdate("INSERT INTO users (uid, password, name, "
+                    + "email) VALUES('" + uid + "', '" + password + "', '" + name
+                    + "', '" + email + "');");
+            connection.close();
+            successful = true;
+        } catch (SQLException sqe) {
+            return false;
+        }
+
+        return successful;
+    }
+    
+    public boolean deleteFromLibrary(String title) {
+        if(title == null || title.length() > 255)
+            return false;
+        
+        ResultSet rs;
+        try (Connection conn = getConnection() ) {
+            if (conn == null)
+                return false;
+            Statement stmt = conn.createStatement();
+            
+            String query = "SELECT mid FROM movies WHERE title='"+title+"';";
+            
+            rs = stmt.executeQuery(query);
+            
+            query = "DELETE FROM library WHERE mid="+rs.getString("mid")+";";
+            
+            int succ = stmt.executeUpdate(query);
+            if( succ == 2 ) {
+                conn.close();
+                return false;
+            }
+            
+            conn.close();
+        } catch (SQLException sqe) {
+            return false;
+        }
+        
+        
         return true;
     }
 
