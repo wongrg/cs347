@@ -74,7 +74,7 @@
     </div>
         <hr/>
         <div class="searcharea">
-        <form method="post" action="search" class="search-wrapper cf">
+        <form method="post" action="search">
             <input class='movieSearch' type="text" name = "search_term" placeholder="Search Movie Box" required="">
             <button id='movieSearch' class='submitButtons' type="submit">Search</button>
         </form>
