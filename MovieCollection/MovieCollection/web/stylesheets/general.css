@@ -91,3 +91,7 @@ tr {
     font-size: 20pt;
     float: center;
 }
+
+.movieRemove {
+    float: left;
+}

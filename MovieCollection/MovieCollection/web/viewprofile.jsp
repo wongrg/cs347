@@ -37,17 +37,17 @@
             <tbody>
                 <tr>
                     <td>
-                    <button id="button_login" onclick="location.href = '<%=urlButton%>';">
+                    <button class="headerButtons" onclick="location.href = '<%=urlButton%>';">
                         <%=buttonState%></button>
                     </td>
         <%
             if(session.getAttribute("loggedIn") != null && session.getAttribute("loggedIn").equals(true))
             {  
                 out.println("<td>");
-                out.println("<button id='view_profile' onclick=location.href='viewprofile.jsp';>"
+                out.println("<button class='headerButtons' onclick=location.href='viewprofile.jsp';>"
                 +"View Profile</button></td>"); 
                 out.println("<td><form method=post action=logout>");
-                out.println("<input type=submit value=Logout id='logout_butt'/></form></td>");
+                out.println("<input class='headerButtons' type=submit value=Logout id='logout_butt'/></form></td>");
             }            
         %>
                 </tr>
@@ -86,10 +86,10 @@
                     out.println("<p>Full name: " + details[1] + "</p>");
                     out.println("<p>Birthday " + details[2] + "</p>");
                     out.println("<p>Email: " + details[4] + "</p>");
-                    out.println("<button id='updateProfile' onclick=location.href='updateProfile.jsp';>"
+                    out.println("<button class='headerButtons' onclick=location.href='updateProfile.jsp';>"
                     +"Update your profile</button><br/>"); 
                     out.println("<form method='post' action='deleteuser'>");
-                    out.println("<input type='submit' id='deleteacct'value='Delete Account'>");
+                    out.println("<input class='headerButtons' type='submit' id='deleteacct'value='Delete Account'>");
                     out.println("</form>");
                     out.println("<hr/>");
                     out.println("<h3>Your Movie Collection</h3>");
@@ -101,7 +101,7 @@
                             out.println("<p>Year: "+movieCollection[i][1]+"</p>");
                             out.println("<form method='post' action='deletemoviefromlib'>");
                             out.println("<input type='hidden' name='title' value='"+movieCollection[i][0]+"'>");
-                            out.println("<p><input type='submit' name='delete' value='Remove this movie from your collection'></p>");
+                            out.println("<p><input class='movieRemove' type='submit' name='delete' value='Remove this movie from your collection'></p>");
                             out.println("</form>");
 
                         }
@@ -116,7 +116,7 @@
                             out.println("<li>"+friends[i]+"</li>");
                             out.println("<form method='post' action='deletefriend'>");
                             out.println("<input type='hidden' name='friend_name' value='"+friends[i]+"'>");
-                            out.println("<p><input type='submit' name='delete' value='Unfollow this person'></p>");
+                            out.println("<p><input class='headerButtons' type='submit' name='delete' value='Unfollow this person'></p>");
                             out.println("</form>");
                         }
                    }
