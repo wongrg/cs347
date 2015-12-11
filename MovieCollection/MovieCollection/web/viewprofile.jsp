@@ -102,8 +102,10 @@
                         for(int i =0;i < movieCollection.length;i++){                    
                             out.println("<li>Movie Title: "+movieCollection[i][0]+"</li>");
                             out.println("<p>Year: "+movieCollection[i][1]+"</p>");
-                            out.println("<form method='post' action='deletefriend'>");
-                            out.println("<input type='hidden' name='friend_name' value='"+friends[i]+"'>");
+                            out.println("<form method='post' action='deletemoviefromlib'>");
+                            out.println("<input type='hidden' name='title' value='"+movieCollection[i][0]+"'>");
+                            out.println("<p><input type='submit' name='delete' value='Remove this movie from your collection'></p>");
+                            out.println("</form>");
 
                         }
                    // }
