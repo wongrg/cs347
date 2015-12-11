@@ -62,7 +62,7 @@
                 <%
                   if(loggedIn)
                   {
-                      out.println("<tr><form class='search-wrapper cf' method='post' action='searchusers'>");
+                      out.println("<tr><form class='search-wrapper cf' method='post' action='searchuser'>");
                       out.println("<input  type='text' name='searchUserText' placeholder='Search For a User' required=''>");
                       out.println("<input type='submit' value='Search'></form></tr>");
                       
