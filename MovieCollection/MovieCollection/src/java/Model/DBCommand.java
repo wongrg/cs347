@@ -549,7 +549,6 @@ public class DBCommand extends DBAccess {
                     query += ",";
                 }
                 query += "birthdate='" + birthdate.toString() + "'";
-                p = true;
             }
 
             //execute update query
