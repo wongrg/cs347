@@ -159,6 +159,37 @@ public class DBCommand extends DBAccess {
 
         return true;
     }
+    
+    public boolean deleteFriend(String uid, String friend) {
+        if(uid == null || uid.length() > 31 || friend == null || friend.length() > 31 )
+            return false;
+        
+        try ( Connection conn = getConnection() ) {
+            if(conn == null) return false;
+            Statement stmt = conn.createStatement();
+            
+            String query = "DELETE FROM friends WHERE uid='"+uid+"' AND friend='"+friend+"';";
+            
+            int succ = stmt.executeUpdate(query);
+            if ( succ == 2 ) {
+                conn.close();
+                return false;
+            }
+            
+            query = "DELETE FROM friends WHERE uid='"+friend+"' AND friend='"+uid+"';";
+            
+            succ = stmt.executeUpdate(query);
+            if (succ == 2) {
+                conn.close();
+                return false;
+            }
+            
+            conn.close();
+        } catch (SQLException sqe) {
+            return false;
+        }
+        return true;
+    }
 
     /**
      * detailUser pulls user details from the database, this includes the
