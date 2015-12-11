@@ -34,7 +34,7 @@
                     <input type="password" id="passwd" name="pwd" placeholder="Password" required="">
                 </p>
                 <p>
-                    <input type="submit" id="login" value="Login">
+                    <input id='login' class='headerButtons'type="submit" id="login" value="Login">
                 </p>   
                 <br>
                 <p>
