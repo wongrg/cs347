@@ -7,7 +7,6 @@ package Controller;
 
 import Model.DBCommand;
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -18,10 +17,11 @@ import javax.servlet.http.HttpSession;
 
 /**
  *
- * @author Joey
+ * @author Rob, Joey, Adam
  */
 @WebServlet(name = "SearchUserController", urlPatterns = {"/searchuser"})
 public class SearchUserController extends HttpServlet {
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -34,21 +34,19 @@ public class SearchUserController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String userToSearch = request.getParameter("user_text");
-        DBCommand commander = new DBCommand();        
+        DBCommand commander = new DBCommand();
         HttpSession session = request.getSession();
-        if(commander.userSearch(userToSearch)){
+        if (commander.userSearch(userToSearch)) {
             session.setAttribute("enteredQuery", userToSearch);
             session.setAttribute("tempSearchName", userToSearch);
- 
+
         }
-        
-        //userResults = commander.userSearch(userToSearch);
+
         RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/viewuser.jsp");
         dispatcher.forward(request, response);
-               
+
     }
 
-    
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.

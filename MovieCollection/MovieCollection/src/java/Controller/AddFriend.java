@@ -7,7 +7,6 @@ package Controller;
 
 import Model.DBCommand;
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -18,7 +17,7 @@ import javax.servlet.http.HttpSession;
 
 /**
  *
- * @author wongrg
+ * @author Rob, Joey, Adam
  */
 @WebServlet(name = "AddFriend", urlPatterns = {"/friend"})
 public class AddFriend extends HttpServlet {
@@ -37,11 +36,7 @@ public class AddFriend extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         DBCommand commander = new DBCommand();
         HttpSession session = request.getSession();
-        boolean success = commander.addFriend((String)session.getAttribute("username"),(String)session.getAttribute("tempSearchName"));
-//        try (PrintWriter out = response.getWriter()) {
-//            /* TODO output your page here. You may use following sample code. */
-//           
-//        }
+        boolean success = commander.addFriend((String) session.getAttribute("username"), (String) session.getAttribute("tempSearchName"));
         RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/viewprofile.jsp");
         dispatcher.forward(request, response);
     }

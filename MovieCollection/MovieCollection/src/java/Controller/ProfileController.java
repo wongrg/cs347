@@ -17,7 +17,7 @@ import javax.servlet.http.HttpSession;
 
 /**
  *
- * @author wongrg
+ * @author Rob, Joey, Adam
  */
 @WebServlet(name = "ProfileController", urlPatterns = {"/viewProfile"})
 public class ProfileController extends HttpServlet {
@@ -35,7 +35,7 @@ public class ProfileController extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         HttpSession session = request.getSession(true); //get the httpsession
-        String uid = (String)session.getAttribute("username");
+        String uid = (String) session.getAttribute("username");
         DBCommand commander = new DBCommand();
         String[] details = commander.detailUser(uid);
         try (PrintWriter out = response.getWriter()) {
@@ -43,13 +43,12 @@ public class ProfileController extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>" + uid +"'s Profile</title>");            
+            out.println("<title>" + uid + "'s Profile</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>"+ uid+ "'s Profile Page</h1>");
-            out.println("<p>Username: " + uid +"</p>");
+            out.println("<h1>" + uid + "'s Profile Page</h1>");
+            out.println("<p>Username: " + uid + "</p>");
             out.println("<p>Full name: " + details[1] + "</p>");
-            //out.println("<p>Birthday " + details[2] + "</p>");
             out.println("<p>Email: " + details[4] + "</p>");
             out.println("</body>");
             out.println("</html>");
@@ -94,14 +93,15 @@ public class ProfileController extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-    
-    public static String[] getDetails(String uid){
+
+    public static String[] getDetails(String uid) {
         DBCommand commander = new DBCommand();
         return commander.detailUser(uid);
     }
-    public static String[][] getLibrary(String uid){
+
+    public static String[][] getLibrary(String uid) {
         DBCommand commander = new DBCommand();
-        
+
         return commander.retrieveLibrary(uid);
     }
 }

@@ -17,13 +17,14 @@ import javax.servlet.http.HttpSession;
 
 /**
  *
- * @author joey
+ * @author Rob, Joey, Adam
  */
 @WebServlet(name = "AddReviewController", urlPatterns = {"/addreview"})
 public class AddReviewController extends HttpServlet {
 
     /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
      *
      * @param request servlet request
      * @param response servlet response
@@ -34,31 +35,29 @@ public class AddReviewController extends HttpServlet {
             throws ServletException, IOException {
         HttpSession session = request.getSession();
         String review = request.getParameter("reviewtext");
-        String uid = (String)session.getAttribute("username");
-        String movieTitle= (String)session.getAttribute("currentMovieTitle");
-        if(review.contains("<")){
-            review = review.replace("<", "&lt;"); 
+        String uid = (String) session.getAttribute("username");
+        String movieTitle = (String) session.getAttribute("currentMovieTitle");
+        if (review.contains("<")) {
+            review = review.replace("<", "&lt;");
         }
-        if(review.contains(">")){              
-           review = review.replace(">", "&gt;");
+        if (review.contains(">")) {
+            review = review.replace(">", "&gt;");
         }
-        if(review.contains("(")){
+        if (review.contains("(")) {
             review = review.replace("\\(", "&#40");
         }
-        if(review.contains(")")){
+        if (review.contains(")")) {
             review = review.replace("\\)", "&#41");
         }
-        if(review.contains("&")){           
+        if (review.contains("&")) {
             review = review.replace("&)", "&#38");
         }
-        if(review.contains("|")){           
+        if (review.contains("|")) {
             review = review.replace("|", "&#124");
         }
-        
+
         DBCommand commander = new DBCommand();
-        commander.addReview(uid,movieTitle,review);
-        //RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/moviedetails.jsp");
-        //dispatcher.(request, response);
+        commander.addReview(uid, movieTitle, review);
         response.sendRedirect("moviedetails.jsp");
     }
 

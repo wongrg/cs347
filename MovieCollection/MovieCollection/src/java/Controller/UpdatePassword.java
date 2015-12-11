@@ -6,7 +6,6 @@
 package Controller;
 
 import Model.DBCommand;
-import Model.User;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -17,7 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author wongrg
+ * @author Rob, Joey, Adam
  */
 @WebServlet(name = "UpdatePassword", urlPatterns = {"/forgotpassword"})
 public class UpdatePassword extends HttpServlet {
@@ -37,18 +36,15 @@ public class UpdatePassword extends HttpServlet {
         String uid = request.getParameter("uid");
         String email = request.getParameter("email");
         String pw1 = request.getParameter("pwd1");
-        //String pw2 = request.getParameter("pwd2");
         DBCommand commander = new DBCommand();
-        //User user = new User();
-        
-        
-        if(!commander.resetPassword(uid, email,pw1)){
-                try (PrintWriter out = response.getWriter()) {
-                /* TODO output your page here. You may use following sample code. */
+
+        //if the password does not reset
+        if (!commander.resetPassword(uid, email, pw1)) {
+            try (PrintWriter out = response.getWriter()) {
                 out.println("<!DOCTYPE html>");
                 out.println("<html>");
                 out.println("<head>");
-                out.println("<title>Invalid Credentials</title>");            
+                out.println("<title>Invalid Credentials</title>");
                 out.println("</head>");
                 out.println("<body>");
                 out.println("<h1> <p>Credentials Were Not Valid </p></h1>");
@@ -56,25 +52,22 @@ public class UpdatePassword extends HttpServlet {
                         + " provided and thus were unable to reset password</p>");
                 out.println("<p><a href='/forgotpassword.jsp'> Click here to retry</a></p>");
                 out.println("<p> Click <a href='/login.jsp'> here</a> to return to the login page</p>");
-              
                 out.println("</body>");
-                out.println("</html>"); 
-                }
-        }
-        else{
-                try (PrintWriter out = response.getWriter()) {
-
+                out.println("</html>");
+            }
+        } else {
+            try (PrintWriter out = response.getWriter()) {
                 out.println("<!DOCTYPE html>");
                 out.println("<html>");
                 out.println("<head>");
-                out.println("<title>Success</title>");            
+                out.println("<title>Success</title>");
                 out.println("</head>");
                 out.println("<body>");
                 out.println("<h1> <p>Successfully updated password</p></h1>");
                 out.println("<p> Click <a href='/login.jsp'> here</a> to return to the login page</p>");
                 out.println("</body>");
-                out.println("</html>"); 
-                }
+                out.println("</html>");
+            }
         }
     }
 

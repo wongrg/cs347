@@ -17,7 +17,7 @@ import javax.servlet.http.HttpSession;
 
 /**
  *
- * @author joey
+ * @author Rob, Joey, Adam
  */
 @WebServlet(name = "UpdateProfileController", urlPatterns = {"/updateprofile"})
 public class UpdateProfileController extends HttpServlet {
@@ -45,11 +45,7 @@ public class UpdateProfileController extends HttpServlet {
             RequestDispatcher dispatcher;
             if(commander.verifyPass(uid, password)){
                 
-               session.setAttribute("check", commander.updateUser(uid, password, full_name, email, 0, null));
-//                    dispatcher = getServletContext().getRequestDispatcher("/register.jsp");
-//                    dispatcher.forward(request, response);
-//                    return;
-//                    
+               session.setAttribute("check", commander.updateUser(uid, password, full_name, email, 0, null));      
 
                 
                 dispatcher = getServletContext().getRequestDispatcher("/viewprofile.jsp");

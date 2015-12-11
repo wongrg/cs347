@@ -7,7 +7,6 @@ package Controller;
 
 import Model.DBCommand;
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -18,7 +17,7 @@ import javax.servlet.http.HttpSession;
 
 /**
  *
- * @author wongrg
+ * @author Rob, Joey, Adam
  */
 @WebServlet(name = "DeleteMovieFromLibrary", urlPatterns = {"/deletemoviefromlib"})
 public class DeleteMovieFromLibrary extends HttpServlet {
@@ -37,7 +36,7 @@ public class DeleteMovieFromLibrary extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         String title = request.getParameter("title");
         HttpSession session = request.getSession();
-        String uid = (String)session.getAttribute("username");
+        String uid = (String) session.getAttribute("username");
         DBCommand commander = new DBCommand();
         commander.deleteFromLibrary(title, uid);
         RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/viewprofile.jsp");

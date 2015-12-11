@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package Controller;
+
 import Model.SearchResults;
 import Model.DBCommand;
 import java.io.IOException;
@@ -18,11 +19,11 @@ import javax.servlet.http.HttpSession;
 
 /**
  *
- * @author joey
+ * @author Rob, Joey, Adam
  */
 @WebServlet(name = "SearchServlet", urlPatterns = {"/search"})
 public class SearchController extends HttpServlet {
-    
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -34,22 +35,18 @@ public class SearchController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
         String searchTerm = request.getParameter("search_term");
-        //Need to validate the term here
         DBCommand commander = new DBCommand();
-        String[][] movieResults = commander.movieSearch(searchTerm,0);
-        SearchResults results = new SearchResults(movieResults); //Create SearchResults bean for results        
+
+        String[][] movieResults = commander.movieSearch(searchTerm, 0);
+        SearchResults results = new SearchResults(movieResults);
+
         HttpSession session = request.getSession(true);
-        session.setAttribute("enteredQuery", true);       //Not sure if this needs to be an attribute
+        session.setAttribute("enteredQuery", true);
         RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/search.jsp");
         dispatcher.forward(request, response);
-    //  response.sendRedirect("search.jsp"); //redirect back to the search page to display results
-
     }
-
-            
-
-    
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

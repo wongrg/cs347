@@ -6,57 +6,47 @@
 package Controller;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import Model.*;
-import java.io.Console;
+
 /**
  *
- * @author joey
+ * @author Rob, Joey, Adam
  */
 @WebServlet(name = "RegisterServlet", urlPatterns = {"/register"})
 public class RegisterController extends HttpServlet {
 
-   
-protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-            String uid = request.getParameter("userid");
-            String password = request.getParameter("pass");
-            String password2 = request.getParameter("pass2");
-            String email = request.getParameter("emailAdd");
-            String fname = request.getParameter("fName");
-            String lname = request.getParameter("lName");
-            String full_name = null;
-            //This object is part of the Model that will validate user information
-            //for logging in. 
-            
-            
-            //TODO all lowercase username, 
-            User user_model = new User();
-            DBCommand commander = new DBCommand();
-            if(user_model.verifyInfo(uid, password, password2, fname, lname, email)){
-                full_name = fname + " " + lname;
-                
-                
-                if(commander.addUser(uid,full_name , password, email)){
-                    request.getRequestDispatcher("/success_registration.html").forward(request, response);
-                     
-                }
-                else{
-                    request.getRequestDispatcher("/failure_registration.html").forward(request, response);
-                    }
-                }
-                
+        String uid = request.getParameter("userid");
+        String password = request.getParameter("pass");
+        String password2 = request.getParameter("pass2");
+        String email = request.getParameter("emailAdd");
+        String fname = request.getParameter("fName");
+        String lname = request.getParameter("lName");
+        String full_name = null;
+
+        User user_model = new User();
+        DBCommand commander = new DBCommand();
+        if (user_model.verifyInfo(uid, password, password2, fname, lname, email)) {
+            full_name = fname + " " + lname;
+
+            if (commander.addUser(uid, full_name, password, email)) {
+                request.getRequestDispatcher("/success_registration.html").forward(request, response);
+
+            } else {
+                request.getRequestDispatcher("/failure_registration.html").forward(request, response);
             }
+        }
 
-
+    }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -68,7 +58,7 @@ protected void processRequest(HttpServletRequest request, HttpServletResponse re
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-               processRequest(request, response);
+        processRequest(request, response);
 
     }
 
@@ -83,9 +73,8 @@ protected void processRequest(HttpServletRequest request, HttpServletResponse re
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-       processRequest(request, response);
-      
-           
+        processRequest(request, response);
+
     }
 
     /**

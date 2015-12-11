@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package Controller;
+
 import Model.DBCommand;
 import Model.Movie;
 import java.io.IOException;
@@ -16,13 +17,14 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author joey
+ * @author Rob, Joey, Adam
  */
 @WebServlet(name = "MovieDetailsController", urlPatterns = {"/moviedetails"})
 public class MovieDetailsController extends HttpServlet {
 
     /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
      *
      * @param request servlet request
      * @param response servlet response
@@ -33,18 +35,15 @@ public class MovieDetailsController extends HttpServlet {
             throws ServletException, IOException {
         String title = request.getParameter("title");
         String year = request.getParameter("year");
-        
+
         DBCommand commander = new DBCommand();
         String[][] reviews = commander.retrieveReviews(title);
-        Movie movie = new Movie(title,year,reviews);
-        
+        Movie movie = new Movie(title, year, reviews);
+
         RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/moviedetails.jsp");
         dispatcher.forward(request, response);
-       // response.sendRedirect("moviedetails.jsp");
-        
-        
-        }
-    
+
+    }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

@@ -11,7 +11,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <link rel="stylesheet" type="text/css" href="stylesheets/movieDetailsStyle.css">
+        <link rel="stylesheet" type="text/css" href="stylesheets/general.css">
         <script type="text/javascript" src="scripts/processText.js"></script>
         <title>Movie Details</title>
     </head>
@@ -60,17 +60,15 @@
     <hr/>
     <div>
         
-            <p>Movie Title: 
+            <p class="movieDetail">Movie Title: 
                 <% String title=Movie.getTitle();   
                     session.setAttribute("title", title);
+                    String year = Movie.getYear();
                 %>  
-            <%=title%>
+                <%=title%>(<%=year%>)
             </p>
             
-            <p>Movie Year: <%  String year = Movie.getYear();%>
-            <%=year%>
             
-            </p>
             <%
                 if(session.getAttribute("loggedIn") != null && session.getAttribute("loggedIn").equals(true))
                 {
