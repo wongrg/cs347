@@ -45,18 +45,30 @@
                         <%=buttonState%></button></a>
                     </td>
         <%
+            boolean loggedIn=false;
             if(session.getAttribute("loggedIn") != null && session.getAttribute("loggedIn").equals(true))
             {  
+                loggedIn=true;
                 out.println("<td>");
                 out.println("<button id='view_profile' class=\"headerButtons\""
                         + " onclick=location.href='viewprofile.jsp';>View Profile"
                         + "</button></td>"); 
                 out.println("<td><form method=post action=logout>");
                 out.println("<input type=submit class=\"headerButtons\""
-                        + " value=Logout id='logout_butt'/></form></td>");
+                        + " value=Logout id='logout_butt'/></form></td>");               
             }            
         %>
                 </tr>
+                <%
+                  if(loggedIn)
+                  {
+                      out.println("<tr><form class='search-wrapper cf' method='post' action='searchusers'>");
+                      out.println("<input  type='text' name='searchUserText' placeholder='Search For a User' required=''>");
+                      out.println("<input type='submit' value='Search'></form></tr>");
+                      
+                  }
+            
+                %>
             </tbody>
         </table>
     </div>
