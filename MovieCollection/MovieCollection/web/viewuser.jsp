@@ -46,7 +46,8 @@
                 out.println("<td>");
                 out.println("<button id='view_profile' onclick=location.href='viewprofile.jsp';>"
                 +"View Profile</button></td>"); 
-                out.println("<td><input type=submit value='Friend This Person' id='friend_butt'/></td></form>");
+                out.println("<form method=post action=friend>");
+                out.println("<td><input type='submit' value='Friend This Person' id='friend_butt'/></td></form>");
 
                 out.println("<td><form method=post action=logout>");
                 out.println("<input type=submit value=Logout id='logout_butt'/></form></td>");
@@ -80,7 +81,7 @@
                 out.println("<p>"+ uid +"'s Full name: " + details[1] + "</p>");
                 out.println("<p>"+ uid +"'s Birthday " + details[2] + "</p>");
                 out.println("<p>"+ uid +"'s Email: " + details[4] + "</p>");
-                out.println("<form method=post action=friend>");
+                
                 
  
                 out.println("<hr/>");
