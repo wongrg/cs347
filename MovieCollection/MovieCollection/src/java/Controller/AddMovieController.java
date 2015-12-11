@@ -7,6 +7,8 @@ package Controller;
 
 import Model.DBCommand;
 import java.io.IOException;
+import java.io.PrintWriter;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -31,12 +33,15 @@ public class AddMovieController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        HttpSession session = request.getSession(true);
-        String movieTitle = request.getParameter("movie_title");        
+        HttpSession session = request.getSession();
+        String movieTitle = (String)session.getAttribute("title");
         String uid = (String)session.getAttribute("username");        
         DBCommand commander = new DBCommand();
-        commander.addToLibrary(uid,movieTitle);
-        response.sendRedirect("viewprofile.jsp");
+        boolean success = commander.addToLibrary(uid,movieTitle);
+        PrintWriter out = response.getWriter();
+        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/viewprofile.jsp");
+        dispatcher.forward(request,response);
+        //response.sendRedirect("viewprofile.jsp");
         
 //        response.setContentType("text/html;charset=UTF-8");
 //        try (PrintWriter out = response.getWriter()) {

@@ -16,14 +16,14 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <link rel="stylesheet" type="text/css" href="stylesheets/signupstyle.css">
+        <link rel="stylesheet" type="text/css" href="stylesheets/general.css">
         <script type="text/javascript" src="scripts/processText.js"></script>
         <title>Sign Up Page</title>
     </head>
     <body>
         <div class="header">
         <a href="index.jsp">
-            <img src="images/tempMovieCollection.jpg" id="mcPic" alt="Movie Box">
+            <img src="images/MovieBox.jpg" id="mcPic" alt="Movie Box">
         </a>
             <button id="button_login" onclick="location.href = 'login.jsp';">Home</button>
         </div>

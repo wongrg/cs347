@@ -18,14 +18,14 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <link rel="stylesheet" type="text/css" href="stylesheets/movieDetailsStyle.css">
+        <link rel="stylesheet" type="text/css" href="stylesheets/general.css">
         <title>Add A Movie Review</title>
     </head>
     <body>
          <div class="header">
            
             <a href="index.jsp">
-                <img src="images/tempMovieCollection.jpg" id="mcPic"></a>                  
+                <img src="images/MovieBox.jpg" id="mcPic"></a>                  
                 <button id="loginButt" onclick="location.href='index.jsp'"><%=buttonStatus%></button>
         </div>
         <hr>

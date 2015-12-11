@@ -9,7 +9,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <link rel="stylesheet" type="text/css" href="stylesheets/homepagestyle.css">
+        <link rel="stylesheet" type="text/css" href="stylesheets/general.css">
         <script src="scripts/processText.js"></script>
         <title>Movie Box Home</title>
     </head>
@@ -24,9 +24,6 @@
                buttonState="Home";
         %>
     <div class="header">                         
-       <a href="index.jsp">
-            <img src="images/MovieBox.png" id="mcPic">
-        </a>
         <%! String urlButton;%>
         <% 
             if(buttonState.equals("Home"))
@@ -41,31 +38,45 @@
                 <tr>
                     <td>
                         <a href=<%=urlButton%>>
-                    <button id="button_login">
+                    <button class="headerButtons">
                         <%=buttonState%></button></a>
                     </td>
         <%
+            boolean loggedIn=false;
             if(session.getAttribute("loggedIn") != null && session.getAttribute("loggedIn").equals(true))
             {  
+                loggedIn=true;
                 out.println("<td>");
-                out.println("<button id='view_profile' onclick=location.href='viewprofile.jsp';>"
-                +"View Profile</button></td>"); 
+                out.println("<button id='view_profile' class=\"headerButtons\""
+                        + " onclick=location.href='viewprofile.jsp';>View Profile"
+                        + "</button></td>"); 
                 out.println("<td><form method=post action=logout>");
-                out.println("<input type=submit value=Logout id='logout_butt'/></form></td>");
-            }            
+                out.println("<input type=submit class=\"headerButtons\""
+                        + " value=Logout id='logout_butt'/></form></td>");
+            }
+        %>
+        <td>
+            <h1 id='welcomeMessage'> Welcome to MovieBox!</h1>
+        </td>
+        <%
+            if(loggedIn) {
+                out.println("<div class='searchBar'><form method='post' action='searchuser'>");
+                out.println("<td><input  id='userSearchField' type='text' name='user_text' placeholder='Search For a User' required=''></td>");
+                out.println("<td><input id='userSearchSubmit' class='submitButtons' type='submit' value='Search'></td></form></div>");
+                      
+            }
+            
         %>
                 </tr>
+                
             </tbody>
         </table>
     </div>
         <hr/>
         <div class="searcharea">
-        
-        <h1>Welcome To Movie Box</h1>
-       
         <form method="post" action="search" class="search-wrapper cf">
-            <input type="text" name = "search_term" placeholder="Search Movie Box" required="">
-            <button type="submit">Search</button>
+            <input class='movieSearch' type="text" name = "search_term" placeholder="Search Movie Box" required="">
+            <button id='movieSearch' class='submitButtons' type="submit">Search</button>
         </form>
         </div>
        </body>

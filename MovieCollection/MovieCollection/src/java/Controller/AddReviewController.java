@@ -19,8 +19,8 @@ import javax.servlet.http.HttpSession;
  *
  * @author joey
  */
-@WebServlet(name = "UpdateProfileController", urlPatterns = {"/updateprofile"})
-public class UpdateProfileController extends HttpServlet {
+@WebServlet(name = "AddReviewController", urlPatterns = {"/addreview"})
+public class AddReviewController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -32,41 +32,36 @@ public class UpdateProfileController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-            HttpSession session = request.getSession();           
-            String uid = (String)session.getAttribute("username");
-            
-            String full_name = request.getParameter("fullname");
-            
-            String bday = request.getParameter("bday");
-            String email = request.getParameter("email");
-            String password = request.getParameter("pass");
-            DBCommand commander = new DBCommand();
-            String[] details = commander.detailUser(uid);
-            RequestDispatcher dispatcher;
-            if(commander.verifyPass(uid, password)){
-                
-               session.setAttribute("check", commander.updateUser(uid, password, full_name, email, 0, null));
-//                    dispatcher = getServletContext().getRequestDispatcher("/register.jsp");
-//                    dispatcher.forward(request, response);
-//                    return;
-//                    
-
-                
-                dispatcher = getServletContext().getRequestDispatcher("/viewprofile.jsp");
-                session.setAttribute("success_update", true);
-                dispatcher.forward(request, response);
-            }
-            else{
-                dispatcher = getServletContext().getRequestDispatcher("/updateProfile.jsp");
-                session.setAttribute("success_update", false);
-                dispatcher.forward(request, response);
-            }
-    }
-    
-    public static String[] getDetails(String uid){
+        HttpSession session = request.getSession();
+        String review = request.getParameter("reviewtext");
+        String uid = (String)session.getAttribute("username");
+        String movieTitle= (String)session.getAttribute("currentMovieTitle");
+        if(review.contains("<")){
+            review = review.replace("<", "&lt;"); 
+        }
+        if(review.contains(">")){              
+           review = review.replace(">", "&gt;");
+        }
+        if(review.contains("(")){
+            review = review.replace("\\(", "&#40");
+        }
+        if(review.contains(")")){
+            review = review.replace("\\)", "&#41");
+        }
+        if(review.contains("&")){           
+            review = review.replace("&)", "&#38");
+        }
+        if(review.contains("|")){           
+            review = review.replace("|", "&#124");
+        }
+        
         DBCommand commander = new DBCommand();
-        return commander.detailUser(uid);
+        commander.addReview(uid,movieTitle,review);
+        //RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/moviedetails.jsp");
+        //dispatcher.(request, response);
+        response.sendRedirect("moviedetails.jsp");
     }
+
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.

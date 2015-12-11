@@ -19,15 +19,14 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <!--<link rel="stylesheet" type="text/css" href="stylesheets/searchstylesheet.css">-->
-        <link rel="stylesheet" type="text/css" href="stylesheets/homepagestyle.css">
+        <link rel="stylesheet" type="text/css" href="stylesheets/general.css">
         <script type="text/javascript" src="scripts/processText.js"></script>
         <title>Search Page</title>
     </head>
     <body>
       <div class="header">                         
        <a href="index.jsp">
-            <img src="images/MovieBox.png" id="mcPic">
+            <img src="images/MovieBox.jpg" id="mcPic">
         </a>
         <%! String urlButton;%>
         <% 
@@ -81,7 +80,7 @@
                     {   
 
                         out.println("<h3>Results</h3>");
-                        for(int i = 0;i < results.length -1 ;i++){ 
+                        for(int i = 0;i < results.length;i++){ 
                             String title = results[i][0];
                             String year = results[i][1];
 

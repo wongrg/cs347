@@ -7,7 +7,7 @@ package Controller;
 
 import Model.DBCommand;
 import java.io.IOException;
-import javax.servlet.RequestDispatcher;
+import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -19,8 +19,8 @@ import javax.servlet.http.HttpSession;
  *
  * @author joey
  */
-@WebServlet(name = "UpdateProfileController", urlPatterns = {"/updateprofile"})
-public class UpdateProfileController extends HttpServlet {
+@WebServlet(name = "DeleteUserController", urlPatterns = {"/deleteuser"})
+public class DeleteUserController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -32,41 +32,30 @@ public class UpdateProfileController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-            HttpSession session = request.getSession();           
-            String uid = (String)session.getAttribute("username");
-            
-            String full_name = request.getParameter("fullname");
-            
-            String bday = request.getParameter("bday");
-            String email = request.getParameter("email");
-            String password = request.getParameter("pass");
-            DBCommand commander = new DBCommand();
-            String[] details = commander.detailUser(uid);
-            RequestDispatcher dispatcher;
-            if(commander.verifyPass(uid, password)){
-                
-               session.setAttribute("check", commander.updateUser(uid, password, full_name, email, 0, null));
-//                    dispatcher = getServletContext().getRequestDispatcher("/register.jsp");
-//                    dispatcher.forward(request, response);
-//                    return;
-//                    
-
-                
-                dispatcher = getServletContext().getRequestDispatcher("/viewprofile.jsp");
-                session.setAttribute("success_update", true);
-                dispatcher.forward(request, response);
-            }
-            else{
-                dispatcher = getServletContext().getRequestDispatcher("/updateProfile.jsp");
-                session.setAttribute("success_update", false);
-                dispatcher.forward(request, response);
-            }
-    }
-    
-    public static String[] getDetails(String uid){
+        HttpSession session = request.getSession();
+        String uid = (String)session.getAttribute("username");
         DBCommand commander = new DBCommand();
-        return commander.detailUser(uid);
+        commander.removeUser(uid);
+        response.setContentType("text/html;charset=UTF-8");
+        try (PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>User Deleted</title>");            
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h3>"+uid+" was deleted</h3>");
+            out.println("<p>Click here to return to <a href='index.jsp'>Home Page</a></p>");
+            out.println("</body>");
+            out.println("</html>");
+        }
+        session.setAttribute("loggedIn",false);
+        session.setAttribute("usernmae",null);
+        session.invalidate();
+        
     }
+
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.

@@ -14,12 +14,12 @@ public class DBCommand extends DBAccess {
      * adds a review to the reviews table with parameters
      *
      * @param uid the uid to be added to the table
-     * @param mid the mid to be added to the table
+     * @param title the title of movie to be added to the table
      * @param review the review to be added to the table
      * @return true if successful, false otherwise
      */
-    public boolean addReview(String uid, int mid, String review) {
-        if (mid < 1 || uid == null || review == null) {
+    public boolean addReview(String uid, String title, String review) {
+        if (title == null || title.length() > 255 || uid == null || review == null) {
             return false;
         }
         try (Connection conn = getConnection()) {
@@ -28,7 +28,15 @@ public class DBCommand extends DBAccess {
             }
             Statement stmt = conn.createStatement();
 
-            String query = "INSERT INTO reviews VALUES ('" + uid + "', "
+            String query = "SELECT mid FROM movies WHERE title='" + title + "';";
+            ResultSet rs = stmt.executeQuery(query);
+
+            if (!rs.first()) {
+                return false;
+            }
+
+            String mid = rs.getString("mid");
+            query = "INSERT INTO reviews VALUES ('" + uid + "', "
                     + mid + ", '" + review + "');";
 
             int u = stmt.executeUpdate(query);
@@ -81,17 +89,59 @@ public class DBCommand extends DBAccess {
     }
 
     /**
+     * add an appropriate movie id to a library with user id
+     *
+     * @param uid user id to be associated with movieid
+     * @param title title to be associated with movieid
+     * @return true if the update is successful, false otherwise
+     */
+    public boolean addToLibrary(String uid, String title) {
+        //validate parameters
+        if (uid == null || title == null || uid.length() > 31 || title.length() > 255) {
+
+            return false;
+        }
+
+        try (Connection conn = getConnection()) {
+            //validate connection
+            if (conn == null) {
+                return false;
+            }
+
+            //generate statement
+            Statement stmt = conn.createStatement();
+
+            //prepare set-up for getting mid from movies table
+            String mid;
+            String query = "SELECT mid FROM movies WHERE title='" + title + "';";
+
+            //get mid from movies table with title
+            ResultSet rs = stmt.executeQuery(query);
+            rs.first();
+            mid = rs.getString("mid");
+
+            //insert the appropriate mid with uid into library table
+            query = "INSERT INTO library VALUES ('" + uid + "', " + mid + ");";
+            stmt.executeUpdate(query);
+
+            //close connection
+            conn.close();
+        } catch (SQLException sqe) {
+            return false;
+        }
+
+        return true;
+    }
+    
+    /**
      * add a user to the users table.
      *
-     * @param uid user identification string LEN MUST BE <= 31
-   * @
-     * param name name string LEN MUST BE <= 31
-   * @
-     * param password password string LEN MUST BE <= 16
-   * @
-     * param email email string LEN MUST BE <= 254 AND FOLLOW EMAIL FORMAT
-     * @return true if successf
-     * ul, false otherwise
+     * @param uid user identification string LEN MUST BE <= 31 @
+     * @param name name string LEN MUST BE <= 31 @
+     * @param password password string LEN MUST BE <= 16 @
+     * @param email email string LEN MUST BE <= 254 AND FOLLOW EMAIL FORMAT
+     * @return true if succes
+     * sf ul, false otherwise
      */
     public boolean addUser(String uid, String name, String password, String email) {
         boolean successful = false;
@@ -115,48 +165,39 @@ public class DBCommand extends DBAccess {
 
         return successful;
     }
-
-    /**
-     * add an appropriate movie id to a library with user id
-     *
-     * @param uid user id to be associated with movieid
-     * @param title title to be associated with movieid
-     * @return true if the update is successful, false otherwise
-     */
-    public boolean addToLibrary(String uid, String title) {
-        //validate parameters
-        if (uid == null || title == null || uid.length() > 31 || title.length() > 255) {
+    
+    public boolean deleteFromLibrary(String title, String uid) {
+        if(title == null || title.length() > 255)
             return false;
-        }
-
-        try (Connection conn = getConnection()) {
-            //validate connection
-            if (conn == null) {
+        
+        ResultSet rs;
+        try (Connection conn = getConnection() ) {
+            if (conn == null)
+                return false;
+            Statement stmt = conn.createStatement();
+            
+            String query = "SELECT mid FROM movies WHERE title='"+title+"';";
+            
+            rs = stmt.executeQuery(query);
+            if(!rs.first()) {
+                conn.close();
                 return false;
             }
-
-            //generate statement
-            Statement stmt = conn.createStatement();
-
-            //prepare set-up for getting mid from movies table
-            String mid = "0";
-            String query = "SELECT mid FROM movies WHERE title='" + title + "';";
-
-            //get mid from movies table with title
-            ResultSet rs = stmt.executeQuery(query);
-            rs.first();
-            mid = rs.getString("mid");
-
-            //insert the appropriate mid with uid into library table
-            query = "INSERT INTO library VALUES ('" + uid + "', " + mid + ");";
-            stmt.executeUpdate(query);
-
-            //close connection
+                
+            query = ("DELETE FROM library WHERE mid="+rs.getString("mid")+" AND uid='"+uid+"';");
+            
+            int succ = stmt.executeUpdate(query);
+            if( succ == 2 ) {
+                conn.close();
+                return false;
+            }
+            
             conn.close();
         } catch (SQLException sqe) {
             return false;
         }
-
+        
+        
         return true;
     }
     
@@ -265,7 +306,7 @@ public class DBCommand extends DBAccess {
 
             String query = "SELECT friend FROM friends WHERE uid='" + uid + "';";
             ResultSet rs = stmt.executeQuery(query);
-            
+
             int i = 0;
             int row_count = 0;
             if (rs.last()) {
@@ -277,7 +318,7 @@ public class DBCommand extends DBAccess {
                 results[i] = rs.getString("friend");
                 i++;
             }
-            
+
             conn.close();
         } catch (SQLException sqe) {
             return null;
@@ -313,7 +354,7 @@ public class DBCommand extends DBAccess {
             Statement stmt = conn.createStatement();
 
             //build query
-            String query = "SELECT title, year FROM movies WHERE title LIKE '%" + title + "%';";
+            String query = "SELECT title, year FROM movies WHERE LOWER(title) LIKE LOWER('%" + title + "%');";
           //if( year >= 1900 )
             //    query+=" AND year="+((Integer)year).toString();
             //query+=" ORDER BY title;";
@@ -326,7 +367,7 @@ public class DBCommand extends DBAccess {
             int row_count = 0;
             if (rs.last()) {
                 row_count = rs.getRow();
-                rs.first();
+                rs.beforeFirst();
             }
             results = new String[row_count][5];
             while (rs.next()) {
@@ -371,11 +412,57 @@ public class DBCommand extends DBAccess {
     }
 
     /**
+     * retrieve the friends bruh
+     *
+     * @param uid user who has (no) friends
+     * @return the (supposed) friends
+     */
+    public String[] retrieveFriends(String uid) {
+        
+        if (uid == null || uid.length() > 31) {
+            return null;
+        }
+
+        ResultSet rs;
+        String results[];
+
+        try (Connection conn = getConnection()) {
+            if (conn == null) {
+                return null;
+            }
+            Statement stmt = conn.createStatement();
+
+            String query = "SELECT friend FROM friends WHERE uid='" + uid + "';";
+            
+            rs = stmt.executeQuery(query);
+
+            int i = 0;
+            int row_count = 0;
+            if (rs.last()) {
+                row_count = rs.getRow();
+                rs.beforeFirst();
+            }
+            results = new String[row_count];
+
+            while (rs.next()) {
+                results[i] = rs.getString("friend");
+                i++;
+            }
+
+            conn.close();
+        } catch (SQLException sqe) {
+            return null;
+        }
+
+        return results;
+    }
+
+    /**
      * retrieves the library of a user
      *
      * @param uid the user id of a user
-     * @return a two-dimensional array containing the movie titles and years of 
-     *  a user's library.
+     * @return a two-dimensional array containing the movie titles and years of
+     * a user's library.
      */
     public String[][] retrieveLibrary(String uid) {
         if (uid == null || uid.length() > 31) {
@@ -383,7 +470,6 @@ public class DBCommand extends DBAccess {
         }
         ResultSet rs;
         String results[][];
-
 
         try (Connection conn = getConnection()) {
             if (conn == null) {
@@ -396,14 +482,15 @@ public class DBCommand extends DBAccess {
                     + "WHERE a.uid='" + uid + "' AND b.mid=a.mid;";
 
             rs = stmt.executeQuery(query);
-            
+
             int i = 0;
             int row_count = 0;
             if (rs.last()) {
                 row_count = rs.getRow();
-                rs.first();
+                rs.beforeFirst();
             }
             results = new String[row_count][5];
+
             while (rs.next()) {
                 results[i][0] = rs.getString("title");
                 results[i][1] = rs.getString("year");
@@ -415,7 +502,53 @@ public class DBCommand extends DBAccess {
             return null;
         }
 
-        
+        return results;
+    }
+
+    /**
+     * retrieves the reviews of a movie
+     *
+     * @param title the title of a movie
+     * @return a two-dimensional array containing the movie reviewers and
+     * reviews of a particular movie.
+     */
+    public String[][] retrieveReviews(String title) {
+        if (title == null || title.length() > 255) {
+            return null;
+        }
+        ResultSet rs;
+        String results[][];
+
+        try (Connection conn = getConnection()) {
+            if (conn == null) {
+                return null;
+            }
+            Statement stmt = conn.createStatement();
+
+            //use join on library and movies to get the movies
+            String query = "SELECT b.uid, b.review FROM movies a, reviews b "
+                    + "WHERE a.mid=b.mid AND a.title='" + title + "';";
+
+            rs = stmt.executeQuery(query);
+
+            int i = 0;
+            int row_count = 0;
+            if (rs.last()) {
+                row_count = rs.getRow();
+                rs.beforeFirst();
+            }
+            results = new String[row_count][5];
+            while (rs.next()) {
+                results[i][0] = rs.getString("uid");
+                results[i][1] = rs.getString("review");
+                i++;
+            }
+
+            conn.close();
+        } catch (SQLException sqe) {
+            return null;
+        }
+
         return results;
     }
 
@@ -437,51 +570,147 @@ public class DBCommand extends DBAccess {
      * change is needed.
      * @return true if the query was successful, false otherwise.
      */
-    public boolean updateUser(String uid, String password, String name,
+    public String updateUser(String uid, String password, String name,
             String email, int age, Date birthdate) {
         String query = "";
         if (uid == null || uid.length() > 31) {
-            return false;
+            return "1";
         }
 
         try (Connection conn = getConnection()) {
             //valid connection check
             if (conn == null) {
-                return false;
+                return "2";
             }
 
             //begin generation of statement
             Statement stmt = conn.createStatement();
-
+            boolean p = false;
             //generate what to update
             if (password != null && password.length() <= 16) {
-                query += "password='" + password + "' ";
+                query += "password='" + password + "'";
+                p = true;
             }
             if (name != null && name.length() <= 31) {
-                query += "name='" + name + "' ";
+                if (p) {
+                    query += ",";
+                }
+                query += "name='" + name + "'";
+                p = true;
             }
             if (email != null && email.length() <= 254) {
-                query += "email='" + email + "' ";
+                if (p) {
+                    query += ",";
+                }
+                query += "email='" + email + "'";
+                p = true;
             }
             if (age > 0) {
-                query += "age=" + ((Integer) age).toString() + " ";
+                if (p) {
+                    query += ",";
+                }
+                query += "age=" + ((Integer) age).toString() + "";
+                p = true;
             }
             if (birthdate != null) {
-                query += "birthdate='" + birthdate.toString() + "' ";
+                if (p) {
+                    query += ",";
+                }
+                query += "birthdate='" + birthdate.toString() + "'";
             }
 
             //execute update query
-            stmt.executeUpdate("UPDATE users SET " + query + "WHERE uid=" + uid + ";");
-
+            int s = stmt.executeUpdate("UPDATE users SET " + query + " WHERE uid='" + uid + "';");
+            if (s == 2) {
+                return "3";
+            }
             //close connection
+            conn.close();
+        } catch (SQLException sqe) {
+            return "UPDATE users SET " + query + "\b\b WHERE uid=" + uid + ";";
+        }
+
+        return "UPDATE users SET " + query + "\b\b WHERE uid=" + uid + ";";
+    }
+    
+    public boolean userSearch(String parameter) {
+        if ( parameter == null || parameter.length() > 31 )
+            return false;
+        boolean is_valid = false;
+        ResultSet rs;
+        //String[] firstQueryResults;
+        //String[] finalQueryResults;
+       // 
+        try (Connection conn = getConnection() ) {
+            if ( conn == null )
+                return false;
+            Statement stmt = conn.createStatement();
+            
+            String query = "SELECT uid FROM users WHERE uid='"+ parameter + "';"; //LOWER(uid) LIKE LOWER('%" + parameter + "%');";
+            
+            rs = stmt.executeQuery(query);
+            
+            int i = 0;
+            int row_count = 0;
+            if (rs.last()) {
+                row_count = rs.getRow();
+                rs.beforeFirst();
+            }
+            if(row_count > 0){
+                is_valid = true;
+            }
+//            firstQueryResults = new String[row_count];
+//            while (rs.next()) {
+//                firstQueryResults[i] = rs.getString("uid");
+//                i++;
+//            }
+//            query = "SELECT uid FROM users WHERE LOWER(name) LIKE LOWER('%" + parameter + "%');";
+//            
+//            rs = stmt.executeQuery(query);
+//            row_count = 0;
+//            if (rs.last()) {
+//                row_count = rs.getRow();
+//                rs.beforeFirst();
+//            }
+//            finalQueryResults = new String[row_count+firstQueryResults.length];
+//            while (rs.next()) {
+//                firstQueryResults[i] = rs.getString("uid");
+//                i++;
+//            }
+            
             conn.close();
         } catch (SQLException sqe) {
             return false;
         }
-
-        return true;
+        
+        return is_valid;
     }
-
+    
+    public boolean verifyIdentity(String uid, String password){
+        if ( uid == null || password == null || uid.length() > 31 || password.length() > 16)
+            return false;
+        boolean is_valid = false;
+        ResultSet rs;
+        
+        try (Connection conn = getConnection()) {
+            if(conn == null)
+                return false;
+            
+            Statement stmt = conn.createStatement();
+            
+            String query = "SELECT uid FROM users WHERE uid='"+uid+"' AND password='"+password+"';";
+            
+            rs = stmt.executeQuery(query);
+            
+            is_valid = rs.next();
+            
+            conn.close();
+        } catch (SQLException sqe) {
+            return false;
+        }
+        
+        return is_valid;
+    }
     /**
      * verify password and username for a user request.
      *

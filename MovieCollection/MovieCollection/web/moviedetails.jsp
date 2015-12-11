@@ -4,6 +4,7 @@
     Author     : joey
 --%>
 
+<%@page import="Model.DBCommand"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="Model.Movie"%>
 <!DOCTYPE html>
@@ -24,7 +25,7 @@
         %>
     <div class="header">                         
        <a href="index.jsp">
-            <img src="images/tempMovieCollection.jpg" id="mcPic">
+            <img src="images/MovieBox.jpg" id="mcPic">
         </a>
         <%! String urlButton;%>
         <% 
@@ -58,11 +59,10 @@
     </div>
     <hr/>
     <div>
-        <form method="post" action="addmovie"
+        
             <p>Movie Title: 
-                <% String title=Movie.getTitle();
-                    out.println("<input type='hidden' name='movie_title' value='"+title+"' >");
-                
+                <% String title=Movie.getTitle();   
+                    session.setAttribute("title", title);
                 %>  
             <%=title%>
             </p>
@@ -74,25 +74,40 @@
             <%
                 if(session.getAttribute("loggedIn") != null && session.getAttribute("loggedIn").equals(true))
                 {
-                    //out.println("<form method=post action=addmovie");
+                    out.println("<form method='post' action='addmovie'>");
                     out.println("<input type='submit' value='Add Movie' >");
                     out.println("</form>");
                 }
                 else
                     out.println("");
                 %>            
-        </form>
+        
         
     </div>
        
             
     <h4>Movie Reviews</h4>
-    <displayarea>
-        <%
-            
-        %>
-        
-    </displayarea>
+    
+    <p>   
+    <%
+           DBCommand commander = new DBCommand();
+           String[][] movieReviews = commander.retrieveReviews(Movie.getTitle());//(String)request.getAttribute("currentMovieTitle"));
+            if(movieReviews != null ){
+                for(int i=0;i< movieReviews.length;i++){
+                   out.println("<p>"+movieReviews[i][0]+"</p>");
+                   out.println("<p>"+movieReviews[i][1]+"</p>");
+                }
+            }
+       
+       %>
+             <%
+           if(session.getAttribute("loggedIn") !=null && (boolean)session.getAttribute("loggedIn")==true){
+               out.println("<button name='addreview' onclick=location.href='addreview.jsp' >Add Review</button>");
+               session.setAttribute("currentMovieTitle", Movie.getTitle());
+           } 
+     %>
+    </p>
+
         
     </body>
 </html>
