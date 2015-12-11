@@ -615,8 +615,28 @@ public class DBCommand extends DBAccess {
     }
     
     public boolean verifyIdentity(String uid, String password){
+        if ( uid == null || password == null || uid.length() > 31 || password.length() > 16)
+            return false;
         boolean is_valid = false;
-        //returns true if the user id matches the account assosciated email.
+        ResultSet rs;
+        
+        try (Connection conn = getConnection()) {
+            if(conn == null)
+                return false;
+            
+            Statement stmt = conn.createStatement();
+            
+            String query = "SELECT uid FROM users WHERE uid='"+uid+"' AND password='"+password+"';";
+            
+            rs = stmt.executeQuery(query);
+            
+            is_valid = rs.next();
+            
+            conn.close();
+        } catch (SQLException sqe) {
+            return false;
+        }
+        
         return is_valid;
     }
     /**
