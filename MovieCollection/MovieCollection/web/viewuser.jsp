@@ -1,31 +1,29 @@
 <%-- 
-    Document   : search
-    Created on : Nov 26, 2015, 9:41:56 AM
+    Document   : viewprofile
+    Created on : Dec 6, 2015, 11:21:35 AM
     Author     : joey
 --%>
 
-
-<%@page import="Controller.SearchUserController"%>
+<%@page import="Model.DBCommand"%>
+<%@page import="java.io.PrintWriter"%>
+<%@page import="Controller.ProfileController"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <!DOCTYPE html>
-<%! String buttonState;%>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <link rel="stylesheet" type="text/css" href="stylesheets/general.css">
+    </head>
+    <body>
+        <%! String buttonState;%>
         <% if(session.getAttribute("loggedIn") == null || session.getAttribute("loggedIn").equals(false)){
             buttonState = "Login";
         }
             else
                buttonState="Home";
         %>
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <!--<link rel="stylesheet" type="text/css" href="stylesheets/searchstylesheet.css">-->
-        <link rel="stylesheet" type="text/css" href="stylesheets/homepagestyle.css">
-        <script type="text/javascript" src="scripts/processText.js"></script>
-        <title>Search Page</title>
-    </head>
-    <body>
-      <div class="header">                         
+    <div class="header">                         
        <a href="index.jsp">
             <img src="images/MovieBox.jpg" id="mcPic">
         </a>
@@ -42,9 +40,8 @@
             <tbody>
                 <tr>
                     <td>
-                        <a href=<%=urlButton%>>
-                    <button id="button_login">
-                        <%=buttonState%></button></a>
+                    <button id="button_login" onclick="location.href = '<%=urlButton%>';">
+                        <%=buttonState%></button>
                     </td>
         <%
             if(session.getAttribute("loggedIn") != null && session.getAttribute("loggedIn").equals(true))
@@ -60,48 +57,64 @@
             </tbody>
         </table>
     </div>
+    <hr/>
+    <div>
         
-        <hr>
-        <h2>Search for a Movie Title</h2>
-        <div class="searchformdiv">
-            <form method="post" action="search" id="searchform">
-                <input type="text" name="search_term" id="searchbox" placeholder="Search Movie Title" required=''>
-                <input type="submit" id="searchButton" value="Search" />
-            </form>
-        </div>
-        <div class="results">
-           
-            <hr/>
-            <%
-                if(session.getAttribute("enteredQuery") != null && session.getAttribute("enteredQuery").equals(true))
-                {
-                    String[] results = SearchUserController.getUserResults();
-                    if(results != null && results.length > 0)
-                    { 
-                        out.println("<h3>User Results</h3>");
-                        for(int i = 0;i < results.length;i++){                            
+        
+        
+        
+        
+        <%
                             
-                            out.println("<form class='results' method='post' action='usersProfile'");
-
-                            out.println("<p class='results'><input type='hidden' name='title' value='"+results[i]+"'>"+
-                                    "Title: "+results[i]+"</p>");
-
-                            out.println("<p class='results'><input type='submit' value='View User Profile'></p>");
-                            out.println("</form>");
-                            out.println("<br/>");
-                            out.println("<br/>");
-                            
-                      }
-                    }
-                    else
-                        out.println("<p>No results for that user</p>");
-                }            
-                session.setAttribute("enteredQuery", null);
                 
-                %>
-            </text>
-           
-        </div>
-       
+                if(session.getAttribute("enteredQuery") != null && session.getAttribute("enteredQuery").toString().length() > 0){
+                    
+                String uid = (String)session.getAttribute("enteredQuery");
+                session.setAttribute("enteredQuery",null);
+                String[] details = Controller.ProfileController.getDetails(uid);
+                out.println("<title>" + uid +"'s Profile</title>");            
+                out.println("</head>");
+                out.println("<body>");
+                out.println("<h1>"+ uid+ "'s Profile Page</h1>");
+                out.println("<p>Username: " + uid +"</p>");
+                //out.println("<p> Length: "+details.length+"</p>");
+                out.println("<p>"+ uid +"'s Full name: " + details[1] + "</p>");
+                out.println("<p>"+ uid +"'s Birthday " + details[2] + "</p>");
+                out.println("<p>"+ uid +"'s Email: " + details[4] + "</p>");
+                out.println("<form method=post action=friend>");
+                out.println("<p><input type=submit value='Friend This Person' id='friend_butt'/></p></form>");
+                
+ 
+                out.println("<hr/>");
+                out.println("<h3>"+ uid +"'s Movie Collection</h3>");
+                out.println("<ul>");
+                String[][] movieCollection = Controller.ProfileController.getLibrary(uid);
+                //if(movieCollection != null && movieCollection.length >0){
+                    for(int i =0;i < movieCollection.length;i++){                    
+                        out.println("<li>Movie Title: "+movieCollection[i][0]+"</li>");
+                        out.println("<p>Year: "+movieCollection[i][1]+"</p>");
+                    }
+               // }
+                
+                out.println("</ul>");
+                
+
+                out.println("<h3>" +uid +"'s Friends </h3>");
+                out.println("<ul>");
+                DBCommand commander = new DBCommand();
+                out.println(commander.retrieveFriends(uid));
+                
+//                if(friends != null && friends.length >0){
+//                    for(int i =0;i < friends.length;i++){                    
+//                        out.println("<li>"+friends[i]+"</li>");
+//                    }
+//                }
+                
+                out.println("</ul>");
+                }
+        
+        %>
+        <!-- build page -->
+    
     </body>
 </html>

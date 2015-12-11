@@ -4,6 +4,7 @@
     Author     : joey
 --%>
 
+<%@page import="Model.DBCommand"%>
 <%@page import="java.io.PrintWriter"%>
 <%@page import="Controller.ProfileController"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -75,34 +76,48 @@
                 }
             
                 String uid = (String)session.getAttribute("username");
-                String[] details = Controller.ProfileController.getDetails(uid);
-                out.println("<title>" + uid +"'s Profile</title>");            
-                out.println("</head>");
-                out.println("<body>");
-                out.println("<h1>"+ uid+ "'s Profile Page</h1>");
-                out.println("<p>Username: " + uid +"</p>");
-                //out.println("<p> Length: "+details.length+"</p>");
-                out.println("<p>Full name: " + details[1] + "</p>");
-                out.println("<p>Birthday " + details[2] + "</p>");
-                out.println("<p>Email: " + details[4] + "</p>");
-                out.println("<button id='updateProfile' onclick=location.href='updateProfile.jsp';>"
-                +"Update your profile</button><br/>"); 
-                out.println("<form method='post' action='deleteuser'>");
-                out.println("<input type='submit' id='deleteacct'value='Delete Account'>");
-                out.println("</form>");
-                out.println("<hr/>");
-                out.println("<h3>Your Movie Collection</h3>");
-                out.println("<ul>");
-                String[][] movieCollection = Controller.ProfileController.getLibrary(uid);
-                //if(movieCollection != null && movieCollection.length >0){
-                    for(int i =0;i < movieCollection.length;i++){                    
-                        out.println("<li>Movie Title: "+movieCollection[i][0]+"</li>");
-                        out.println("<p>Year: "+movieCollection[i][1]+"</p>");
-                    }
-               // }
+                DBCommand commander = new DBCommand();
+                String[] details = commander.detailUser(uid);
+                if(details != null){
+
+                    out.println("<title>" + uid +"'s Profile</title>");            
+                    out.println("</head>");
+                    out.println("<body>");
+                    out.println("<h1>"+ uid+ "'s Profile Page</h1>");
+                    out.println("<p>Username: " + uid +"</p>");
+                    //out.println("<p> Length: "+details.length+"</p>");
+                    out.println("<p>Full name: " + details[1] + "</p>");
+                    out.println("<p>Birthday " + details[2] + "</p>");
+                    out.println("<p>Email: " + details[4] + "</p>");
+                    out.println("<button id='updateProfile' onclick=location.href='updateProfile.jsp';>"
+                    +"Update your profile</button><br/>"); 
+                    out.println("<form method='post' action='deleteuser'>");
+                    out.println("<input type='submit' id='deleteacct'value='Delete Account'>");
+                    out.println("</form>");
+                    out.println("<hr/>");
+                    out.println("<h3>Your Movie Collection</h3>");
+                    out.println("<ul>");
+                    String[][] movieCollection = Controller.ProfileController.getLibrary(uid);
+                    //if(movieCollection != null && movieCollection.length >0){
+                        for(int i =0;i < movieCollection.length;i++){                    
+                            out.println("<li>Movie Title: "+movieCollection[i][0]+"</li>");
+                            out.println("<p>Year: "+movieCollection[i][1]+"</p>");
+                        }
+                   // }
+
+                    out.println("</ul>");
+                    out.println("<h3>Your Friends </h3>");
+                    out.println("<ul>");
+//                    String[] friends = commander.retrieveFriends(uid);
+//                    out.println("FRIENDS " +friends.length);
+//                    if(friends != null && friends.length >0){
+//                        for(int i =0;i < friends.length;i++){                    
+//                            out.println("<li>"+friends[i]+"</li>");
+//                        }
+//                   }
                 
                 out.println("</ul>");
-
+                }
         %>
         <!-- build page -->
     

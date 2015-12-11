@@ -386,9 +386,10 @@ public class DBCommand extends DBAccess {
      * @param uid user who has (no) friends
      * @return the (supposed) friends
      */
-    public String[] retrieveFriends(String uid) {
+    public String retrieveFriends(String uid) {
+        String query = null;
         if (uid == null || uid.length() > 31) {
-            return null;
+            return "1";
         }
 
         ResultSet rs;
@@ -396,11 +397,12 @@ public class DBCommand extends DBAccess {
 
         try (Connection conn = getConnection()) {
             if (conn == null) {
-                return null;
+                return "2";
             }
             Statement stmt = conn.createStatement();
 
-            String query = "SELECT friend FROM friends WHERE uid='" + uid + "';";
+            query = "SELECT friend FROM friends WHERE uid=\"" + uid + "\";";
+            
             rs = stmt.executeQuery(uid);
 
             int i = 0;
@@ -418,10 +420,10 @@ public class DBCommand extends DBAccess {
 
             conn.close();
         } catch (SQLException sqe) {
-            return null;
+            return query;
         }
 
-        return results;
+        return "4";
     }
 
     /**
@@ -600,19 +602,20 @@ public class DBCommand extends DBAccess {
         return "UPDATE users SET " + query + "\b\b WHERE uid=" + uid + ";";
     }
     
-    public String [] userSearch(String parameter) {
+    public boolean userSearch(String parameter) {
         if ( parameter == null || parameter.length() > 31 )
-            return null;
+            return false;
+        boolean is_valid = false;
         ResultSet rs;
-        String[] firstQueryResults;
-        String[] finalQueryResults;
-        
+        //String[] firstQueryResults;
+        //String[] finalQueryResults;
+       // 
         try (Connection conn = getConnection() ) {
             if ( conn == null )
-                return null;
+                return false;
             Statement stmt = conn.createStatement();
             
-            String query = "SELECT uid FROM users WHERE LOWER(uid) LIKE LOWER('%" + parameter + "%');";
+            String query = "SELECT uid FROM users WHERE uid='"+ parameter + "';"; //LOWER(uid) LIKE LOWER('%" + parameter + "%');";
             
             rs = stmt.executeQuery(query);
             
@@ -622,31 +625,34 @@ public class DBCommand extends DBAccess {
                 row_count = rs.getRow();
                 rs.beforeFirst();
             }
-            firstQueryResults = new String[row_count];
-            while (rs.next()) {
-                firstQueryResults[i] = rs.getString("uid");
-                i++;
+            if(row_count > 0){
+                is_valid = true;
             }
-            query = "SELECT uid FROM users WHERE LOWER(name) LIKE LOWER('%" + parameter + "%');";
-            
-            rs = stmt.executeQuery(query);
-            row_count = 0;
-            if (rs.last()) {
-                row_count = rs.getRow();
-                rs.beforeFirst();
-            }
-            finalQueryResults = new String[row_count+firstQueryResults.length];
-            while (rs.next()) {
-                firstQueryResults[i] = rs.getString("uid");
-                i++;
-            }
+//            firstQueryResults = new String[row_count];
+//            while (rs.next()) {
+//                firstQueryResults[i] = rs.getString("uid");
+//                i++;
+//            }
+//            query = "SELECT uid FROM users WHERE LOWER(name) LIKE LOWER('%" + parameter + "%');";
+//            
+//            rs = stmt.executeQuery(query);
+//            row_count = 0;
+//            if (rs.last()) {
+//                row_count = rs.getRow();
+//                rs.beforeFirst();
+//            }
+//            finalQueryResults = new String[row_count+firstQueryResults.length];
+//            while (rs.next()) {
+//                firstQueryResults[i] = rs.getString("uid");
+//                i++;
+//            }
             
             conn.close();
         } catch (SQLException sqe) {
-            return null;
+            return false;
         }
         
-        return finalQueryResults;
+        return is_valid;
     }
     
     public boolean verifyIdentity(String uid, String password){

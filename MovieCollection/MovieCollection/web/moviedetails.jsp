@@ -92,11 +92,12 @@
     <%
            DBCommand commander = new DBCommand();
            String[][] movieReviews = commander.retrieveReviews(Movie.getTitle());//(String)request.getAttribute("currentMovieTitle"));
-
-           for(int i=0;i< movieReviews.length;i++){
-              out.println("<p>"+movieReviews[i][0]+"</p>");
-              out.println("<p>"+movieReviews[i][1]+"</p>");
-           }
+            if(movieReviews != null ){
+                for(int i=0;i< movieReviews.length;i++){
+                   out.println("<p>"+movieReviews[i][0]+"</p>");
+                   out.println("<p>"+movieReviews[i][1]+"</p>");
+                }
+            }
        
        %>
              <%

@@ -61,7 +61,7 @@
         <%
             if(loggedIn) {
                 out.println("<div class='searchBar'><form method='post' action='searchuser'>");
-                out.println("<td><input  id='userSearchField' type='text' name='searchUserText' placeholder='Search For a User' required=''></td>");
+                out.println("<td><input  id='userSearchField' type='text' name='user_text' placeholder='Search For a User' required=''></td>");
                 out.println("<td><input id='userSearchSubmit' class='submitButtons' type='submit' value='Search'></td></form></div>");
                       
             }
