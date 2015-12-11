@@ -44,14 +44,16 @@ public class UpdatePassword extends HttpServlet {
                 out.println("<!DOCTYPE html>");
                 out.println("<html>");
                 out.println("<head>");
+                out.println("<link rel=\"stylesheet\" type=\"text/css\" href=\"stylesheets/general.css\">");
+
                 out.println("<title>Invalid Credentials</title>");
                 out.println("</head>");
                 out.println("<body>");
                 out.println("<h1> <p>Credentials Were Not Valid </p></h1>");
                 out.println("<p> We were unable to process the credentials"
                         + " provided and thus were unable to reset password</p>");
-                out.println("<p><a href='/forgotpassword.jsp'> Click here to retry</a></p>");
-                out.println("<p> Click <a href='/login.jsp'> here</a> to return to the login page</p>");
+                out.println("<p><a href='forgotpassword.jsp'> Click here to retry</a></p>");
+                out.println("<p> Click <a href='login.jsp'> here</a> to return to the login page</p>");
                 out.println("</body>");
                 out.println("</html>");
             }
@@ -64,7 +66,7 @@ public class UpdatePassword extends HttpServlet {
                 out.println("</head>");
                 out.println("<body>");
                 out.println("<h1> <p>Successfully updated password</p></h1>");
-                out.println("<p> Click <a href='/login.jsp'> here</a> to return to the login page</p>");
+                out.println("<p> Click <a href='login.jsp'> here</a> to return to the login page</p>");
                 out.println("</body>");
                 out.println("</html>");
             }

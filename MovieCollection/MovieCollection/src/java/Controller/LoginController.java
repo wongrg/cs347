@@ -59,8 +59,8 @@ public class LoginController extends HttpServlet {
                 out.println("<h1> <p>Credentials Not Valid </p></h1>");
                 out.println("<p> We were unable to process the login credentials"
                         + " provided</p>");
-                out.println("<p><a href='/forgotpassword.jsp'> Forgot password?</a></p>");
-                out.println("<p> Click <a href='/login.jsp'> here</a> to return to the login page</p>");
+                out.println("<p><a href='forgotpassword.jsp'> Forgot password?</a></p>");
+                out.println("<p> Click <a href='login.jsp'> here</a> to return to the login page</p>");
 
                 out.println("</body>");
                 out.println("</html>");
