@@ -25,9 +25,7 @@
     </head>
     <body>
       <div class="header">                         
-       <a href="index.jsp">
-            <img src="images/MovieBox.jpg" id="mcPic">
-        </a>
+
         <%! String urlButton;%>
         <% 
             if(buttonState.equals("Home"))
@@ -42,17 +40,17 @@
                 <tr>
                     <td>
                         <a href=<%=urlButton%>>
-                    <button id="button_login">
+                    <button id="button_login" class="headerButtons">
                         <%=buttonState%></button></a>
                     </td>
         <%
             if(session.getAttribute("loggedIn") != null && session.getAttribute("loggedIn").equals(true))
             {  
                 out.println("<td>");
-                out.println("<button id='view_profile' onclick=location.href='viewprofile.jsp';>"
+                out.println("<button id='view_profile' class=\"headerButtons\" onclick=location.href='viewprofile.jsp';>"
                 +"View Profile</button></td>"); 
                 out.println("<td><form method=post action=logout>");
-                out.println("<input type=submit value=Logout id='logout_butt'/></form></td>");
+                out.println("<input type=submit class=\"headerButtons\" value=Logout id='logout_butt'/></form></td>");
             }            
         %>
                 </tr>
@@ -64,8 +62,8 @@
         <h2>Search for a Movie Title</h2>
         <div class="searchformdiv">
             <form method="post" action="search" id="searchform">
-                <input type="text" name="search_term" id="searchbox" placeholder="Search Movie Title" required=''>
-                <input type="submit" id="searchButton" value="Search" />
+                <input class='movieSearch' type="text" name="search_term" id="searchbox" placeholder="Search Movie Title" required=''>
+                <input type="submit" class="headerButtons" id="searchButton" value="Search" />
             </form>
         </div>
         <div class="results">
@@ -84,14 +82,14 @@
                             String title = results[i][0];
                             String year = results[i][1];
 
-                            out.println("<form class='results' method='post' action='moviedetails'");
+                            out.println("<form class='results' method='post' action='moviedetails'>");
 
                             out.println("<p class='results'><input type='hidden' name='title' value='"+title+"'>"+
                                     "Title: "+title+"</p>");
 
                             out.println("<p class='results'><input type='hidden' name='year' value='"+year+"'>"+ 
                                     "Year: "+year+"</p>");
-                            out.println("<p class='results'><input type='submit' value='More Details'></p>");
+                            out.println("<p class='results'><input type='submit' class=\"headerButtons\" value='More Details'></p>");
                             out.println("</form>");
                             out.println("<br/>");
                             out.println("<br/>");

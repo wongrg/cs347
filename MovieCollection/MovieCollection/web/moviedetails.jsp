@@ -1,7 +1,7 @@
 <%-- 
     Document   : moviedetails
     Created on : Nov 25, 2015, 11:47:44 AM
-    Author     : joey
+    Author     : Robbie Joey Adam
 --%>
 
 <%@page import="Model.DBCommand"%>

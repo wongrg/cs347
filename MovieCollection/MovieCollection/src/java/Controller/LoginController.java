@@ -52,6 +52,7 @@ public class LoginController extends HttpServlet {
                 out.println("<!DOCTYPE html>");
                 out.println("<html>");
                 out.println("<head>");
+                out.println("<link rel=\"stylesheet\" type='text/css' href='stylesheets/general.css'>");
                 out.println("<title>Error Logging In</title>");
                 out.println("</head>");
                 out.println("<body>");

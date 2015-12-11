@@ -47,15 +47,9 @@
                 out.println("<button class='headerButtons' onclick=location.href='viewprofile.jsp';>"
                 +"View Profile</button></td>"); 
                 out.println("<td><form method=post action=logout>");
-                out.println("<input class='headerButtons' type=submit value=Logout id='logout_butt'/></form></td>");
             }            
         %>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-    <hr/>
-    <div>
+
         
         
         
@@ -76,21 +70,30 @@
                 DBCommand commander = new DBCommand();
                 String[] details = commander.detailUser(uid);
                 if(details != null){
-
+                    out.println("<td><button class='headerButtons' onclick=location.href='updateProfile.jsp';>"
+                    +"Update your profile</button></td>"); 
+                    out.println("<td><form method='post' action='deleteuser'>");
+                    out.println("<input class='headerButtons' type='submit' id='deleteacct'value='Delete Account'>");
+                    out.println("<input class='headerButtons' type=submit value=Logout id='logout_butt'/></form></td>");
+                    out.println("</form></td>");
+                    out.println("</tr>");
+                    out.println("</tbody>");
+                    out.println("</table>");
+                    out.println("</div>");
+                    out.println("<hr/>");
+                    out.println("<div>");
                     out.println("<title>" + uid +"'s Profile</title>");            
                     out.println("</head>");
                     out.println("<body>");
+
+
                     out.println("<h1>"+ uid+ "'s Profile Page</h1>");
                     out.println("<p>Username: " + uid +"</p>");
                     //out.println("<p> Length: "+details.length+"</p>");
                     out.println("<p>Full name: " + details[1] + "</p>");
-                    out.println("<p>Birthday " + details[2] + "</p>");
-                    out.println("<p>Email: " + details[4] + "</p>");
-                    out.println("<button class='headerButtons' onclick=location.href='updateProfile.jsp';>"
-                    +"Update your profile</button><br/>"); 
-                    out.println("<form method='post' action='deleteuser'>");
-                    out.println("<input class='headerButtons' type='submit' id='deleteacct'value='Delete Account'>");
-                    out.println("</form>");
+                    //out.println("<p>Birthday " + details[2] + "</p>");
+                    //out.println("<p>Email: " + details[4] + "</p>");
+
                     out.println("<hr/>");
                     out.println("<h3>Your Movie Collection</h3>");
                     out.println("<ul>");
