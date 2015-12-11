@@ -166,7 +166,7 @@ public class DBCommand extends DBAccess {
         return successful;
     }
     
-    public boolean deleteFromLibrary(String title) {
+    public boolean deleteFromLibrary(String title, String uid) {
         if(title == null || title.length() > 255)
             return false;
         
@@ -184,7 +184,7 @@ public class DBCommand extends DBAccess {
                 return false;
             }
                 
-            query = "DELETE FROM library WHERE mid="+rs.getString("mid")+";";
+            query = ("DELETE FROM library WHERE mid="+rs.getString("mid")+" AND uid='"+uid+"';");
             
             int succ = stmt.executeUpdate(query);
             if( succ == 2 ) {
@@ -386,10 +386,10 @@ public class DBCommand extends DBAccess {
      * @param uid user who has (no) friends
      * @return the (supposed) friends
      */
-    public String retrieveFriends(String uid) {
-        String query = null;
+    public String[] retrieveFriends(String uid) {
+        
         if (uid == null || uid.length() > 31) {
-            return "1";
+            return null;
         }
 
         ResultSet rs;
@@ -397,13 +397,13 @@ public class DBCommand extends DBAccess {
 
         try (Connection conn = getConnection()) {
             if (conn == null) {
-                return "2";
+                return null;
             }
             Statement stmt = conn.createStatement();
 
-            query = "SELECT friend FROM friends WHERE uid=\"" + uid + "\";";
+            String query = "SELECT friend FROM friends WHERE uid='" + uid + "';";
             
-            rs = stmt.executeQuery(uid);
+            rs = stmt.executeQuery(query);
 
             int i = 0;
             int row_count = 0;
@@ -420,10 +420,10 @@ public class DBCommand extends DBAccess {
 
             conn.close();
         } catch (SQLException sqe) {
-            return query;
+            return null;
         }
 
-        return "4";
+        return results;
     }
 
     /**

@@ -102,13 +102,13 @@
                 out.println("<h3>" +uid +"'s Friends </h3>");
                 out.println("<ul>");
                 DBCommand commander = new DBCommand();
-                out.println(commander.retrieveFriends(uid));
+                String[] friends = commander.retrieveFriends(uid);
                 
-//                if(friends != null && friends.length >0){
-//                    for(int i =0;i < friends.length;i++){                    
-//                        out.println("<li>"+friends[i]+"</li>");
-//                    }
-//                }
+                if(friends != null && friends.length >0){
+                    for(int i =0;i < friends.length;i++){                    
+                        out.println("<li>"+friends[i]+"</li>");
+                    }
+                }
                 
                 out.println("</ul>");
                 }

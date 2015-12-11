@@ -102,19 +102,25 @@
                         for(int i =0;i < movieCollection.length;i++){                    
                             out.println("<li>Movie Title: "+movieCollection[i][0]+"</li>");
                             out.println("<p>Year: "+movieCollection[i][1]+"</p>");
+                            out.println("<form method='post' action='deletefriend'>");
+                            out.println("<input type='hidden' name='friend_name' value='"+friends[i]+"'>");
+
                         }
                    // }
 
                     out.println("</ul>");
                     out.println("<h3>Your Friends </h3>");
                     out.println("<ul>");
-//                    String[] friends = commander.retrieveFriends(uid);
-//                    out.println("FRIENDS " +friends.length);
-//                    if(friends != null && friends.length >0){
-//                        for(int i =0;i < friends.length;i++){                    
-//                            out.println("<li>"+friends[i]+"</li>");
-//                        }
-//                   }
+                    String[] friends = commander.retrieveFriends(uid);
+                    if(friends != null && friends.length >0){
+                        for(int i =0;i < friends.length;i++){                    
+                            out.println("<li>"+friends[i]+"</li>");
+                            out.println("<form method='post' action='deletefriend'>");
+                            out.println("<input type='hidden' name='friend_name' value='"+friends[i]+"'>");
+                            out.println("<p><input type='submit' name='delete' value='Unfollow this person'></p>");
+                            out.println("</form>");
+                        }
+                   }
                 
                 out.println("</ul>");
                 }
