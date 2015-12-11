@@ -22,10 +22,7 @@
     </head>
     <body>
         <div class="header">
-            <a href="index.jsp">
-                <img src="images/MovieBox.jpg" id="mcPic">
-            </a>
-            <button id="button_login" onclick="location.href = 'index.jsp';">Home</button>
+            <button class="headerButtons" onclick="location.href = 'index.jsp';">Home</button>
         </div>
         <hr>
         <div class="loginForm">
